@@ -55,7 +55,7 @@ public class FarmInspectionServiceImpl implements FarmInspectionService {
         if (blockId != null) {
             example.createCriteria().andBlockIdEqualTo(blockId);
         }
-        return farmInspectionMapper.selectByExample(example);
+        return farmInspectionMapper.selectByExampleWithBLOBs(example);
     }
 
 }

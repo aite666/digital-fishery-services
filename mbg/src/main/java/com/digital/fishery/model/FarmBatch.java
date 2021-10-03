@@ -34,6 +34,9 @@ public class FarmBatch implements Serializable {
     @ApiModelProperty(value = "金额")
     private Double amount;
 
+    @ApiModelProperty(value = "状态，1：养殖中 0：养殖完毕")
+    private Integer status;
+
     private static final long serialVersionUID = 1L;
 
     public Long getId() {
@@ -116,6 +119,14 @@ public class FarmBatch implements Serializable {
         this.amount = amount;
     }
 
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -132,6 +143,7 @@ public class FarmBatch implements Serializable {
         sb.append(", quantity=").append(quantity);
         sb.append(", unitPrice=").append(unitPrice);
         sb.append(", amount=").append(amount);
+        sb.append(", status=").append(status);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

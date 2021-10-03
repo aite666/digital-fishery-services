@@ -13,9 +13,6 @@ public class FarmStorageRecord implements Serializable {
     @ApiModelProperty(value = "农资id")
     private Long storageId;
 
-    @ApiModelProperty(value = "农资类型")
-    private Integer storageType;
-
     @ApiModelProperty(value = "区块id")
     private Long blockId;
 
@@ -25,10 +22,10 @@ public class FarmStorageRecord implements Serializable {
     @ApiModelProperty(value = "记录时间")
     private Date recordTime;
 
-    @ApiModelProperty(value = "类型")
+    @ApiModelProperty(value = "类型，1：入库，2：出库")
     private Integer type;
 
-    @ApiModelProperty(value = "状态")
+    @ApiModelProperty(value = "状态，0：未确认，1：确认")
     private Integer status;
 
     @ApiModelProperty(value = "数量")
@@ -39,6 +36,9 @@ public class FarmStorageRecord implements Serializable {
 
     @ApiModelProperty(value = "备注")
     private String remark;
+
+    @ApiModelProperty(value = "批次id")
+    private Long batchId;
 
     private static final long serialVersionUID = 1L;
 
@@ -64,14 +64,6 @@ public class FarmStorageRecord implements Serializable {
 
     public void setStorageId(Long storageId) {
         this.storageId = storageId;
-    }
-
-    public Integer getStorageType() {
-        return storageType;
-    }
-
-    public void setStorageType(Integer storageType) {
-        this.storageType = storageType;
     }
 
     public Long getBlockId() {
@@ -138,6 +130,14 @@ public class FarmStorageRecord implements Serializable {
         this.remark = remark;
     }
 
+    public Long getBatchId() {
+        return batchId;
+    }
+
+    public void setBatchId(Long batchId) {
+        this.batchId = batchId;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -147,7 +147,6 @@ public class FarmStorageRecord implements Serializable {
         sb.append(", id=").append(id);
         sb.append(", createTime=").append(createTime);
         sb.append(", storageId=").append(storageId);
-        sb.append(", storageType=").append(storageType);
         sb.append(", blockId=").append(blockId);
         sb.append(", productCategoryId=").append(productCategoryId);
         sb.append(", recordTime=").append(recordTime);
@@ -156,6 +155,7 @@ public class FarmStorageRecord implements Serializable {
         sb.append(", quantity=").append(quantity);
         sb.append(", price=").append(price);
         sb.append(", remark=").append(remark);
+        sb.append(", batchId=").append(batchId);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

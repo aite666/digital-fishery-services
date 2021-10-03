@@ -15,6 +15,7 @@
   </resultMap>
   <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.digital.fishery.model.InfoQrCode">
     <result column="description" jdbcType="LONGVARCHAR" property="description" />
+    <result column="url" jdbcType="LONGVARCHAR" property="url" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -79,7 +80,7 @@
     longitude, latitude
   </sql>
   <sql id="Blob_Column_List">
-    description
+    description, url
   </sql>
   <select id="selectByExampleWithBLOBs" parameterType="com.digital.fishery.model.InfoQrCodeExample" resultMap="ResultMapWithBLOBs">
     select
@@ -136,11 +137,11 @@
     insert into info_qr_code (create_time, title, background_image, 
       logo_image, admin, admin_image, 
       position, longitude, latitude, 
-      description)
+      description, url)
     values (#{createTime,jdbcType=TIMESTAMP}, #{title,jdbcType=VARCHAR}, #{backgroundImage,jdbcType=VARCHAR}, 
       #{logoImage,jdbcType=VARCHAR}, #{admin,jdbcType=VARCHAR}, #{adminImage,jdbcType=VARCHAR}, 
       #{position,jdbcType=VARCHAR}, #{longitude,jdbcType=REAL}, #{latitude,jdbcType=REAL}, 
-      #{description,jdbcType=LONGVARCHAR})
+      #{description,jdbcType=LONGVARCHAR}, #{url,jdbcType=LONGVARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.digital.fishery.model.InfoQrCode">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
@@ -178,6 +179,9 @@
       <if test="description != null">
         description,
       </if>
+      <if test="url != null">
+        url,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="createTime != null">
@@ -209,6 +213,9 @@
       </if>
       <if test="description != null">
         #{description,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="url != null">
+        #{url,jdbcType=LONGVARCHAR},
       </if>
     </trim>
   </insert>
@@ -254,6 +261,9 @@
       <if test="record.description != null">
         description = #{record.description,jdbcType=LONGVARCHAR},
       </if>
+      <if test="record.url != null">
+        url = #{record.url,jdbcType=LONGVARCHAR},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -271,7 +281,8 @@
       position = #{record.position,jdbcType=VARCHAR},
       longitude = #{record.longitude,jdbcType=REAL},
       latitude = #{record.latitude,jdbcType=REAL},
-      description = #{record.description,jdbcType=LONGVARCHAR}
+      description = #{record.description,jdbcType=LONGVARCHAR},
+      url = #{record.url,jdbcType=LONGVARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -325,6 +336,9 @@
       <if test="description != null">
         description = #{description,jdbcType=LONGVARCHAR},
       </if>
+      <if test="url != null">
+        url = #{url,jdbcType=LONGVARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
@@ -339,7 +353,8 @@
       position = #{position,jdbcType=VARCHAR},
       longitude = #{longitude,jdbcType=REAL},
       latitude = #{latitude,jdbcType=REAL},
-      description = #{description,jdbcType=LONGVARCHAR}
+      description = #{description,jdbcType=LONGVARCHAR},
+      url = #{url,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.digital.fishery.model.InfoQrCode">

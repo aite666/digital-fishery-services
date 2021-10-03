@@ -285,66 +285,6 @@ public class FarmStorageRecordExample {
             return (Criteria) this;
         }
 
-        public Criteria andStorageTypeIsNull() {
-            addCriterion("storage_type is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andStorageTypeIsNotNull() {
-            addCriterion("storage_type is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andStorageTypeEqualTo(Integer value) {
-            addCriterion("storage_type =", value, "storageType");
-            return (Criteria) this;
-        }
-
-        public Criteria andStorageTypeNotEqualTo(Integer value) {
-            addCriterion("storage_type <>", value, "storageType");
-            return (Criteria) this;
-        }
-
-        public Criteria andStorageTypeGreaterThan(Integer value) {
-            addCriterion("storage_type >", value, "storageType");
-            return (Criteria) this;
-        }
-
-        public Criteria andStorageTypeGreaterThanOrEqualTo(Integer value) {
-            addCriterion("storage_type >=", value, "storageType");
-            return (Criteria) this;
-        }
-
-        public Criteria andStorageTypeLessThan(Integer value) {
-            addCriterion("storage_type <", value, "storageType");
-            return (Criteria) this;
-        }
-
-        public Criteria andStorageTypeLessThanOrEqualTo(Integer value) {
-            addCriterion("storage_type <=", value, "storageType");
-            return (Criteria) this;
-        }
-
-        public Criteria andStorageTypeIn(List<Integer> values) {
-            addCriterion("storage_type in", values, "storageType");
-            return (Criteria) this;
-        }
-
-        public Criteria andStorageTypeNotIn(List<Integer> values) {
-            addCriterion("storage_type not in", values, "storageType");
-            return (Criteria) this;
-        }
-
-        public Criteria andStorageTypeBetween(Integer value1, Integer value2) {
-            addCriterion("storage_type between", value1, value2, "storageType");
-            return (Criteria) this;
-        }
-
-        public Criteria andStorageTypeNotBetween(Integer value1, Integer value2) {
-            addCriterion("storage_type not between", value1, value2, "storageType");
-            return (Criteria) this;
-        }
-
         public Criteria andBlockIdIsNull() {
             addCriterion("block_id is null");
             return (Criteria) this;
@@ -832,6 +772,66 @@ public class FarmStorageRecordExample {
 
         public Criteria andRemarkNotBetween(String value1, String value2) {
             addCriterion("remark not between", value1, value2, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andBatchIdIsNull() {
+            addCriterion("batch_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andBatchIdIsNotNull() {
+            addCriterion("batch_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andBatchIdEqualTo(Long value) {
+            addCriterion("batch_id =", value, "batchId");
+            return (Criteria) this;
+        }
+
+        public Criteria andBatchIdNotEqualTo(Long value) {
+            addCriterion("batch_id <>", value, "batchId");
+            return (Criteria) this;
+        }
+
+        public Criteria andBatchIdGreaterThan(Long value) {
+            addCriterion("batch_id >", value, "batchId");
+            return (Criteria) this;
+        }
+
+        public Criteria andBatchIdGreaterThanOrEqualTo(Long value) {
+            addCriterion("batch_id >=", value, "batchId");
+            return (Criteria) this;
+        }
+
+        public Criteria andBatchIdLessThan(Long value) {
+            addCriterion("batch_id <", value, "batchId");
+            return (Criteria) this;
+        }
+
+        public Criteria andBatchIdLessThanOrEqualTo(Long value) {
+            addCriterion("batch_id <=", value, "batchId");
+            return (Criteria) this;
+        }
+
+        public Criteria andBatchIdIn(List<Long> values) {
+            addCriterion("batch_id in", values, "batchId");
+            return (Criteria) this;
+        }
+
+        public Criteria andBatchIdNotIn(List<Long> values) {
+            addCriterion("batch_id not in", values, "batchId");
+            return (Criteria) this;
+        }
+
+        public Criteria andBatchIdBetween(Long value1, Long value2) {
+            addCriterion("batch_id between", value1, value2, "batchId");
+            return (Criteria) this;
+        }
+
+        public Criteria andBatchIdNotBetween(Long value1, Long value2) {
+            addCriterion("batch_id not between", value1, value2, "batchId");
             return (Criteria) this;
         }
     }

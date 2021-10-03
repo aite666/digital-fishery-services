@@ -4,8 +4,9 @@
   <resultMap id="BaseResultMap" type="com.digital.fishery.model.FarmStorage">
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="enterprise_id" jdbcType="BIGINT" property="enterpriseId" />
     <result column="name" jdbcType="VARCHAR" property="name" />
-    <result column="type" jdbcType="INTEGER" property="type" />
+    <result column="product_category_id" jdbcType="BIGINT" property="productCategoryId" />
     <result column="unit" jdbcType="VARCHAR" property="unit" />
     <result column="brand" jdbcType="VARCHAR" property="brand" />
     <result column="manufacturer" jdbcType="VARCHAR" property="manufacturer" />
@@ -73,8 +74,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, create_time, name, type, unit, brand, manufacturer, remark, max_threshold, min_threshold, 
-    quantity
+    id, create_time, enterprise_id, name, product_category_id, unit, brand, manufacturer, 
+    remark, max_threshold, min_threshold, quantity
   </sql>
   <select id="selectByExample" parameterType="com.digital.fishery.model.FarmStorageExample" resultMap="BaseResultMap">
     select
@@ -110,14 +111,14 @@
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into farm_storage (create_time, name, type, 
-      unit, brand, manufacturer, 
-      remark, max_threshold, min_threshold, 
-      quantity)
-    values (#{createTime,jdbcType=TIMESTAMP}, #{name,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, 
-      #{unit,jdbcType=VARCHAR}, #{brand,jdbcType=VARCHAR}, #{manufacturer,jdbcType=VARCHAR}, 
-      #{remark,jdbcType=VARCHAR}, #{maxThreshold,jdbcType=BIGINT}, #{minThreshold,jdbcType=BIGINT}, 
-      #{quantity,jdbcType=BIGINT})
+    insert into farm_storage (create_time, enterprise_id, name, 
+      product_category_id, unit, brand, 
+      manufacturer, remark, max_threshold, 
+      min_threshold, quantity)
+    values (#{createTime,jdbcType=TIMESTAMP}, #{enterpriseId,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, 
+      #{productCategoryId,jdbcType=BIGINT}, #{unit,jdbcType=VARCHAR}, #{brand,jdbcType=VARCHAR}, 
+      #{manufacturer,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{maxThreshold,jdbcType=BIGINT}, 
+      #{minThreshold,jdbcType=BIGINT}, #{quantity,jdbcType=BIGINT})
   </insert>
   <insert id="insertSelective" parameterType="com.digital.fishery.model.FarmStorage">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
@@ -128,11 +129,14 @@
       <if test="createTime != null">
         create_time,
       </if>
+      <if test="enterpriseId != null">
+        enterprise_id,
+      </if>
       <if test="name != null">
         name,
       </if>
-      <if test="type != null">
-        type,
+      <if test="productCategoryId != null">
+        product_category_id,
       </if>
       <if test="unit != null">
         unit,
@@ -160,11 +164,14 @@
       <if test="createTime != null">
         #{createTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="enterpriseId != null">
+        #{enterpriseId,jdbcType=BIGINT},
+      </if>
       <if test="name != null">
         #{name,jdbcType=VARCHAR},
       </if>
-      <if test="type != null">
-        #{type,jdbcType=INTEGER},
+      <if test="productCategoryId != null">
+        #{productCategoryId,jdbcType=BIGINT},
       </if>
       <if test="unit != null">
         #{unit,jdbcType=VARCHAR},
@@ -204,11 +211,14 @@
       <if test="record.createTime != null">
         create_time = #{record.createTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="record.enterpriseId != null">
+        enterprise_id = #{record.enterpriseId,jdbcType=BIGINT},
+      </if>
       <if test="record.name != null">
         name = #{record.name,jdbcType=VARCHAR},
       </if>
-      <if test="record.type != null">
-        type = #{record.type,jdbcType=INTEGER},
+      <if test="record.productCategoryId != null">
+        product_category_id = #{record.productCategoryId,jdbcType=BIGINT},
       </if>
       <if test="record.unit != null">
         unit = #{record.unit,jdbcType=VARCHAR},
@@ -240,8 +250,9 @@
     update farm_storage
     set id = #{record.id,jdbcType=BIGINT},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      enterprise_id = #{record.enterpriseId,jdbcType=BIGINT},
       name = #{record.name,jdbcType=VARCHAR},
-      type = #{record.type,jdbcType=INTEGER},
+      product_category_id = #{record.productCategoryId,jdbcType=BIGINT},
       unit = #{record.unit,jdbcType=VARCHAR},
       brand = #{record.brand,jdbcType=VARCHAR},
       manufacturer = #{record.manufacturer,jdbcType=VARCHAR},
@@ -259,11 +270,14 @@
       <if test="createTime != null">
         create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="enterpriseId != null">
+        enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+      </if>
       <if test="name != null">
         name = #{name,jdbcType=VARCHAR},
       </if>
-      <if test="type != null">
-        type = #{type,jdbcType=INTEGER},
+      <if test="productCategoryId != null">
+        product_category_id = #{productCategoryId,jdbcType=BIGINT},
       </if>
       <if test="unit != null">
         unit = #{unit,jdbcType=VARCHAR},
@@ -292,8 +306,9 @@
   <update id="updateByPrimaryKey" parameterType="com.digital.fishery.model.FarmStorage">
     update farm_storage
     set create_time = #{createTime,jdbcType=TIMESTAMP},
+      enterprise_id = #{enterpriseId,jdbcType=BIGINT},
       name = #{name,jdbcType=VARCHAR},
-      type = #{type,jdbcType=INTEGER},
+      product_category_id = #{productCategoryId,jdbcType=BIGINT},
       unit = #{unit,jdbcType=VARCHAR},
       brand = #{brand,jdbcType=VARCHAR},
       manufacturer = #{manufacturer,jdbcType=VARCHAR},

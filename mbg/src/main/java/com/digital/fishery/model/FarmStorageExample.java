@@ -225,6 +225,66 @@ public class FarmStorageExample {
             return (Criteria) this;
         }
 
+        public Criteria andEnterpriseIdIsNull() {
+            addCriterion("enterprise_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andEnterpriseIdIsNotNull() {
+            addCriterion("enterprise_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andEnterpriseIdEqualTo(Long value) {
+            addCriterion("enterprise_id =", value, "enterpriseId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEnterpriseIdNotEqualTo(Long value) {
+            addCriterion("enterprise_id <>", value, "enterpriseId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEnterpriseIdGreaterThan(Long value) {
+            addCriterion("enterprise_id >", value, "enterpriseId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEnterpriseIdGreaterThanOrEqualTo(Long value) {
+            addCriterion("enterprise_id >=", value, "enterpriseId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEnterpriseIdLessThan(Long value) {
+            addCriterion("enterprise_id <", value, "enterpriseId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEnterpriseIdLessThanOrEqualTo(Long value) {
+            addCriterion("enterprise_id <=", value, "enterpriseId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEnterpriseIdIn(List<Long> values) {
+            addCriterion("enterprise_id in", values, "enterpriseId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEnterpriseIdNotIn(List<Long> values) {
+            addCriterion("enterprise_id not in", values, "enterpriseId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEnterpriseIdBetween(Long value1, Long value2) {
+            addCriterion("enterprise_id between", value1, value2, "enterpriseId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEnterpriseIdNotBetween(Long value1, Long value2) {
+            addCriterion("enterprise_id not between", value1, value2, "enterpriseId");
+            return (Criteria) this;
+        }
+
         public Criteria andNameIsNull() {
             addCriterion("name is null");
             return (Criteria) this;
@@ -295,63 +355,63 @@ public class FarmStorageExample {
             return (Criteria) this;
         }
 
-        public Criteria andTypeIsNull() {
-            addCriterion("type is null");
+        public Criteria andProductCategoryIdIsNull() {
+            addCriterion("product_category_id is null");
             return (Criteria) this;
         }
 
-        public Criteria andTypeIsNotNull() {
-            addCriterion("type is not null");
+        public Criteria andProductCategoryIdIsNotNull() {
+            addCriterion("product_category_id is not null");
             return (Criteria) this;
         }
 
-        public Criteria andTypeEqualTo(Integer value) {
-            addCriterion("type =", value, "type");
+        public Criteria andProductCategoryIdEqualTo(Long value) {
+            addCriterion("product_category_id =", value, "productCategoryId");
             return (Criteria) this;
         }
 
-        public Criteria andTypeNotEqualTo(Integer value) {
-            addCriterion("type <>", value, "type");
+        public Criteria andProductCategoryIdNotEqualTo(Long value) {
+            addCriterion("product_category_id <>", value, "productCategoryId");
             return (Criteria) this;
         }
 
-        public Criteria andTypeGreaterThan(Integer value) {
-            addCriterion("type >", value, "type");
+        public Criteria andProductCategoryIdGreaterThan(Long value) {
+            addCriterion("product_category_id >", value, "productCategoryId");
             return (Criteria) this;
         }
 
-        public Criteria andTypeGreaterThanOrEqualTo(Integer value) {
-            addCriterion("type >=", value, "type");
+        public Criteria andProductCategoryIdGreaterThanOrEqualTo(Long value) {
+            addCriterion("product_category_id >=", value, "productCategoryId");
             return (Criteria) this;
         }
 
-        public Criteria andTypeLessThan(Integer value) {
-            addCriterion("type <", value, "type");
+        public Criteria andProductCategoryIdLessThan(Long value) {
+            addCriterion("product_category_id <", value, "productCategoryId");
             return (Criteria) this;
         }
 
-        public Criteria andTypeLessThanOrEqualTo(Integer value) {
-            addCriterion("type <=", value, "type");
+        public Criteria andProductCategoryIdLessThanOrEqualTo(Long value) {
+            addCriterion("product_category_id <=", value, "productCategoryId");
             return (Criteria) this;
         }
 
-        public Criteria andTypeIn(List<Integer> values) {
-            addCriterion("type in", values, "type");
+        public Criteria andProductCategoryIdIn(List<Long> values) {
+            addCriterion("product_category_id in", values, "productCategoryId");
             return (Criteria) this;
         }
 
-        public Criteria andTypeNotIn(List<Integer> values) {
-            addCriterion("type not in", values, "type");
+        public Criteria andProductCategoryIdNotIn(List<Long> values) {
+            addCriterion("product_category_id not in", values, "productCategoryId");
             return (Criteria) this;
         }
 
-        public Criteria andTypeBetween(Integer value1, Integer value2) {
-            addCriterion("type between", value1, value2, "type");
+        public Criteria andProductCategoryIdBetween(Long value1, Long value2) {
+            addCriterion("product_category_id between", value1, value2, "productCategoryId");
             return (Criteria) this;
         }
 
-        public Criteria andTypeNotBetween(Integer value1, Integer value2) {
-            addCriterion("type not between", value1, value2, "type");
+        public Criteria andProductCategoryIdNotBetween(Long value1, Long value2) {
+            addCriterion("product_category_id not between", value1, value2, "productCategoryId");
             return (Criteria) this;
         }
 

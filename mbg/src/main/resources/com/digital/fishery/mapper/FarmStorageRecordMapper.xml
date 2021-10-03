@@ -5,7 +5,6 @@
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="storage_id" jdbcType="BIGINT" property="storageId" />
-    <result column="storage_type" jdbcType="INTEGER" property="storageType" />
     <result column="block_id" jdbcType="BIGINT" property="blockId" />
     <result column="product_category_id" jdbcType="BIGINT" property="productCategoryId" />
     <result column="record_time" jdbcType="TIMESTAMP" property="recordTime" />
@@ -14,6 +13,7 @@
     <result column="quantity" jdbcType="BIGINT" property="quantity" />
     <result column="price" jdbcType="BIGINT" property="price" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="batch_id" jdbcType="BIGINT" property="batchId" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -74,8 +74,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, create_time, storage_id, storage_type, block_id, product_category_id, record_time, 
-    type, status, quantity, price, remark
+    id, create_time, storage_id, block_id, product_category_id, record_time, type, status, 
+    quantity, price, remark, batch_id
   </sql>
   <select id="selectByExample" parameterType="com.digital.fishery.model.FarmStorageRecordExample" resultMap="BaseResultMap">
     select
@@ -111,14 +111,14 @@
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into farm_storage_record (create_time, storage_id, storage_type, 
-      block_id, product_category_id, record_time, 
-      type, status, quantity, 
-      price, remark)
-    values (#{createTime,jdbcType=TIMESTAMP}, #{storageId,jdbcType=BIGINT}, #{storageType,jdbcType=INTEGER}, 
-      #{blockId,jdbcType=BIGINT}, #{productCategoryId,jdbcType=BIGINT}, #{recordTime,jdbcType=TIMESTAMP}, 
-      #{type,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, #{quantity,jdbcType=BIGINT}, 
-      #{price,jdbcType=BIGINT}, #{remark,jdbcType=VARCHAR})
+    insert into farm_storage_record (create_time, storage_id, block_id, 
+      product_category_id, record_time, type, 
+      status, quantity, price, 
+      remark, batch_id)
+    values (#{createTime,jdbcType=TIMESTAMP}, #{storageId,jdbcType=BIGINT}, #{blockId,jdbcType=BIGINT}, 
+      #{productCategoryId,jdbcType=BIGINT}, #{recordTime,jdbcType=TIMESTAMP}, #{type,jdbcType=INTEGER}, 
+      #{status,jdbcType=INTEGER}, #{quantity,jdbcType=BIGINT}, #{price,jdbcType=BIGINT}, 
+      #{remark,jdbcType=VARCHAR}, #{batchId,jdbcType=BIGINT})
   </insert>
   <insert id="insertSelective" parameterType="com.digital.fishery.model.FarmStorageRecord">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
@@ -131,9 +131,6 @@
       </if>
       <if test="storageId != null">
         storage_id,
-      </if>
-      <if test="storageType != null">
-        storage_type,
       </if>
       <if test="blockId != null">
         block_id,
@@ -159,6 +156,9 @@
       <if test="remark != null">
         remark,
       </if>
+      <if test="batchId != null">
+        batch_id,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="createTime != null">
@@ -166,9 +166,6 @@
       </if>
       <if test="storageId != null">
         #{storageId,jdbcType=BIGINT},
-      </if>
-      <if test="storageType != null">
-        #{storageType,jdbcType=INTEGER},
       </if>
       <if test="blockId != null">
         #{blockId,jdbcType=BIGINT},
@@ -194,6 +191,9 @@
       <if test="remark != null">
         #{remark,jdbcType=VARCHAR},
       </if>
+      <if test="batchId != null">
+        #{batchId,jdbcType=BIGINT},
+      </if>
     </trim>
   </insert>
   <select id="countByExample" parameterType="com.digital.fishery.model.FarmStorageRecordExample" resultType="java.lang.Long">
@@ -213,9 +213,6 @@
       </if>
       <if test="record.storageId != null">
         storage_id = #{record.storageId,jdbcType=BIGINT},
-      </if>
-      <if test="record.storageType != null">
-        storage_type = #{record.storageType,jdbcType=INTEGER},
       </if>
       <if test="record.blockId != null">
         block_id = #{record.blockId,jdbcType=BIGINT},
@@ -241,6 +238,9 @@
       <if test="record.remark != null">
         remark = #{record.remark,jdbcType=VARCHAR},
       </if>
+      <if test="record.batchId != null">
+        batch_id = #{record.batchId,jdbcType=BIGINT},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -251,7 +251,6 @@
     set id = #{record.id,jdbcType=BIGINT},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
       storage_id = #{record.storageId,jdbcType=BIGINT},
-      storage_type = #{record.storageType,jdbcType=INTEGER},
       block_id = #{record.blockId,jdbcType=BIGINT},
       product_category_id = #{record.productCategoryId,jdbcType=BIGINT},
       record_time = #{record.recordTime,jdbcType=TIMESTAMP},
@@ -259,7 +258,8 @@
       status = #{record.status,jdbcType=INTEGER},
       quantity = #{record.quantity,jdbcType=BIGINT},
       price = #{record.price,jdbcType=BIGINT},
-      remark = #{record.remark,jdbcType=VARCHAR}
+      remark = #{record.remark,jdbcType=VARCHAR},
+      batch_id = #{record.batchId,jdbcType=BIGINT}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -272,9 +272,6 @@
       </if>
       <if test="storageId != null">
         storage_id = #{storageId,jdbcType=BIGINT},
-      </if>
-      <if test="storageType != null">
-        storage_type = #{storageType,jdbcType=INTEGER},
       </if>
       <if test="blockId != null">
         block_id = #{blockId,jdbcType=BIGINT},
@@ -300,6 +297,9 @@
       <if test="remark != null">
         remark = #{remark,jdbcType=VARCHAR},
       </if>
+      <if test="batchId != null">
+        batch_id = #{batchId,jdbcType=BIGINT},
+      </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
@@ -307,7 +307,6 @@
     update farm_storage_record
     set create_time = #{createTime,jdbcType=TIMESTAMP},
       storage_id = #{storageId,jdbcType=BIGINT},
-      storage_type = #{storageType,jdbcType=INTEGER},
       block_id = #{blockId,jdbcType=BIGINT},
       product_category_id = #{productCategoryId,jdbcType=BIGINT},
       record_time = #{recordTime,jdbcType=TIMESTAMP},
@@ -315,7 +314,8 @@
       status = #{status,jdbcType=INTEGER},
       quantity = #{quantity,jdbcType=BIGINT},
       price = #{price,jdbcType=BIGINT},
-      remark = #{remark,jdbcType=VARCHAR}
+      remark = #{remark,jdbcType=VARCHAR},
+      batch_id = #{batchId,jdbcType=BIGINT}
     where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

@@ -37,6 +37,9 @@ public class InfoQrCode implements Serializable {
     @ApiModelProperty(value = "介绍")
     private String description;
 
+    @ApiModelProperty(value = "URL")
+    private String url;
+
     private static final long serialVersionUID = 1L;
 
     public Long getId() {
@@ -127,6 +130,14 @@ public class InfoQrCode implements Serializable {
         this.description = description;
     }
 
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -144,6 +155,7 @@ public class InfoQrCode implements Serializable {
         sb.append(", longitude=").append(longitude);
         sb.append(", latitude=").append(latitude);
         sb.append(", description=").append(description);
+        sb.append(", url=").append(url);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

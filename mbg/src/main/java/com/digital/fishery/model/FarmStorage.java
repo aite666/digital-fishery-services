@@ -10,11 +10,14 @@ public class FarmStorage implements Serializable {
     @ApiModelProperty(value = "创建时间")
     private Date createTime;
 
+    @ApiModelProperty(value = "企业id")
+    private Long enterpriseId;
+
     @ApiModelProperty(value = "农资名称")
     private String name;
 
-    @ApiModelProperty(value = "类型")
-    private Integer type;
+    @ApiModelProperty(value = "农资种类id")
+    private Long productCategoryId;
 
     @ApiModelProperty(value = "数量单位")
     private String unit;
@@ -55,6 +58,14 @@ public class FarmStorage implements Serializable {
         this.createTime = createTime;
     }
 
+    public Long getEnterpriseId() {
+        return enterpriseId;
+    }
+
+    public void setEnterpriseId(Long enterpriseId) {
+        this.enterpriseId = enterpriseId;
+    }
+
     public String getName() {
         return name;
     }
@@ -63,12 +74,12 @@ public class FarmStorage implements Serializable {
         this.name = name;
     }
 
-    public Integer getType() {
-        return type;
+    public Long getProductCategoryId() {
+        return productCategoryId;
     }
 
-    public void setType(Integer type) {
-        this.type = type;
+    public void setProductCategoryId(Long productCategoryId) {
+        this.productCategoryId = productCategoryId;
     }
 
     public String getUnit() {
@@ -135,8 +146,9 @@ public class FarmStorage implements Serializable {
         sb.append("Hash = ").append(hashCode());
         sb.append(", id=").append(id);
         sb.append(", createTime=").append(createTime);
+        sb.append(", enterpriseId=").append(enterpriseId);
         sb.append(", name=").append(name);
-        sb.append(", type=").append(type);
+        sb.append(", productCategoryId=").append(productCategoryId);
         sb.append(", unit=").append(unit);
         sb.append(", brand=").append(brand);
         sb.append(", manufacturer=").append(manufacturer);
