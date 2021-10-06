@@ -41,4 +41,9 @@ public interface InfoProductCategoryService {
      * 以层级形式获取农资种类分类
      */
     List<InfoProductCategoryWithChildrenItem> listWithChildren();
+
+    /**
+     * 根据父名称查询所有一级子分类
+     */
+    List<InfoProductCategory> listWithParentName(String parentName);
 }

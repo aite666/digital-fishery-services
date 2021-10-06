@@ -16,8 +16,14 @@ public class FarmBatch implements Serializable {
     @ApiModelProperty(value = "区块id")
     private Long blockId;
 
-    @ApiModelProperty(value = "种养品种id")
+    @ApiModelProperty(value = "区块名称")
+    private String blockName;
+
+    @ApiModelProperty(value = "养殖品种id")
     private Long productCategoryId;
+
+    @ApiModelProperty(value = "养殖品种名称")
+    private String productCategoryName;
 
     @ApiModelProperty(value = "种养时间")
     private Date farmTime;
@@ -121,6 +127,22 @@ public class FarmBatch implements Serializable {
 
     public Integer getStatus() {
         return status;
+    }
+
+    public void setBlockName(String blockName) {
+        this.blockName = blockName;
+    }
+
+    public void setProductCategoryName(String productCategoryName) {
+        this.productCategoryName = productCategoryName;
+    }
+
+    public String getBlockName() {
+        return blockName;
+    }
+
+    public String getProductCategoryName() {
+        return productCategoryName;
     }
 
     public void setStatus(Integer status) {

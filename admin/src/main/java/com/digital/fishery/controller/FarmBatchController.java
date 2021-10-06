@@ -1,5 +1,7 @@
 package com.digital.fishery.controller;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.digital.fishery.api.CommonPage;
 import com.digital.fishery.api.CommonResult;
 import com.digital.fishery.model.FarmBatch;
@@ -9,6 +11,7 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import springfox.documentation.spring.web.json.Json;
 
 import java.util.List;
 
@@ -72,9 +75,18 @@ public class FarmBatchController {
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     @ResponseBody
     public CommonResult<CommonPage<FarmBatch>> list(@RequestParam(value = "name", required = false) String name,
+                                                    @RequestParam(value = "blockId", required = false) Long blockId,
                                                          @RequestParam(value = "pageSize", defaultValue = "5") Integer pageSize,
                                                          @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum) {
-        List<FarmBatch> farmBatchList = farmBatchService.list(name, pageSize, pageNum);
+        List<FarmBatch> farmBatchList = farmBatchService.list(name, blockId, pageSize, pageNum);
         return CommonResult.success(CommonPage.restPage(farmBatchList));
+    }
+
+    @ApiOperation("根据区块id查询所有的养殖种类、批次数以及批次列表")
+    @RequestMapping(value = "/listProductCategory", method = RequestMethod.GET)
+    @ResponseBody
+    public CommonResult listProductCategory(@RequestParam(value = "blockId", required = false) Long blockId) {
+        List<JSONObject> farmBatchList = farmBatchService.listProductCategory(blockId);
+        return CommonResult.success(farmBatchList);
     }
 }

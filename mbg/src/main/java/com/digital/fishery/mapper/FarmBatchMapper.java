@@ -1,5 +1,6 @@
 package com.digital.fishery.mapper;
 
+import com.alibaba.fastjson.JSONObject;
 import com.digital.fishery.model.FarmBatch;
 import com.digital.fishery.model.FarmBatchExample;
 import java.util.List;
@@ -27,4 +28,6 @@ public interface FarmBatchMapper {
     int updateByPrimaryKeySelective(FarmBatch record);
 
     int updateByPrimaryKey(FarmBatch record);
+
+    List<JSONObject> listProductCategory(Long blockId);
 }

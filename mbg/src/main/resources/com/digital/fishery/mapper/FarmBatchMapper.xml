@@ -6,7 +6,9 @@
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="code" jdbcType="VARCHAR" property="code" />
     <result column="block_id" jdbcType="BIGINT" property="blockId" />
+    <result column="block_name" jdbcType="VARCHAR" property="blockName" />
     <result column="product_category_id" jdbcType="BIGINT" property="productCategoryId" />
+    <result column="product_category_name" jdbcType="VARCHAR" property="productCategoryName" />
     <result column="farm_time" jdbcType="TIMESTAMP" property="farmTime" />
     <result column="origin" jdbcType="VARCHAR" property="origin" />
     <result column="quantity" jdbcType="BIGINT" property="quantity" />
@@ -73,8 +75,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, create_time, code, block_id, product_category_id, farm_time, origin, quantity, 
-    unit_price, amount, status
+    a.id, a.create_time, a.code, a.block_id, a.product_category_id, a.farm_time, a.origin, a.quantity,
+    a.unit_price, a.amount, a.status, b.name as block_name, p.name as product_category_name
   </sql>
   <select id="selectByExample" parameterType="com.digital.fishery.model.FarmBatchExample" resultMap="BaseResultMap">
     select
@@ -82,7 +84,9 @@
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from farm_batch
+    from farm_batch a
+    left join info_block b on b.id = a.block_id
+    left join info_product_category p on p.id = a.product_category_id
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -93,8 +97,20 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from farm_batch
-    where id = #{id,jdbcType=BIGINT}
+    from farm_batch a
+    left join info_block b on b.id = a.block_id
+    left join info_product_category p on p.id = a.product_category_id
+    where a.id = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="listProductCategory" parameterType="java.lang.Long" resultType="com.alibaba.fastjson.JSONObject">
+    select
+        a.product_category_id as productCategoryId, p.name as productCategoryName, count(a.code) as batchCount, group_concat(a.code) as batchCodes
+    from farm_batch a
+    left join info_product_category p on a.product_category_id = p.id
+    <if test="blockId != null">
+     where a.block_id = #{blockId,jdbcType=BIGINT}
+    </if>
+    group by a.product_category_id
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from farm_batch

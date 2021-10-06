@@ -91,4 +91,12 @@ public class InfoProductCategoryController {
         List<InfoProductCategoryWithChildrenItem> list = infoProductCategoryService.listWithChildren();
         return CommonResult.success(list);
     }
+
+    @ApiOperation("根据父名称查询所有一级子分类")
+    @RequestMapping(value = "/list/withParentName", method = RequestMethod.GET)
+    @ResponseBody
+    public CommonResult<List<InfoProductCategory>> listWithParentName(@RequestParam(value = "parentName", required = true) String parentName) {
+        List<InfoProductCategory> list = infoProductCategoryService.listWithParentName(parentName);
+        return CommonResult.success(list);
+    }
 }

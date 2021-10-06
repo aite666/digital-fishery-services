@@ -13,6 +13,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -87,6 +88,21 @@ public class InfoProductCategoryServiceImpl implements InfoProductCategoryServic
                 infoProductCategory.setLevel(0);
             }
         }
+    }
+
+    @Override
+    public List<InfoProductCategory> listWithParentName(String parentName) {
+        InfoProductCategoryExample parentExample = new InfoProductCategoryExample();
+        parentExample.createCriteria().andNameEqualTo(parentName);
+        List<InfoProductCategory> parentList = infoProductCategoryMapper.selectByExample(parentExample);
+        List<InfoProductCategory> resultList = new ArrayList<>();
+        if (parentList.size() > 0) {
+            Long parentId = parentList.get(0).getId();
+            InfoProductCategoryExample example = new InfoProductCategoryExample();
+            example.createCriteria().andParentIdEqualTo(parentId);
+            resultList = infoProductCategoryMapper.selectByExample(example);
+        }
+        return resultList;
     }
 }
 
