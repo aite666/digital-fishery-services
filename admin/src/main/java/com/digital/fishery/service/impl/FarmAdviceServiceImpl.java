@@ -53,7 +53,7 @@ public class FarmAdviceServiceImpl implements FarmAdviceService {
         FarmAdviceExample example = new FarmAdviceExample();
 //        example.setOrderByClause("sort desc");
         if (StringUtil.isNotEmpty(name)) {
-            example.createCriteria().andNameEqualTo(name);
+            example.createCriteria().andNameLike("%" + name + "%");
         }
         return farmAdviceMapper.selectByExample(example);
     }

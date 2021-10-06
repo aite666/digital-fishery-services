@@ -6,6 +6,7 @@
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="inspection_time" jdbcType="TIMESTAMP" property="inspectionTime" />
     <result column="block_id" jdbcType="BIGINT" property="blockId" />
+    <result column="block_name" jdbcType="VARCHAR" property="blockName" />
     <result column="create_user" jdbcType="VARCHAR" property="createUser" />
   </resultMap>
   <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.digital.fishery.model.FarmInspection">
@@ -73,10 +74,10 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, create_time, inspection_time, block_id, create_user
+    a.id, a.create_time, a.inspection_time, a.block_id, a.create_user, b.name as block_name
   </sql>
   <sql id="Blob_Column_List">
-    images, product_data, environment_data, character_description
+    a.images, a.product_data, a.environment_data, a.character_description
   </sql>
   <select id="selectByExampleWithBLOBs" parameterType="com.digital.fishery.model.FarmInspectionExample" resultMap="ResultMapWithBLOBs">
     select
@@ -86,7 +87,8 @@
     <include refid="Base_Column_List" />
     ,
     <include refid="Blob_Column_List" />
-    from farm_inspection
+    from farm_inspection a
+    left join info_block b on b.id = a.block_id
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -100,7 +102,8 @@
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from farm_inspection
+    from farm_inspection a
+    left join info_block b on b.id = a.block_id
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -113,7 +116,8 @@
     <include refid="Base_Column_List" />
     ,
     <include refid="Blob_Column_List" />
-    from farm_inspection
+    from farm_inspection a
+    left join info_block b on b.id = a.block_id
     where id = #{id,jdbcType=BIGINT}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">

@@ -16,8 +16,14 @@ public class FarmAdvice implements Serializable {
     @ApiModelProperty(value = "区块id")
     private Long blockId;
 
+    @ApiModelProperty(value = "区块名称")
+    private String blockName;
+
     @ApiModelProperty(value = "种类品种id")
     private Long productCategoryId;
+
+    @ApiModelProperty(value = "种类品种名称")
+    private String productCategoryName;
 
     @ApiModelProperty(value = "描述")
     private String description;
@@ -70,6 +76,22 @@ public class FarmAdvice implements Serializable {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getBlockName() {
+        return blockName;
+    }
+
+    public void setBlockName(String blockName) {
+        this.blockName = blockName;
+    }
+
+    public String getProductCategoryName() {
+        return productCategoryName;
+    }
+
+    public void setProductCategoryName(String productCategoryName) {
+        this.productCategoryName = productCategoryName;
     }
 
     @Override
