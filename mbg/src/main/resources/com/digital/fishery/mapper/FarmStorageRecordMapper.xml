@@ -5,8 +5,14 @@
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="storage_id" jdbcType="BIGINT" property="storageId" />
+    <result column="storage_name" jdbcType="VARCHAR" property="storageName" />
+    <result column="storage_manufacturer" jdbcType="VARCHAR" property="storageManufacturer" />
+    <result column="storage_brand" jdbcType="VARCHAR" property="storageBrand" />
+    <result column="storage_unit" jdbcType="VARCHAR" property="storageUnit" />
     <result column="block_id" jdbcType="BIGINT" property="blockId" />
+    <result column="block_name" jdbcType="VARCHAR" property="blockName" />
     <result column="product_category_id" jdbcType="BIGINT" property="productCategoryId" />
+    <result column="product_category_name" jdbcType="VARCHAR" property="productCategoryName" />
     <result column="record_time" jdbcType="TIMESTAMP" property="recordTime" />
     <result column="type" jdbcType="INTEGER" property="type" />
     <result column="status" jdbcType="INTEGER" property="status" />
@@ -74,8 +80,9 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, create_time, storage_id, block_id, product_category_id, record_time, type, status, 
-    quantity, price, remark, batch_id
+    a.id, a.create_time, a.storage_id, a.block_id, a.product_category_id, a.record_time, a.`type`, a.status,
+    a.quantity, a.price, a.remark, a.batch_id, s.name as storage_name, s.brand as storage_brand, s.unit as storage_unit,
+    s.manufacturer as storage_manufacturer, b.name as block_name, p.name as product_category_name
   </sql>
   <select id="selectByExample" parameterType="com.digital.fishery.model.FarmStorageRecordExample" resultMap="BaseResultMap">
     select
@@ -83,7 +90,10 @@
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from farm_storage_record
+    from farm_storage_record a
+    left join farm_storage s on s.id = a.storage_id
+    left join info_block b on b.id = a.block_id
+    left join info_product_category p on p.id = a.product_category_id
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -94,8 +104,11 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from farm_storage_record
-    where id = #{id,jdbcType=BIGINT}
+    from farm_storage_record a
+    left join farm_storage s on s.id = a.storage_id
+    left join info_block b on b.id = a.block_id
+    left join info_product_category p on p.id = a.product_category_id
+    where a.id = #{id,jdbcType=BIGINT}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from farm_storage_record

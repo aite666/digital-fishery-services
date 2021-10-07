@@ -48,12 +48,15 @@ public class FarmStorageServiceImpl implements FarmStorageService {
     }
 
     @Override
-    public List<FarmStorage> list(String name, Integer pageSize, Integer pageNum) {
+    public List<FarmStorage> list(String name, Long productCategoryId, Integer pageSize, Integer pageNum) {
         PageHelper.startPage(pageNum, pageSize);
         FarmStorageExample example = new FarmStorageExample();
 //        example.setOrderByClause("sort desc");
         if (StringUtil.isNotEmpty(name)) {
-            example.createCriteria().andNameEqualTo(name);
+            example.createCriteria().andNameLike("%" + name + "%");
+        }
+        if (productCategoryId != null) {
+            example.createCriteria().andProductCategoryIdEqualTo(productCategoryId);
         }
         return farmStorageMapper.selectByExample(example);
     }

@@ -100,7 +100,7 @@
     from farm_sale a
     left join info_block b on b.id = a.block_id
     left join info_product_category p on p.id = a.product_category_id
-    where id = #{id,jdbcType=BIGINT}
+    where a.id = #{id,jdbcType=BIGINT}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from farm_sale

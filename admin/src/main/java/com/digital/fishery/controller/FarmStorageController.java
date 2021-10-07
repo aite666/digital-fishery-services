@@ -72,9 +72,10 @@ public class FarmStorageController {
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     @ResponseBody
     public CommonResult<CommonPage<FarmStorage>> list(@RequestParam(value = "name", required = false) String name,
+                                                      @RequestParam(value = "productCategoryId", required = false) Long productCategoryId,
                                                          @RequestParam(value = "pageSize", defaultValue = "5") Integer pageSize,
                                                          @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum) {
-        List<FarmStorage> farmStorageList = farmStorageService.list(name, pageSize, pageNum);
+        List<FarmStorage> farmStorageList = farmStorageService.list(name, productCategoryId, pageSize, pageNum);
         return CommonResult.success(CommonPage.restPage(farmStorageList));
     }
 }

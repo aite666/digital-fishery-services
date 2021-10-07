@@ -1,6 +1,8 @@
 package com.digital.fishery.service.impl;
 
+import com.digital.fishery.mapper.FarmStorageMapper;
 import com.digital.fishery.mapper.FarmStorageRecordMapper;
+import com.digital.fishery.model.FarmStorage;
 import com.digital.fishery.model.FarmStorageRecord;
 import com.digital.fishery.model.FarmStorageRecordExample;
 import com.digital.fishery.service.FarmStorageRecordService;
@@ -23,6 +25,9 @@ public class FarmStorageRecordServiceImpl implements FarmStorageRecordService {
 
     @Autowired
     private FarmStorageRecordMapper farmStorageRecordMapper;
+
+    @Autowired
+    private FarmStorageMapper farmStorageMapper;
 
     @Override
     public int create(FarmStorageRecord farmStorageRecord) {
@@ -55,6 +60,26 @@ public class FarmStorageRecordServiceImpl implements FarmStorageRecordService {
             example.createCriteria().andStorageIdEqualTo(storageId);
         }
         return farmStorageRecordMapper.selectByExample(example);
+    }
+
+    @Override
+    public int confirm(Long id) {
+        FarmStorageRecord farmStorageRecord = farmStorageRecordMapper.selectByPrimaryKey(id);
+        int count = 0;
+        if (farmStorageRecord.getStatus() == 0) {
+            farmStorageRecord.setStatus(1);
+            count = farmStorageRecordMapper.updateByPrimaryKeySelective(farmStorageRecord);
+            if (count == 1) {
+                FarmStorage farmStorage = farmStorageMapper.selectByPrimaryKey(farmStorageRecord.getStorageId());
+                if (farmStorageRecord.getType() == 1) {
+                    farmStorage.setQuantity(farmStorage.getQuantity() + farmStorageRecord.getQuantity());
+                } else {
+                    farmStorage.setQuantity(farmStorage.getQuantity() - farmStorageRecord.getQuantity());
+                }
+                farmStorageMapper.updateByPrimaryKeySelective(farmStorage);
+            }
+        }
+        return count;
     }
 
 }

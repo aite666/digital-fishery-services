@@ -33,5 +33,5 @@ public interface FarmStorageService {
     /**
      * 分页查询后台农资
      */
-    List<FarmStorage> list(String name, Integer pageSize, Integer pageNum);
+    List<FarmStorage> list(String name, Long productCategoryId, Integer pageSize, Integer pageNum);
 }

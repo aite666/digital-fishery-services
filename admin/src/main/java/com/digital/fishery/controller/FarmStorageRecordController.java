@@ -77,4 +77,16 @@ public class FarmStorageRecordController {
         List<FarmStorageRecord> farmStorageRecordList = farmStorageRecordService.list(storageId, pageSize, pageNum);
         return CommonResult.success(CommonPage.restPage(farmStorageRecordList));
     }
+
+    @ApiOperation("根据ID确认入库出库农资记录")
+    @RequestMapping(value = "/confirm/{id}", method = RequestMethod.POST)
+    @ResponseBody
+    public CommonResult confirm(@PathVariable Long id) {
+        int count = farmStorageRecordService.confirm(id);
+        if (count > 0) {
+            return CommonResult.success(count);
+        } else {
+            return CommonResult.failed();
+        }
+    }
 }

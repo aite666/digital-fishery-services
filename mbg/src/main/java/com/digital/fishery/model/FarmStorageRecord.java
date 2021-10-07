@@ -13,11 +13,29 @@ public class FarmStorageRecord implements Serializable {
     @ApiModelProperty(value = "农资id")
     private Long storageId;
 
+    @ApiModelProperty(value = "农资名称")
+    private String storageName;
+
+    @ApiModelProperty(value = "农资生产厂商")
+    private String storageManufacturer;
+
+    @ApiModelProperty(value = "农资品牌")
+    private String storageBrand;
+
+    @ApiModelProperty(value = "农资单位")
+    private String storageUnit;
+
     @ApiModelProperty(value = "区块id")
     private Long blockId;
 
+    @ApiModelProperty(value = "区块名称")
+    private String blockName;
+
     @ApiModelProperty(value = "种植品类id")
     private Long productCategoryId;
+
+    @ApiModelProperty(value = "种植品类名称")
+    private String productCategoryName;
 
     @ApiModelProperty(value = "记录时间")
     private Date recordTime;
@@ -136,6 +154,54 @@ public class FarmStorageRecord implements Serializable {
 
     public void setBatchId(Long batchId) {
         this.batchId = batchId;
+    }
+
+    public String getStorageName() {
+        return storageName;
+    }
+
+    public void setStorageName(String storageName) {
+        this.storageName = storageName;
+    }
+
+    public String getStorageManufacturer() {
+        return storageManufacturer;
+    }
+
+    public void setStorageManufacturer(String storageManufacturer) {
+        this.storageManufacturer = storageManufacturer;
+    }
+
+    public String getStorageBrand() {
+        return storageBrand;
+    }
+
+    public void setStorageBrand(String storageBrand) {
+        this.storageBrand = storageBrand;
+    }
+
+    public String getBlockName() {
+        return blockName;
+    }
+
+    public void setBlockName(String blockName) {
+        this.blockName = blockName;
+    }
+
+    public String getProductCategoryName() {
+        return productCategoryName;
+    }
+
+    public void setProductCategoryName(String productCategoryName) {
+        this.productCategoryName = productCategoryName;
+    }
+
+    public String getStorageUnit() {
+        return storageUnit;
+    }
+
+    public void setStorageUnit(String storageUnit) {
+        this.storageUnit = storageUnit;
     }
 
     @Override
