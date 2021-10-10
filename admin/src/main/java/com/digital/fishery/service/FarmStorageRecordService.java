@@ -33,7 +33,7 @@ public interface FarmStorageRecordService {
     /**
      * 分页查询后台农资记录
      */
-    List<FarmStorageRecord> list(Long storageId, Integer pageSize, Integer pageNum);
+    List<FarmStorageRecord> list(Long storageId, String storageName, Long blockId, Long productCategoryId, Integer type, Integer pageSize, Integer pageNum);
 
     /**
      * 根据ID确认入库出库农资记录

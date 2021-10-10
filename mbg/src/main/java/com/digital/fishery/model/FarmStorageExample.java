@@ -874,6 +874,11 @@ public class FarmStorageExample {
             addCriterion("quantity not between", value1, value2, "quantity");
             return (Criteria) this;
         }
+
+        public Criteria andThresholdVisible() {
+            addCriterion("(a.quantity > a.max_threshold or a.quantity < a.min_threshold)");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

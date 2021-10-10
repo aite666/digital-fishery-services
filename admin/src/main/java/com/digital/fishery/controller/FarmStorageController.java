@@ -1,5 +1,6 @@
 package com.digital.fishery.controller;
 
+import com.alibaba.fastjson.JSONObject;
 import com.digital.fishery.api.CommonPage;
 import com.digital.fishery.api.CommonResult;
 import com.digital.fishery.model.FarmStorage;
@@ -73,9 +74,18 @@ public class FarmStorageController {
     @ResponseBody
     public CommonResult<CommonPage<FarmStorage>> list(@RequestParam(value = "name", required = false) String name,
                                                       @RequestParam(value = "productCategoryId", required = false) Long productCategoryId,
-                                                         @RequestParam(value = "pageSize", defaultValue = "5") Integer pageSize,
-                                                         @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum) {
-        List<FarmStorage> farmStorageList = farmStorageService.list(name, productCategoryId, pageSize, pageNum);
+                                                      @RequestParam(value = "thresholdVisible", required = false) Boolean thresholdVisible,
+                                                      @RequestParam(value = "pageSize", defaultValue = "5") Integer pageSize,
+                                                      @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum) {
+        List<FarmStorage> farmStorageList = farmStorageService.list(name, productCategoryId, thresholdVisible, pageSize, pageNum);
         return CommonResult.success(CommonPage.restPage(farmStorageList));
+    }
+
+    @ApiOperation("查询农资统计")
+    @RequestMapping(value = "/stats", method = RequestMethod.GET)
+    @ResponseBody
+    public CommonResult<JSONObject> stats() {
+        JSONObject farmStorageStats = farmStorageService.stats();
+        return CommonResult.success(farmStorageStats);
     }
 }

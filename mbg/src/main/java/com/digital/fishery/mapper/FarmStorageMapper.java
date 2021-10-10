@@ -1,5 +1,6 @@
 package com.digital.fishery.mapper;
 
+import com.alibaba.fastjson.JSONObject;
 import com.digital.fishery.model.FarmStorage;
 import com.digital.fishery.model.FarmStorageExample;
 import java.util.List;
@@ -27,4 +28,6 @@ public interface FarmStorageMapper {
     int updateByPrimaryKeySelective(FarmStorage record);
 
     int updateByPrimaryKey(FarmStorage record);
+
+    JSONObject selectThresholdStats();
 }

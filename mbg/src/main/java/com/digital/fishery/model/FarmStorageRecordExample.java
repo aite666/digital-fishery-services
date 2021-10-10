@@ -226,182 +226,187 @@ public class FarmStorageRecordExample {
         }
 
         public Criteria andStorageIdIsNull() {
-            addCriterion("storage_id is null");
+            addCriterion("a.storage_id is null");
             return (Criteria) this;
         }
 
         public Criteria andStorageIdIsNotNull() {
-            addCriterion("storage_id is not null");
+            addCriterion("a.storage_id is not null");
             return (Criteria) this;
         }
 
         public Criteria andStorageIdEqualTo(Long value) {
-            addCriterion("storage_id =", value, "storageId");
+            addCriterion("a.storage_id =", value, "storageId");
             return (Criteria) this;
         }
 
         public Criteria andStorageIdNotEqualTo(Long value) {
-            addCriterion("storage_id <>", value, "storageId");
+            addCriterion("a.storage_id <>", value, "storageId");
             return (Criteria) this;
         }
 
         public Criteria andStorageIdGreaterThan(Long value) {
-            addCriterion("storage_id >", value, "storageId");
+            addCriterion("a.storage_id >", value, "storageId");
             return (Criteria) this;
         }
 
         public Criteria andStorageIdGreaterThanOrEqualTo(Long value) {
-            addCriterion("storage_id >=", value, "storageId");
+            addCriterion("a.storage_id >=", value, "storageId");
             return (Criteria) this;
         }
 
         public Criteria andStorageIdLessThan(Long value) {
-            addCriterion("storage_id <", value, "storageId");
+            addCriterion("a.storage_id <", value, "storageId");
             return (Criteria) this;
         }
 
         public Criteria andStorageIdLessThanOrEqualTo(Long value) {
-            addCriterion("storage_id <=", value, "storageId");
+            addCriterion("a.storage_id <=", value, "storageId");
             return (Criteria) this;
         }
 
         public Criteria andStorageIdIn(List<Long> values) {
-            addCriterion("storage_id in", values, "storageId");
+            addCriterion("a.storage_id in", values, "storageId");
             return (Criteria) this;
         }
 
         public Criteria andStorageIdNotIn(List<Long> values) {
-            addCriterion("storage_id not in", values, "storageId");
+            addCriterion("a.storage_id not in", values, "storageId");
             return (Criteria) this;
         }
 
         public Criteria andStorageIdBetween(Long value1, Long value2) {
-            addCriterion("storage_id between", value1, value2, "storageId");
+            addCriterion("a.storage_id between", value1, value2, "storageId");
             return (Criteria) this;
         }
 
         public Criteria andStorageIdNotBetween(Long value1, Long value2) {
-            addCriterion("storage_id not between", value1, value2, "storageId");
+            addCriterion("a.storage_id not between", value1, value2, "storageId");
+            return (Criteria) this;
+        }
+
+        public Criteria andStorageNameLike(String value) {
+            addCriterion("s.name like", value, "blockName");
             return (Criteria) this;
         }
 
         public Criteria andBlockIdIsNull() {
-            addCriterion("block_id is null");
+            addCriterion("a.block_id is null");
             return (Criteria) this;
         }
 
         public Criteria andBlockIdIsNotNull() {
-            addCriterion("block_id is not null");
+            addCriterion("a.block_id is not null");
             return (Criteria) this;
         }
 
         public Criteria andBlockIdEqualTo(Long value) {
-            addCriterion("block_id =", value, "blockId");
+            addCriterion("a.block_id =", value, "blockId");
             return (Criteria) this;
         }
 
         public Criteria andBlockIdNotEqualTo(Long value) {
-            addCriterion("block_id <>", value, "blockId");
+            addCriterion("a.block_id <>", value, "blockId");
             return (Criteria) this;
         }
 
         public Criteria andBlockIdGreaterThan(Long value) {
-            addCriterion("block_id >", value, "blockId");
+            addCriterion("a.block_id >", value, "blockId");
             return (Criteria) this;
         }
 
         public Criteria andBlockIdGreaterThanOrEqualTo(Long value) {
-            addCriterion("block_id >=", value, "blockId");
+            addCriterion("a.block_id >=", value, "blockId");
             return (Criteria) this;
         }
 
         public Criteria andBlockIdLessThan(Long value) {
-            addCriterion("block_id <", value, "blockId");
+            addCriterion("a.block_id <", value, "blockId");
             return (Criteria) this;
         }
 
         public Criteria andBlockIdLessThanOrEqualTo(Long value) {
-            addCriterion("block_id <=", value, "blockId");
+            addCriterion("a.block_id <=", value, "blockId");
             return (Criteria) this;
         }
 
         public Criteria andBlockIdIn(List<Long> values) {
-            addCriterion("block_id in", values, "blockId");
+            addCriterion("a.block_id in", values, "blockId");
             return (Criteria) this;
         }
 
         public Criteria andBlockIdNotIn(List<Long> values) {
-            addCriterion("block_id not in", values, "blockId");
+            addCriterion("a.block_id not in", values, "blockId");
             return (Criteria) this;
         }
 
         public Criteria andBlockIdBetween(Long value1, Long value2) {
-            addCriterion("block_id between", value1, value2, "blockId");
+            addCriterion("a.block_id between", value1, value2, "blockId");
             return (Criteria) this;
         }
 
         public Criteria andBlockIdNotBetween(Long value1, Long value2) {
-            addCriterion("block_id not between", value1, value2, "blockId");
+            addCriterion("a.block_id not between", value1, value2, "blockId");
             return (Criteria) this;
         }
 
         public Criteria andProductCategoryIdIsNull() {
-            addCriterion("product_category_id is null");
+            addCriterion("a.product_category_id is null");
             return (Criteria) this;
         }
 
         public Criteria andProductCategoryIdIsNotNull() {
-            addCriterion("product_category_id is not null");
+            addCriterion("a.product_category_id is not null");
             return (Criteria) this;
         }
 
         public Criteria andProductCategoryIdEqualTo(Long value) {
-            addCriterion("product_category_id =", value, "productCategoryId");
+            addCriterion("a.product_category_id =", value, "productCategoryId");
             return (Criteria) this;
         }
 
         public Criteria andProductCategoryIdNotEqualTo(Long value) {
-            addCriterion("product_category_id <>", value, "productCategoryId");
+            addCriterion("a.product_category_id <>", value, "productCategoryId");
             return (Criteria) this;
         }
 
         public Criteria andProductCategoryIdGreaterThan(Long value) {
-            addCriterion("product_category_id >", value, "productCategoryId");
+            addCriterion("a.product_category_id >", value, "productCategoryId");
             return (Criteria) this;
         }
 
         public Criteria andProductCategoryIdGreaterThanOrEqualTo(Long value) {
-            addCriterion("product_category_id >=", value, "productCategoryId");
+            addCriterion("a.product_category_id >=", value, "productCategoryId");
             return (Criteria) this;
         }
 
         public Criteria andProductCategoryIdLessThan(Long value) {
-            addCriterion("product_category_id <", value, "productCategoryId");
+            addCriterion("a.product_category_id <", value, "productCategoryId");
             return (Criteria) this;
         }
 
         public Criteria andProductCategoryIdLessThanOrEqualTo(Long value) {
-            addCriterion("product_category_id <=", value, "productCategoryId");
+            addCriterion("a.product_category_id <=", value, "productCategoryId");
             return (Criteria) this;
         }
 
         public Criteria andProductCategoryIdIn(List<Long> values) {
-            addCriterion("product_category_id in", values, "productCategoryId");
+            addCriterion("a.product_category_id in", values, "productCategoryId");
             return (Criteria) this;
         }
 
         public Criteria andProductCategoryIdNotIn(List<Long> values) {
-            addCriterion("product_category_id not in", values, "productCategoryId");
+            addCriterion("a.product_category_id not in", values, "productCategoryId");
             return (Criteria) this;
         }
 
         public Criteria andProductCategoryIdBetween(Long value1, Long value2) {
-            addCriterion("product_category_id between", value1, value2, "productCategoryId");
+            addCriterion("a.product_category_id between", value1, value2, "productCategoryId");
             return (Criteria) this;
         }
 
         public Criteria andProductCategoryIdNotBetween(Long value1, Long value2) {
-            addCriterion("product_category_id not between", value1, value2, "productCategoryId");
+            addCriterion("a.product_category_id not between", value1, value2, "productCategoryId");
             return (Criteria) this;
         }
 
@@ -466,62 +471,62 @@ public class FarmStorageRecordExample {
         }
 
         public Criteria andTypeIsNull() {
-            addCriterion("type is null");
+            addCriterion("a.type is null");
             return (Criteria) this;
         }
 
         public Criteria andTypeIsNotNull() {
-            addCriterion("type is not null");
+            addCriterion("a.type is not null");
             return (Criteria) this;
         }
 
         public Criteria andTypeEqualTo(Integer value) {
-            addCriterion("type =", value, "type");
+            addCriterion("a.type =", value, "a.type");
             return (Criteria) this;
         }
 
         public Criteria andTypeNotEqualTo(Integer value) {
-            addCriterion("type <>", value, "type");
+            addCriterion("a.type <>", value, "a.type");
             return (Criteria) this;
         }
 
         public Criteria andTypeGreaterThan(Integer value) {
-            addCriterion("type >", value, "type");
+            addCriterion("a.type >", value, "a.type");
             return (Criteria) this;
         }
 
         public Criteria andTypeGreaterThanOrEqualTo(Integer value) {
-            addCriterion("type >=", value, "type");
+            addCriterion("a.type >=", value, "a.type");
             return (Criteria) this;
         }
 
         public Criteria andTypeLessThan(Integer value) {
-            addCriterion("type <", value, "type");
+            addCriterion("a.type <", value, "a.type");
             return (Criteria) this;
         }
 
         public Criteria andTypeLessThanOrEqualTo(Integer value) {
-            addCriterion("type <=", value, "type");
+            addCriterion("a.type <=", value, "a.type");
             return (Criteria) this;
         }
 
         public Criteria andTypeIn(List<Integer> values) {
-            addCriterion("type in", values, "type");
+            addCriterion("a.type in", values, "a.type");
             return (Criteria) this;
         }
 
         public Criteria andTypeNotIn(List<Integer> values) {
-            addCriterion("type not in", values, "type");
+            addCriterion("a.type not in", values, "a.type");
             return (Criteria) this;
         }
 
         public Criteria andTypeBetween(Integer value1, Integer value2) {
-            addCriterion("type between", value1, value2, "type");
+            addCriterion("a.type between", value1, value2, "a.type");
             return (Criteria) this;
         }
 
         public Criteria andTypeNotBetween(Integer value1, Integer value2) {
-            addCriterion("type not between", value1, value2, "type");
+            addCriterion("a.type not between", value1, value2, "a.type");
             return (Criteria) this;
         }
 

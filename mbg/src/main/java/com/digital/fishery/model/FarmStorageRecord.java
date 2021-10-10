@@ -25,6 +25,12 @@ public class FarmStorageRecord implements Serializable {
     @ApiModelProperty(value = "农资单位")
     private String storageUnit;
 
+    @ApiModelProperty(value = "农资种类Id")
+    private Long storageProductCategoryId;
+
+    @ApiModelProperty(value = "农资种类名称")
+    private String storageProductCategoryName;
+
     @ApiModelProperty(value = "区块id")
     private Long blockId;
 
@@ -202,6 +208,22 @@ public class FarmStorageRecord implements Serializable {
 
     public void setStorageUnit(String storageUnit) {
         this.storageUnit = storageUnit;
+    }
+
+    public Long getStorageProductCategoryId() {
+        return storageProductCategoryId;
+    }
+
+    public void setStorageProductCategoryId(Long storageProductCategoryId) {
+        this.storageProductCategoryId = storageProductCategoryId;
+    }
+
+    public String getStorageProductCategoryName() {
+        return storageProductCategoryName;
+    }
+
+    public void setStorageProductCategoryName(String storageProductCategoryName) {
+        this.storageProductCategoryName = storageProductCategoryName;
     }
 
     @Override

@@ -100,6 +100,12 @@
     left join info_product_category p on p.id = a.product_category_id
     where a.id = #{id,jdbcType=BIGINT}
   </select>
+  <select id="selectThresholdStats" resultType="com.alibaba.fastjson.JSONObject">
+    select
+      sum(CASE WHEN quantity &gt; max_threshold THEN 1 ELSE 0 END ) as moreNum,
+      sum(CASE WHEN quantity &lt; min_threshold THEN 1 ELSE 0 END ) as lessNum
+    from farm_storage
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from farm_storage
     where id = #{id,jdbcType=BIGINT}
@@ -200,7 +206,7 @@
     </trim>
   </insert>
   <select id="countByExample" parameterType="com.digital.fishery.model.FarmStorageExample" resultType="java.lang.Long">
-    select count(*) from farm_storage
+    select count(*) from farm_storage a
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -321,4 +327,5 @@
       quantity = #{quantity,jdbcType=BIGINT}
     where id = #{id,jdbcType=BIGINT}
   </update>
+
 </mapper>
