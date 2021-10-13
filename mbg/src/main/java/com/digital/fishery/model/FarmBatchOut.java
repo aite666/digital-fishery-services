@@ -4,14 +4,17 @@ import io.swagger.annotations.ApiModelProperty;
 import java.io.Serializable;
 import java.util.Date;
 
-public class FarmAdvice implements Serializable {
+public class FarmBatchOut implements Serializable {
     private Long id;
 
     @ApiModelProperty(value = "创建时间")
     private Date createTime;
 
-    @ApiModelProperty(value = "建议名称")
-    private String name;
+    @ApiModelProperty(value = "批次id")
+    private Long batchId;
+
+    @ApiModelProperty(value = "批次号")
+    private String batchCode;
 
     @ApiModelProperty(value = "区块id")
     private Long blockId;
@@ -19,14 +22,17 @@ public class FarmAdvice implements Serializable {
     @ApiModelProperty(value = "区块名称")
     private String blockName;
 
-    @ApiModelProperty(value = "种类品种id")
+    @ApiModelProperty(value = "出塘时间")
+    private Date outTime;
+
+    @ApiModelProperty(value = "数量")
+    private Long quantity;
+
+    @ApiModelProperty(value = "种养品种id")
     private Long productCategoryId;
 
-    @ApiModelProperty(value = "种类品种名称")
+    @ApiModelProperty(value = "种养品种名称")
     private String productCategoryName;
-
-    @ApiModelProperty(value = "描述")
-    private String description;
 
     private static final long serialVersionUID = 1L;
 
@@ -46,12 +52,20 @@ public class FarmAdvice implements Serializable {
         this.createTime = createTime;
     }
 
-    public String getName() {
-        return name;
+    public Long getBatchId() {
+        return batchId;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setBatchId(Long batchId) {
+        this.batchId = batchId;
+    }
+
+    public String getBatchCode() {
+        return batchCode;
+    }
+
+    public void setBatchCode(String batchCode) {
+        this.batchCode = batchCode;
     }
 
     public Long getBlockId() {
@@ -62,20 +76,28 @@ public class FarmAdvice implements Serializable {
         this.blockId = blockId;
     }
 
+    public Date getOutTime() {
+        return outTime;
+    }
+
+    public void setOutTime(Date outTime) {
+        this.outTime = outTime;
+    }
+
+    public Long getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(Long quantity) {
+        this.quantity = quantity;
+    }
+
     public Long getProductCategoryId() {
         return productCategoryId;
     }
 
     public void setProductCategoryId(Long productCategoryId) {
         this.productCategoryId = productCategoryId;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
     }
 
     public String getBlockName() {
@@ -102,10 +124,12 @@ public class FarmAdvice implements Serializable {
         sb.append("Hash = ").append(hashCode());
         sb.append(", id=").append(id);
         sb.append(", createTime=").append(createTime);
-        sb.append(", name=").append(name);
+        sb.append(", batchId=").append(batchId);
+        sb.append(", batchCode=").append(batchCode);
         sb.append(", blockId=").append(blockId);
+        sb.append(", outTime=").append(outTime);
+        sb.append(", quantity=").append(quantity);
         sb.append(", productCategoryId=").append(productCategoryId);
-        sb.append(", description=").append(description);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

@@ -57,11 +57,12 @@ public class FarmBatchServiceImpl implements FarmBatchService {
         PageHelper.startPage(pageNum, pageSize);
         FarmBatchExample example = new FarmBatchExample();
 //        example.setOrderByClause("sort desc");
+        FarmBatchExample.Criteria criteria = example.createCriteria();
         if (StringUtil.isNotEmpty(code)) {
-            example.createCriteria().andCodeEqualTo(code);
+            criteria.andCodeEqualTo(code);
         }
         if (blockId != null) {
-            example.createCriteria().andBlockIdEqualTo(blockId);
+            criteria.andBlockIdEqualTo(blockId);
         }
         return farmBatchMapper.selectByExample(example);
     }

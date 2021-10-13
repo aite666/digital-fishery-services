@@ -4,14 +4,14 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class FarmAdviceExample {
+public class FarmBatchOutExample {
     protected String orderByClause;
 
     protected boolean distinct;
 
     protected List<Criteria> oredCriteria;
 
-    public FarmAdviceExample() {
+    public FarmBatchOutExample() {
         oredCriteria = new ArrayList<>();
     }
 
@@ -225,73 +225,133 @@ public class FarmAdviceExample {
             return (Criteria) this;
         }
 
-        public Criteria andNameIsNull() {
-            addCriterion("a.name is null");
+        public Criteria andBatchIdIsNull() {
+            addCriterion("batch_id is null");
             return (Criteria) this;
         }
 
-        public Criteria andNameIsNotNull() {
-            addCriterion("a.name is not null");
+        public Criteria andBatchIdIsNotNull() {
+            addCriterion("batch_id is not null");
             return (Criteria) this;
         }
 
-        public Criteria andNameEqualTo(String value) {
-            addCriterion("a.name =", value, "name");
+        public Criteria andBatchIdEqualTo(Long value) {
+            addCriterion("batch_id =", value, "batchId");
             return (Criteria) this;
         }
 
-        public Criteria andNameNotEqualTo(String value) {
-            addCriterion("a.name <>", value, "name");
+        public Criteria andBatchIdNotEqualTo(Long value) {
+            addCriterion("batch_id <>", value, "batchId");
             return (Criteria) this;
         }
 
-        public Criteria andNameGreaterThan(String value) {
-            addCriterion("a.name >", value, "name");
+        public Criteria andBatchIdGreaterThan(Long value) {
+            addCriterion("batch_id >", value, "batchId");
             return (Criteria) this;
         }
 
-        public Criteria andNameGreaterThanOrEqualTo(String value) {
-            addCriterion("a.name >=", value, "name");
+        public Criteria andBatchIdGreaterThanOrEqualTo(Long value) {
+            addCriterion("batch_id >=", value, "batchId");
             return (Criteria) this;
         }
 
-        public Criteria andNameLessThan(String value) {
-            addCriterion("a.name <", value, "name");
+        public Criteria andBatchIdLessThan(Long value) {
+            addCriterion("batch_id <", value, "batchId");
             return (Criteria) this;
         }
 
-        public Criteria andNameLessThanOrEqualTo(String value) {
-            addCriterion("a.name <=", value, "name");
+        public Criteria andBatchIdLessThanOrEqualTo(Long value) {
+            addCriterion("batch_id <=", value, "batchId");
             return (Criteria) this;
         }
 
-        public Criteria andNameLike(String value) {
-            addCriterion("a.name like", value, "name");
+        public Criteria andBatchIdIn(List<Long> values) {
+            addCriterion("batch_id in", values, "batchId");
             return (Criteria) this;
         }
 
-        public Criteria andNameNotLike(String value) {
-            addCriterion("a.name not like", value, "name");
+        public Criteria andBatchIdNotIn(List<Long> values) {
+            addCriterion("batch_id not in", values, "batchId");
             return (Criteria) this;
         }
 
-        public Criteria andNameIn(List<String> values) {
-            addCriterion("a.name in", values, "name");
+        public Criteria andBatchIdBetween(Long value1, Long value2) {
+            addCriterion("batch_id between", value1, value2, "batchId");
             return (Criteria) this;
         }
 
-        public Criteria andNameNotIn(List<String> values) {
-            addCriterion("a.name not in", values, "name");
+        public Criteria andBatchIdNotBetween(Long value1, Long value2) {
+            addCriterion("batch_id not between", value1, value2, "batchId");
             return (Criteria) this;
         }
 
-        public Criteria andNameBetween(String value1, String value2) {
-            addCriterion("a.name between", value1, value2, "name");
+        public Criteria andBatchCodeIsNull() {
+            addCriterion("batch_code is null");
             return (Criteria) this;
         }
 
-        public Criteria andNameNotBetween(String value1, String value2) {
-            addCriterion("a.name not between", value1, value2, "name");
+        public Criteria andBatchCodeIsNotNull() {
+            addCriterion("batch_code is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andBatchCodeEqualTo(String value) {
+            addCriterion("batch_code =", value, "batchCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andBatchCodeNotEqualTo(String value) {
+            addCriterion("batch_code <>", value, "batchCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andBatchCodeGreaterThan(String value) {
+            addCriterion("batch_code >", value, "batchCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andBatchCodeGreaterThanOrEqualTo(String value) {
+            addCriterion("batch_code >=", value, "batchCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andBatchCodeLessThan(String value) {
+            addCriterion("batch_code <", value, "batchCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andBatchCodeLessThanOrEqualTo(String value) {
+            addCriterion("batch_code <=", value, "batchCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andBatchCodeLike(String value) {
+            addCriterion("batch_code like", value, "batchCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andBatchCodeNotLike(String value) {
+            addCriterion("batch_code not like", value, "batchCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andBatchCodeIn(List<String> values) {
+            addCriterion("batch_code in", values, "batchCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andBatchCodeNotIn(List<String> values) {
+            addCriterion("batch_code not in", values, "batchCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andBatchCodeBetween(String value1, String value2) {
+            addCriterion("batch_code between", value1, value2, "batchCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andBatchCodeNotBetween(String value1, String value2) {
+            addCriterion("batch_code not between", value1, value2, "batchCode");
             return (Criteria) this;
         }
 
@@ -355,6 +415,126 @@ public class FarmAdviceExample {
             return (Criteria) this;
         }
 
+        public Criteria andOutTimeIsNull() {
+            addCriterion("out_time is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andOutTimeIsNotNull() {
+            addCriterion("out_time is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andOutTimeEqualTo(Date value) {
+            addCriterion("out_time =", value, "outTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andOutTimeNotEqualTo(Date value) {
+            addCriterion("out_time <>", value, "outTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andOutTimeGreaterThan(Date value) {
+            addCriterion("out_time >", value, "outTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andOutTimeGreaterThanOrEqualTo(Date value) {
+            addCriterion("out_time >=", value, "outTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andOutTimeLessThan(Date value) {
+            addCriterion("out_time <", value, "outTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andOutTimeLessThanOrEqualTo(Date value) {
+            addCriterion("out_time <=", value, "outTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andOutTimeIn(List<Date> values) {
+            addCriterion("out_time in", values, "outTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andOutTimeNotIn(List<Date> values) {
+            addCriterion("out_time not in", values, "outTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andOutTimeBetween(Date value1, Date value2) {
+            addCriterion("out_time between", value1, value2, "outTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andOutTimeNotBetween(Date value1, Date value2) {
+            addCriterion("out_time not between", value1, value2, "outTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andQuantityIsNull() {
+            addCriterion("quantity is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andQuantityIsNotNull() {
+            addCriterion("quantity is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andQuantityEqualTo(Long value) {
+            addCriterion("quantity =", value, "quantity");
+            return (Criteria) this;
+        }
+
+        public Criteria andQuantityNotEqualTo(Long value) {
+            addCriterion("quantity <>", value, "quantity");
+            return (Criteria) this;
+        }
+
+        public Criteria andQuantityGreaterThan(Long value) {
+            addCriterion("quantity >", value, "quantity");
+            return (Criteria) this;
+        }
+
+        public Criteria andQuantityGreaterThanOrEqualTo(Long value) {
+            addCriterion("quantity >=", value, "quantity");
+            return (Criteria) this;
+        }
+
+        public Criteria andQuantityLessThan(Long value) {
+            addCriterion("quantity <", value, "quantity");
+            return (Criteria) this;
+        }
+
+        public Criteria andQuantityLessThanOrEqualTo(Long value) {
+            addCriterion("quantity <=", value, "quantity");
+            return (Criteria) this;
+        }
+
+        public Criteria andQuantityIn(List<Long> values) {
+            addCriterion("quantity in", values, "quantity");
+            return (Criteria) this;
+        }
+
+        public Criteria andQuantityNotIn(List<Long> values) {
+            addCriterion("quantity not in", values, "quantity");
+            return (Criteria) this;
+        }
+
+        public Criteria andQuantityBetween(Long value1, Long value2) {
+            addCriterion("quantity between", value1, value2, "quantity");
+            return (Criteria) this;
+        }
+
+        public Criteria andQuantityNotBetween(Long value1, Long value2) {
+            addCriterion("quantity not between", value1, value2, "quantity");
+            return (Criteria) this;
+        }
+
         public Criteria andProductCategoryIdIsNull() {
             addCriterion("product_category_id is null");
             return (Criteria) this;
@@ -412,76 +592,6 @@ public class FarmAdviceExample {
 
         public Criteria andProductCategoryIdNotBetween(Long value1, Long value2) {
             addCriterion("product_category_id not between", value1, value2, "productCategoryId");
-            return (Criteria) this;
-        }
-
-        public Criteria andDescriptionIsNull() {
-            addCriterion("description is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andDescriptionIsNotNull() {
-            addCriterion("description is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andDescriptionEqualTo(String value) {
-            addCriterion("description =", value, "description");
-            return (Criteria) this;
-        }
-
-        public Criteria andDescriptionNotEqualTo(String value) {
-            addCriterion("description <>", value, "description");
-            return (Criteria) this;
-        }
-
-        public Criteria andDescriptionGreaterThan(String value) {
-            addCriterion("description >", value, "description");
-            return (Criteria) this;
-        }
-
-        public Criteria andDescriptionGreaterThanOrEqualTo(String value) {
-            addCriterion("description >=", value, "description");
-            return (Criteria) this;
-        }
-
-        public Criteria andDescriptionLessThan(String value) {
-            addCriterion("description <", value, "description");
-            return (Criteria) this;
-        }
-
-        public Criteria andDescriptionLessThanOrEqualTo(String value) {
-            addCriterion("description <=", value, "description");
-            return (Criteria) this;
-        }
-
-        public Criteria andDescriptionLike(String value) {
-            addCriterion("description like", value, "description");
-            return (Criteria) this;
-        }
-
-        public Criteria andDescriptionNotLike(String value) {
-            addCriterion("description not like", value, "description");
-            return (Criteria) this;
-        }
-
-        public Criteria andDescriptionIn(List<String> values) {
-            addCriterion("description in", values, "description");
-            return (Criteria) this;
-        }
-
-        public Criteria andDescriptionNotIn(List<String> values) {
-            addCriterion("description not in", values, "description");
-            return (Criteria) this;
-        }
-
-        public Criteria andDescriptionBetween(String value1, String value2) {
-            addCriterion("description between", value1, value2, "description");
-            return (Criteria) this;
-        }
-
-        public Criteria andDescriptionNotBetween(String value1, String value2) {
-            addCriterion("description not between", value1, value2, "description");
             return (Criteria) this;
         }
     }

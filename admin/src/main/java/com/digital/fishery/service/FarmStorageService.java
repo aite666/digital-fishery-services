@@ -1,5 +1,6 @@
 package com.digital.fishery.service;
 
+import com.alibaba.fastjson.JSONObject;
 import com.digital.fishery.model.FarmStorage;
 
 import java.util.List;
@@ -33,5 +34,11 @@ public interface FarmStorageService {
     /**
      * 分页查询后台农资
      */
-    List<FarmStorage> list(String name, Integer pageSize, Integer pageNum);
+    List<FarmStorage> list(String name, Long productCategoryId, Boolean thresholdVisible, Integer pageSize, Integer pageNum);
+
+
+    /**
+     * 查询农资统计
+     */
+    JSONObject stats();
 }

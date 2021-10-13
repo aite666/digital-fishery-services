@@ -1,15 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.digital.fishery.mapper.FarmAdviceMapper">
-  <resultMap id="BaseResultMap" type="com.digital.fishery.model.FarmAdvice">
+<mapper namespace="com.digital.fishery.mapper.FarmBatchOutMapper">
+  <resultMap id="BaseResultMap" type="com.digital.fishery.model.FarmBatchOut">
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
-    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="batch_id" jdbcType="BIGINT" property="batchId" />
+    <result column="batch_code" jdbcType="VARCHAR" property="batchCode" />
     <result column="block_id" jdbcType="BIGINT" property="blockId" />
     <result column="block_name" jdbcType="VARCHAR" property="blockName" />
+    <result column="out_time" jdbcType="TIMESTAMP" property="outTime" />
+    <result column="quantity" jdbcType="BIGINT" property="quantity" />
     <result column="product_category_id" jdbcType="BIGINT" property="productCategoryId" />
     <result column="product_category_name" jdbcType="VARCHAR" property="productCategoryName" />
-    <result column="description" jdbcType="VARCHAR" property="description" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -70,17 +72,18 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    a.id, a.create_time, a.name, a.block_id, a.product_category_id, a.description, b.name as block_name, p.name as product_category_name
+    a.id, a.create_time, a.batch_id, a.batch_code, a.block_id, a.out_time, a.quantity, a.product_category_id,
+    b.name as block_name, p.name as product_category_name
   </sql>
-  <select id="selectByExample" parameterType="com.digital.fishery.model.FarmAdviceExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="com.digital.fishery.model.FarmBatchOutExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from farm_advice a
-    left join info_block b on a.block_id = b.id
-    left join info_product_category p on a.product_category_id = p.id
+    from farm_batch_out a
+    left join info_block b on b.id = a.block_id
+    left join info_product_category p on p.id = a.product_category_id
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -91,78 +94,92 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from farm_advice a
-    left join info_block b on a.block_id = b.id
-    left join info_product_category p on a.product_category_id = p.id
-    where id = #{id,jdbcType=BIGINT}
+    from farm_batch_out a
+    left join info_block b on b.id = a.block_id
+    left join info_product_category p on p.id = a.product_category_id
+    where a.id = #{id,jdbcType=BIGINT}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
-    delete from farm_advice
+    delete from farm_batch_out
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <delete id="deleteByExample" parameterType="com.digital.fishery.model.FarmAdviceExample">
-    delete from farm_advice
+  <delete id="deleteByExample" parameterType="com.digital.fishery.model.FarmBatchOutExample">
+    delete from farm_batch_out
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.digital.fishery.model.FarmAdvice">
+  <insert id="insert" parameterType="com.digital.fishery.model.FarmBatchOut">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into farm_advice (create_time, name, block_id, 
-      product_category_id, description)
-    values (#{createTime,jdbcType=TIMESTAMP}, #{name,jdbcType=VARCHAR}, #{blockId,jdbcType=BIGINT}, 
-      #{productCategoryId,jdbcType=BIGINT}, #{description,jdbcType=VARCHAR})
+    insert into farm_batch_out (create_time, batch_id, batch_code, 
+      block_id, out_time, quantity, 
+      product_category_id)
+    values (#{createTime,jdbcType=TIMESTAMP}, #{batchId,jdbcType=BIGINT}, #{batchCode,jdbcType=VARCHAR}, 
+      #{blockId,jdbcType=BIGINT}, #{outTime,jdbcType=TIMESTAMP}, #{quantity,jdbcType=BIGINT}, 
+      #{productCategoryId,jdbcType=BIGINT})
   </insert>
-  <insert id="insertSelective" parameterType="com.digital.fishery.model.FarmAdvice">
+  <insert id="insertSelective" parameterType="com.digital.fishery.model.FarmBatchOut">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into farm_advice
+    insert into farm_batch_out
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="createTime != null">
         create_time,
       </if>
-      <if test="name != null">
-        name,
+      <if test="batchId != null">
+        batch_id,
+      </if>
+      <if test="batchCode != null">
+        batch_code,
       </if>
       <if test="blockId != null">
         block_id,
       </if>
+      <if test="outTime != null">
+        out_time,
+      </if>
+      <if test="quantity != null">
+        quantity,
+      </if>
       <if test="productCategoryId != null">
         product_category_id,
-      </if>
-      <if test="description != null">
-        description,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="createTime != null">
         #{createTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="name != null">
-        #{name,jdbcType=VARCHAR},
+      <if test="batchId != null">
+        #{batchId,jdbcType=BIGINT},
+      </if>
+      <if test="batchCode != null">
+        #{batchCode,jdbcType=VARCHAR},
       </if>
       <if test="blockId != null">
         #{blockId,jdbcType=BIGINT},
       </if>
+      <if test="outTime != null">
+        #{outTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="quantity != null">
+        #{quantity,jdbcType=BIGINT},
+      </if>
       <if test="productCategoryId != null">
         #{productCategoryId,jdbcType=BIGINT},
       </if>
-      <if test="description != null">
-        #{description,jdbcType=VARCHAR},
-      </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.digital.fishery.model.FarmAdviceExample" resultType="java.lang.Long">
-    select count(*) from farm_advice
+  <select id="countByExample" parameterType="com.digital.fishery.model.FarmBatchOutExample" resultType="java.lang.Long">
+    select count(*) from farm_batch_out
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map">
-    update farm_advice
+    update farm_batch_out
     <set>
       <if test="record.id != null">
         id = #{record.id,jdbcType=BIGINT},
@@ -170,17 +187,23 @@
       <if test="record.createTime != null">
         create_time = #{record.createTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="record.name != null">
-        name = #{record.name,jdbcType=VARCHAR},
+      <if test="record.batchId != null">
+        batch_id = #{record.batchId,jdbcType=BIGINT},
+      </if>
+      <if test="record.batchCode != null">
+        batch_code = #{record.batchCode,jdbcType=VARCHAR},
       </if>
       <if test="record.blockId != null">
         block_id = #{record.blockId,jdbcType=BIGINT},
       </if>
+      <if test="record.outTime != null">
+        out_time = #{record.outTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.quantity != null">
+        quantity = #{record.quantity,jdbcType=BIGINT},
+      </if>
       <if test="record.productCategoryId != null">
         product_category_id = #{record.productCategoryId,jdbcType=BIGINT},
-      </if>
-      <if test="record.description != null">
-        description = #{record.description,jdbcType=VARCHAR},
       </if>
     </set>
     <if test="_parameter != null">
@@ -188,45 +211,55 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update farm_advice
+    update farm_batch_out
     set id = #{record.id,jdbcType=BIGINT},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
-      name = #{record.name,jdbcType=VARCHAR},
+      batch_id = #{record.batchId,jdbcType=BIGINT},
+      batch_code = #{record.batchCode,jdbcType=VARCHAR},
       block_id = #{record.blockId,jdbcType=BIGINT},
-      product_category_id = #{record.productCategoryId,jdbcType=BIGINT},
-      description = #{record.description,jdbcType=VARCHAR}
+      out_time = #{record.outTime,jdbcType=TIMESTAMP},
+      quantity = #{record.quantity,jdbcType=BIGINT},
+      product_category_id = #{record.productCategoryId,jdbcType=BIGINT}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.digital.fishery.model.FarmAdvice">
-    update farm_advice
+  <update id="updateByPrimaryKeySelective" parameterType="com.digital.fishery.model.FarmBatchOut">
+    update farm_batch_out
     <set>
       <if test="createTime != null">
         create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="name != null">
-        name = #{name,jdbcType=VARCHAR},
+      <if test="batchId != null">
+        batch_id = #{batchId,jdbcType=BIGINT},
+      </if>
+      <if test="batchCode != null">
+        batch_code = #{batchCode,jdbcType=VARCHAR},
       </if>
       <if test="blockId != null">
         block_id = #{blockId,jdbcType=BIGINT},
       </if>
+      <if test="outTime != null">
+        out_time = #{outTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="quantity != null">
+        quantity = #{quantity,jdbcType=BIGINT},
+      </if>
       <if test="productCategoryId != null">
         product_category_id = #{productCategoryId,jdbcType=BIGINT},
-      </if>
-      <if test="description != null">
-        description = #{description,jdbcType=VARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.digital.fishery.model.FarmAdvice">
-    update farm_advice
+  <update id="updateByPrimaryKey" parameterType="com.digital.fishery.model.FarmBatchOut">
+    update farm_batch_out
     set create_time = #{createTime,jdbcType=TIMESTAMP},
-      name = #{name,jdbcType=VARCHAR},
+      batch_id = #{batchId,jdbcType=BIGINT},
+      batch_code = #{batchCode,jdbcType=VARCHAR},
       block_id = #{blockId,jdbcType=BIGINT},
-      product_category_id = #{productCategoryId,jdbcType=BIGINT},
-      description = #{description,jdbcType=VARCHAR}
+      out_time = #{outTime,jdbcType=TIMESTAMP},
+      quantity = #{quantity,jdbcType=BIGINT},
+      product_category_id = #{productCategoryId,jdbcType=BIGINT}
     where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

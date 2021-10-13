@@ -16,6 +16,9 @@ public class FarmInspection implements Serializable {
     @ApiModelProperty(value = "区块id")
     private Long blockId;
 
+    @ApiModelProperty(value = "区块名称")
+    private String blockName;
+
     @ApiModelProperty(value = "创建人")
     private String createUser;
 
@@ -103,6 +106,14 @@ public class FarmInspection implements Serializable {
 
     public void setCharacterDescription(String characterDescription) {
         this.characterDescription = characterDescription;
+    }
+
+    public String getBlockName() {
+        return blockName;
+    }
+
+    public void setBlockName(String blockName) {
+        this.blockName = blockName;
     }
 
     @Override

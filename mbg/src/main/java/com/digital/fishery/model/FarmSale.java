@@ -13,8 +13,14 @@ public class FarmSale implements Serializable {
     @ApiModelProperty(value = "区块id")
     private Long blockId;
 
+    @ApiModelProperty(value = "区块名称")
+    private String blockName;
+
     @ApiModelProperty(value = "种类id")
     private Long productCategoryId;
+
+    @ApiModelProperty(value = "种类名称")
+    private String productCategoryName;
 
     @ApiModelProperty(value = "销售时间")
     private Date saleTime;
@@ -125,6 +131,22 @@ public class FarmSale implements Serializable {
 
     public void setAmount(Double amount) {
         this.amount = amount;
+    }
+
+    public String getBlockName() {
+        return blockName;
+    }
+
+    public void setBlockName(String blockName) {
+        this.blockName = blockName;
+    }
+
+    public String getProductCategoryName() {
+        return productCategoryName;
+    }
+
+    public void setProductCategoryName(String productCategoryName) {
+        this.productCategoryName = productCategoryName;
     }
 
     @Override

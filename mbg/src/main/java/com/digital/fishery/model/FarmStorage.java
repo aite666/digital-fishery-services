@@ -19,6 +19,9 @@ public class FarmStorage implements Serializable {
     @ApiModelProperty(value = "农资种类id")
     private Long productCategoryId;
 
+    @ApiModelProperty(value = "农资种类名称")
+    private String productCategoryName;
+
     @ApiModelProperty(value = "数量单位")
     private String unit;
 
@@ -136,6 +139,14 @@ public class FarmStorage implements Serializable {
 
     public void setQuantity(Long quantity) {
         this.quantity = quantity;
+    }
+
+    public String getProductCategoryName() {
+        return productCategoryName;
+    }
+
+    public void setProductCategoryName(String productCategoryName) {
+        this.productCategoryName = productCategoryName;
     }
 
     @Override

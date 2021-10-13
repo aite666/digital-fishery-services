@@ -72,9 +72,25 @@ public class FarmStorageRecordController {
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     @ResponseBody
     public CommonResult<CommonPage<FarmStorageRecord>> list(@RequestParam(value = "storageId", required = false) Long storageId,
+                                                            @RequestParam(value = "storageName", required = false) String storageName,
+                                                            @RequestParam(value = "blockId", required = false) Long blockId,
+                                                            @RequestParam(value = "productCategoryId", required = false) Long productCategoryId,
+                                                            @RequestParam(value = "type", required = false) Integer type,
                                                          @RequestParam(value = "pageSize", defaultValue = "5") Integer pageSize,
                                                          @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum) {
-        List<FarmStorageRecord> farmStorageRecordList = farmStorageRecordService.list(storageId, pageSize, pageNum);
+        List<FarmStorageRecord> farmStorageRecordList = farmStorageRecordService.list(storageId, storageName, blockId, productCategoryId, type, pageSize, pageNum);
         return CommonResult.success(CommonPage.restPage(farmStorageRecordList));
+    }
+
+    @ApiOperation("根据ID确认入库出库农资记录")
+    @RequestMapping(value = "/confirm/{id}", method = RequestMethod.POST)
+    @ResponseBody
+    public CommonResult confirm(@PathVariable Long id) {
+        int count = farmStorageRecordService.confirm(id);
+        if (count > 0) {
+            return CommonResult.success(count);
+        } else {
+            return CommonResult.failed();
+        }
     }
 }
