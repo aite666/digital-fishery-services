@@ -66,7 +66,7 @@ public class FarmStorageServiceImpl implements FarmStorageService {
         if (productCategoryId != null) {
             criteria.andProductCategoryIdEqualTo(productCategoryId);
         }
-        if (thresholdVisible) {
+        if (thresholdVisible != null && thresholdVisible) {
             criteria.andThresholdVisible();
         }
         return farmStorageMapper.selectByExample(example);

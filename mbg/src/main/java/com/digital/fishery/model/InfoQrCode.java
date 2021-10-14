@@ -34,6 +34,9 @@ public class InfoQrCode implements Serializable {
     @ApiModelProperty(value = "纬度")
     private Float latitude;
 
+    @ApiModelProperty(value = "图片地址")
+    private String image;
+
     @ApiModelProperty(value = "介绍")
     private String description;
 
@@ -122,6 +125,14 @@ public class InfoQrCode implements Serializable {
         this.latitude = latitude;
     }
 
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
     public String getDescription() {
         return description;
     }
@@ -154,6 +165,7 @@ public class InfoQrCode implements Serializable {
         sb.append(", position=").append(position);
         sb.append(", longitude=").append(longitude);
         sb.append(", latitude=").append(latitude);
+        sb.append(", image=").append(image);
         sb.append(", description=").append(description);
         sb.append(", url=").append(url);
         sb.append(", serialVersionUID=").append(serialVersionUID);
