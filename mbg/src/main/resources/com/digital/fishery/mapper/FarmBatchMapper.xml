@@ -12,6 +12,7 @@
     <result column="farm_time" jdbcType="TIMESTAMP" property="farmTime" />
     <result column="origin" jdbcType="VARCHAR" property="origin" />
     <result column="quantity" jdbcType="BIGINT" property="quantity" />
+    <result column="unit" jdbcType="VARCHAR" property="unit" />
     <result column="unit_price" jdbcType="DOUBLE" property="unitPrice" />
     <result column="amount" jdbcType="DOUBLE" property="amount" />
     <result column="status" jdbcType="INTEGER" property="status" />
@@ -75,7 +76,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    a.id, a.create_time, a.code, a.block_id, a.product_category_id, a.farm_time, a.origin, a.quantity,
+    a.id, a.create_time, a.code, a.block_id, a.product_category_id, a.farm_time, a.origin, a.quantity, a.unit,
     a.unit_price, a.amount, a.status, b.name as block_name, p.name as product_category_name
   </sql>
   <select id="selectByExample" parameterType="com.digital.fishery.model.FarmBatchExample" resultMap="BaseResultMap">
@@ -128,11 +129,11 @@
     </selectKey>
     insert into farm_batch (create_time, code, block_id, 
       product_category_id, farm_time, origin, 
-      quantity, unit_price, amount, 
+      quantity, unit, unit_price, amount,
       status)
     values (#{createTime,jdbcType=TIMESTAMP}, #{code,jdbcType=VARCHAR}, #{blockId,jdbcType=BIGINT}, 
       #{productCategoryId,jdbcType=BIGINT}, #{farmTime,jdbcType=TIMESTAMP}, #{origin,jdbcType=VARCHAR}, 
-      #{quantity,jdbcType=BIGINT}, #{unitPrice,jdbcType=DOUBLE}, #{amount,jdbcType=DOUBLE}, 
+      #{quantity,jdbcType=BIGINT}, #{unit,jdbcType=VARCHAR}, #{unitPrice,jdbcType=DOUBLE}, #{amount,jdbcType=DOUBLE},
       #{status,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.digital.fishery.model.FarmBatch">
@@ -161,6 +162,9 @@
       </if>
       <if test="quantity != null">
         quantity,
+      </if>
+      <if test="unit != null">
+        unit,
       </if>
       <if test="unitPrice != null">
         unit_price,
@@ -193,6 +197,9 @@
       </if>
       <if test="quantity != null">
         #{quantity,jdbcType=BIGINT},
+      </if>
+      <if test="unit != null">
+        #{unit,jdbcType=VARCHAR},
       </if>
       <if test="unitPrice != null">
         #{unitPrice,jdbcType=DOUBLE},
@@ -238,6 +245,9 @@
       <if test="record.quantity != null">
         quantity = #{record.quantity,jdbcType=BIGINT},
       </if>
+      <if test="record.unit != null">
+        unit = #{record.unit,jdbcType=VARCHAR},
+      </if>
       <if test="record.unitPrice != null">
         unit_price = #{record.unitPrice,jdbcType=DOUBLE},
       </if>
@@ -262,6 +272,7 @@
       farm_time = #{record.farmTime,jdbcType=TIMESTAMP},
       origin = #{record.origin,jdbcType=VARCHAR},
       quantity = #{record.quantity,jdbcType=BIGINT},
+      unit = #{record.unit,jdbcType=VARCHAR},
       unit_price = #{record.unitPrice,jdbcType=DOUBLE},
       amount = #{record.amount,jdbcType=DOUBLE},
       status = #{record.status,jdbcType=INTEGER}
@@ -293,6 +304,9 @@
       <if test="quantity != null">
         quantity = #{quantity,jdbcType=BIGINT},
       </if>
+      <if test="unit != null">
+        unit = #{unit,jdbcType=VARCHAR},
+      </if>
       <if test="unitPrice != null">
         unit_price = #{unitPrice,jdbcType=DOUBLE},
       </if>
@@ -314,6 +328,7 @@
       farm_time = #{farmTime,jdbcType=TIMESTAMP},
       origin = #{origin,jdbcType=VARCHAR},
       quantity = #{quantity,jdbcType=BIGINT},
+      unit = #{unit,jdbcType=VARCHAR},
       unit_price = #{unitPrice,jdbcType=DOUBLE},
       amount = #{amount,jdbcType=DOUBLE},
       status = #{status,jdbcType=INTEGER}

@@ -40,7 +40,7 @@
         <javaClientGenerator type="XMLMAPPER" targetPackage="com.digital.fishery.mapper"
                              targetProject="mbg/src/main/java"/>
         <!--生成全部表tableName设为%-->
-        <table tableName="info_qr_code">
+        <table tableName="bigscreen_config">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>
     </context>

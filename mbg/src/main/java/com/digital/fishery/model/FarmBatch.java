@@ -34,6 +34,9 @@ public class FarmBatch implements Serializable {
     @ApiModelProperty(value = "数量")
     private Long quantity;
 
+    @ApiModelProperty(value = "数量单位")
+    private String unit;
+
     @ApiModelProperty(value = "单价")
     private Double unitPrice;
 
@@ -147,6 +150,14 @@ public class FarmBatch implements Serializable {
 
     public void setStatus(Integer status) {
         this.status = status;
+    }
+
+    public String getUnit() {
+        return unit;
+    }
+
+    public void setUnit(String unit) {
+        this.unit = unit;
     }
 
     @Override
