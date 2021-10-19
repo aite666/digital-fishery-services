@@ -77,4 +77,17 @@ public class FarmAdviceDetailController {
         List<FarmAdviceDetail> farmAdviceDetailList = farmAdviceDetailService.list(adviceId, pageSize, pageNum);
         return CommonResult.success(CommonPage.restPage(farmAdviceDetailList));
     }
+
+    @ApiOperation("批量修改农事建议详情")
+    @RequestMapping(value = "/updateBatch/{adviceId}", method = RequestMethod.POST)
+    @ResponseBody
+    public CommonResult updateBatch(@PathVariable Long adviceId,
+                                    @RequestBody List<FarmAdviceDetail> farmAdviceDetailList) {
+        int count = farmAdviceDetailService.updateBatch(adviceId, farmAdviceDetailList);
+        if (count > 0) {
+            return CommonResult.success(count);
+        } else {
+            return CommonResult.failed();
+        }
+    }
 }

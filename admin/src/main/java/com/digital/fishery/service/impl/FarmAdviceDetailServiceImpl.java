@@ -47,6 +47,22 @@ public class FarmAdviceDetailServiceImpl implements FarmAdviceDetailService {
     }
 
     @Override
+    public int updateBatch(Long adviceId, List<FarmAdviceDetail> farmAdviceDetailList) {
+        // 先批量删除所有adviceId的建议详情，然后新增
+        FarmAdviceDetailExample example = new FarmAdviceDetailExample();
+        example.createCriteria().andAdviceIdEqualTo(adviceId);
+        int count = farmAdviceDetailMapper.deleteByExample(example);
+        for (FarmAdviceDetail farmAdviceDetail : farmAdviceDetailList) {
+            farmAdviceDetail.setCreateTime(new Date());
+            count = farmAdviceDetailMapper.insert(farmAdviceDetail);
+            if (count == 0) {
+                break;
+            }
+        }
+        return count;
+    }
+
+    @Override
     public List<FarmAdviceDetail> list(Long adviceId, Integer pageSize, Integer pageNum) {
         PageHelper.startPage(pageNum, pageSize);
         FarmAdviceDetailExample example = new FarmAdviceDetailExample();

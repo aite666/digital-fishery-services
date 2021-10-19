@@ -28,6 +28,9 @@ public class FarmAdvice implements Serializable {
     @ApiModelProperty(value = "描述")
     private String description;
 
+    @ApiModelProperty(value = "步骤数量")
+    private Integer stepNum;
+
     private static final long serialVersionUID = 1L;
 
     public Long getId() {
@@ -92,6 +95,14 @@ public class FarmAdvice implements Serializable {
 
     public void setProductCategoryName(String productCategoryName) {
         this.productCategoryName = productCategoryName;
+    }
+
+    public Integer getStepNum() {
+        return stepNum;
+    }
+
+    public void setStepNum(Integer stepNum) {
+        this.stepNum = stepNum;
     }
 
     @Override
