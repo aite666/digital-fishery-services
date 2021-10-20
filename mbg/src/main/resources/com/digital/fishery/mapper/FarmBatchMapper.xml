@@ -105,11 +105,14 @@
   </select>
   <select id="listProductCategory" parameterType="java.lang.Long" resultType="com.alibaba.fastjson.JSONObject">
     select
-        a.product_category_id as productCategoryId, p.name as productCategoryName, count(a.code) as batchCount, group_concat(a.code) as batchCodes
+        a.product_category_id as productCategoryId, p.name as productCategoryName,
+        count(a.code) as batchCount, group_concat(a.code) as batchCodes,
+        group_concat(a.quantity) as batchQuantitys, group_concat(a.unit) as batchUnits
     from farm_batch a
     left join info_product_category p on a.product_category_id = p.id
+    where a.status = 1
     <if test="blockId != null">
-     where a.block_id = #{blockId,jdbcType=BIGINT}
+     and a.block_id = #{blockId,jdbcType=BIGINT}
     </if>
     group by a.product_category_id
   </select>
