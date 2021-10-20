@@ -12,6 +12,7 @@
     <result column="position" jdbcType="VARCHAR" property="position" />
     <result column="longitude" jdbcType="REAL" property="longitude" />
     <result column="latitude" jdbcType="REAL" property="latitude" />
+    <result column="image" jdbcType="VARCHAR" property="image" />
   </resultMap>
   <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.digital.fishery.model.InfoQrCode">
     <result column="description" jdbcType="LONGVARCHAR" property="description" />
@@ -77,7 +78,7 @@
   </sql>
   <sql id="Base_Column_List">
     id, create_time, title, background_image, logo_image, admin, admin_image, position, 
-    longitude, latitude
+    longitude, latitude, image
   </sql>
   <sql id="Blob_Column_List">
     description, url
@@ -137,11 +138,13 @@
     insert into info_qr_code (create_time, title, background_image, 
       logo_image, admin, admin_image, 
       position, longitude, latitude, 
-      description, url)
+      image, description, url
+      )
     values (#{createTime,jdbcType=TIMESTAMP}, #{title,jdbcType=VARCHAR}, #{backgroundImage,jdbcType=VARCHAR}, 
       #{logoImage,jdbcType=VARCHAR}, #{admin,jdbcType=VARCHAR}, #{adminImage,jdbcType=VARCHAR}, 
       #{position,jdbcType=VARCHAR}, #{longitude,jdbcType=REAL}, #{latitude,jdbcType=REAL}, 
-      #{description,jdbcType=LONGVARCHAR}, #{url,jdbcType=LONGVARCHAR})
+      #{image,jdbcType=VARCHAR}, #{description,jdbcType=LONGVARCHAR}, #{url,jdbcType=LONGVARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.digital.fishery.model.InfoQrCode">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
@@ -175,6 +178,9 @@
       </if>
       <if test="latitude != null">
         latitude,
+      </if>
+      <if test="image != null">
+        image,
       </if>
       <if test="description != null">
         description,
@@ -210,6 +216,9 @@
       </if>
       <if test="latitude != null">
         #{latitude,jdbcType=REAL},
+      </if>
+      <if test="image != null">
+        #{image,jdbcType=VARCHAR},
       </if>
       <if test="description != null">
         #{description,jdbcType=LONGVARCHAR},
@@ -258,6 +267,9 @@
       <if test="record.latitude != null">
         latitude = #{record.latitude,jdbcType=REAL},
       </if>
+      <if test="record.image != null">
+        image = #{record.image,jdbcType=VARCHAR},
+      </if>
       <if test="record.description != null">
         description = #{record.description,jdbcType=LONGVARCHAR},
       </if>
@@ -281,6 +293,7 @@
       position = #{record.position,jdbcType=VARCHAR},
       longitude = #{record.longitude,jdbcType=REAL},
       latitude = #{record.latitude,jdbcType=REAL},
+      image = #{record.image,jdbcType=VARCHAR},
       description = #{record.description,jdbcType=LONGVARCHAR},
       url = #{record.url,jdbcType=LONGVARCHAR}
     <if test="_parameter != null">
@@ -298,7 +311,8 @@
       admin_image = #{record.adminImage,jdbcType=VARCHAR},
       position = #{record.position,jdbcType=VARCHAR},
       longitude = #{record.longitude,jdbcType=REAL},
-      latitude = #{record.latitude,jdbcType=REAL}
+      latitude = #{record.latitude,jdbcType=REAL},
+      image = #{record.image,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -333,6 +347,9 @@
       <if test="latitude != null">
         latitude = #{latitude,jdbcType=REAL},
       </if>
+      <if test="image != null">
+        image = #{image,jdbcType=VARCHAR},
+      </if>
       <if test="description != null">
         description = #{description,jdbcType=LONGVARCHAR},
       </if>
@@ -353,6 +370,7 @@
       position = #{position,jdbcType=VARCHAR},
       longitude = #{longitude,jdbcType=REAL},
       latitude = #{latitude,jdbcType=REAL},
+      image = #{image,jdbcType=VARCHAR},
       description = #{description,jdbcType=LONGVARCHAR},
       url = #{url,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=BIGINT}
@@ -367,7 +385,8 @@
       admin_image = #{adminImage,jdbcType=VARCHAR},
       position = #{position,jdbcType=VARCHAR},
       longitude = #{longitude,jdbcType=REAL},
-      latitude = #{latitude,jdbcType=REAL}
+      latitude = #{latitude,jdbcType=REAL},
+      image = #{image,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

@@ -8,10 +8,12 @@
     <result column="batch_code" jdbcType="VARCHAR" property="batchCode" />
     <result column="block_id" jdbcType="BIGINT" property="blockId" />
     <result column="block_name" jdbcType="VARCHAR" property="blockName" />
-    <result column="out_time" jdbcType="TIMESTAMP" property="outTime" />
-    <result column="quantity" jdbcType="BIGINT" property="quantity" />
     <result column="product_category_id" jdbcType="BIGINT" property="productCategoryId" />
     <result column="product_category_name" jdbcType="VARCHAR" property="productCategoryName" />
+    <result column="out_time" jdbcType="TIMESTAMP" property="outTime" />
+    <result column="quantity" jdbcType="BIGINT" property="quantity" />
+    <result column="unit" jdbcType="VARCHAR" property="unit" />
+    <result column="out_type" jdbcType="INTEGER" property="outType" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -72,8 +74,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    a.id, a.create_time, a.batch_id, a.batch_code, a.block_id, a.out_time, a.quantity, a.product_category_id,
-    b.name as block_name, p.name as product_category_name
+    a.id, a.create_time, a.batch_id, a.batch_code, a.block_id, a.product_category_id, a.out_time, a.quantity,
+    a.unit, a.out_type, b.name as block_name, p.name as product_category_name
   </sql>
   <select id="selectByExample" parameterType="com.digital.fishery.model.FarmBatchOutExample" resultMap="BaseResultMap">
     select
@@ -92,7 +94,7 @@
     </if>
   </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
-    select 
+    select
     <include refid="Base_Column_List" />
     from farm_batch_out a
     left join info_block b on b.id = a.block_id
@@ -114,11 +116,13 @@
       SELECT LAST_INSERT_ID()
     </selectKey>
     insert into farm_batch_out (create_time, batch_id, batch_code, 
-      block_id, out_time, quantity, 
-      product_category_id)
+      block_id, product_category_id, out_time, 
+      quantity, unit, out_type
+      )
     values (#{createTime,jdbcType=TIMESTAMP}, #{batchId,jdbcType=BIGINT}, #{batchCode,jdbcType=VARCHAR}, 
-      #{blockId,jdbcType=BIGINT}, #{outTime,jdbcType=TIMESTAMP}, #{quantity,jdbcType=BIGINT}, 
-      #{productCategoryId,jdbcType=BIGINT})
+      #{blockId,jdbcType=BIGINT}, #{productCategoryId,jdbcType=BIGINT}, #{outTime,jdbcType=TIMESTAMP}, 
+      #{quantity,jdbcType=BIGINT}, #{unit,jdbcType=VARCHAR}, #{outType,jdbcType=INTEGER}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.digital.fishery.model.FarmBatchOut">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
@@ -138,14 +142,20 @@
       <if test="blockId != null">
         block_id,
       </if>
+      <if test="productCategoryId != null">
+        product_category_id,
+      </if>
       <if test="outTime != null">
         out_time,
       </if>
       <if test="quantity != null">
         quantity,
       </if>
-      <if test="productCategoryId != null">
-        product_category_id,
+      <if test="unit != null">
+        unit,
+      </if>
+      <if test="outType != null">
+        out_type,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -161,14 +171,20 @@
       <if test="blockId != null">
         #{blockId,jdbcType=BIGINT},
       </if>
+      <if test="productCategoryId != null">
+        #{productCategoryId,jdbcType=BIGINT},
+      </if>
       <if test="outTime != null">
         #{outTime,jdbcType=TIMESTAMP},
       </if>
       <if test="quantity != null">
         #{quantity,jdbcType=BIGINT},
       </if>
-      <if test="productCategoryId != null">
-        #{productCategoryId,jdbcType=BIGINT},
+      <if test="unit != null">
+        #{unit,jdbcType=VARCHAR},
+      </if>
+      <if test="outType != null">
+        #{outType,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -196,14 +212,20 @@
       <if test="record.blockId != null">
         block_id = #{record.blockId,jdbcType=BIGINT},
       </if>
+      <if test="record.productCategoryId != null">
+        product_category_id = #{record.productCategoryId,jdbcType=BIGINT},
+      </if>
       <if test="record.outTime != null">
         out_time = #{record.outTime,jdbcType=TIMESTAMP},
       </if>
       <if test="record.quantity != null">
         quantity = #{record.quantity,jdbcType=BIGINT},
       </if>
-      <if test="record.productCategoryId != null">
-        product_category_id = #{record.productCategoryId,jdbcType=BIGINT},
+      <if test="record.unit != null">
+        unit = #{record.unit,jdbcType=VARCHAR},
+      </if>
+      <if test="record.outType != null">
+        out_type = #{record.outType,jdbcType=INTEGER},
       </if>
     </set>
     <if test="_parameter != null">
@@ -217,9 +239,11 @@
       batch_id = #{record.batchId,jdbcType=BIGINT},
       batch_code = #{record.batchCode,jdbcType=VARCHAR},
       block_id = #{record.blockId,jdbcType=BIGINT},
+      product_category_id = #{record.productCategoryId,jdbcType=BIGINT},
       out_time = #{record.outTime,jdbcType=TIMESTAMP},
       quantity = #{record.quantity,jdbcType=BIGINT},
-      product_category_id = #{record.productCategoryId,jdbcType=BIGINT}
+      unit = #{record.unit,jdbcType=VARCHAR},
+      out_type = #{record.outType,jdbcType=INTEGER}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -239,14 +263,20 @@
       <if test="blockId != null">
         block_id = #{blockId,jdbcType=BIGINT},
       </if>
+      <if test="productCategoryId != null">
+        product_category_id = #{productCategoryId,jdbcType=BIGINT},
+      </if>
       <if test="outTime != null">
         out_time = #{outTime,jdbcType=TIMESTAMP},
       </if>
       <if test="quantity != null">
         quantity = #{quantity,jdbcType=BIGINT},
       </if>
-      <if test="productCategoryId != null">
-        product_category_id = #{productCategoryId,jdbcType=BIGINT},
+      <if test="unit != null">
+        unit = #{unit,jdbcType=VARCHAR},
+      </if>
+      <if test="outType != null">
+        out_type = #{outType,jdbcType=INTEGER},
       </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
@@ -257,9 +287,11 @@
       batch_id = #{batchId,jdbcType=BIGINT},
       batch_code = #{batchCode,jdbcType=VARCHAR},
       block_id = #{blockId,jdbcType=BIGINT},
+      product_category_id = #{productCategoryId,jdbcType=BIGINT},
       out_time = #{outTime,jdbcType=TIMESTAMP},
       quantity = #{quantity,jdbcType=BIGINT},
-      product_category_id = #{productCategoryId,jdbcType=BIGINT}
+      unit = #{unit,jdbcType=VARCHAR},
+      out_type = #{outType,jdbcType=INTEGER}
     where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

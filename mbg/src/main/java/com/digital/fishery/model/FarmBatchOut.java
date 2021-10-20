@@ -22,17 +22,23 @@ public class FarmBatchOut implements Serializable {
     @ApiModelProperty(value = "区块名称")
     private String blockName;
 
+    @ApiModelProperty(value = "种养品种id")
+    private Long productCategoryId;
+
+    @ApiModelProperty(value = "种养品种名称")
+    private String productCategoryName;
+
     @ApiModelProperty(value = "出塘时间")
     private Date outTime;
 
     @ApiModelProperty(value = "数量")
     private Long quantity;
 
-    @ApiModelProperty(value = "种养品种id")
-    private Long productCategoryId;
+    @ApiModelProperty(value = "数量单位")
+    private String unit;
 
-    @ApiModelProperty(value = "种养品种名称")
-    private String productCategoryName;
+    @ApiModelProperty(value = "出塘类型")
+    private Integer outType;
 
     private static final long serialVersionUID = 1L;
 
@@ -76,6 +82,14 @@ public class FarmBatchOut implements Serializable {
         this.blockId = blockId;
     }
 
+    public Long getProductCategoryId() {
+        return productCategoryId;
+    }
+
+    public void setProductCategoryId(Long productCategoryId) {
+        this.productCategoryId = productCategoryId;
+    }
+
     public Date getOutTime() {
         return outTime;
     }
@@ -92,12 +106,20 @@ public class FarmBatchOut implements Serializable {
         this.quantity = quantity;
     }
 
-    public Long getProductCategoryId() {
-        return productCategoryId;
+    public String getUnit() {
+        return unit;
     }
 
-    public void setProductCategoryId(Long productCategoryId) {
-        this.productCategoryId = productCategoryId;
+    public void setUnit(String unit) {
+        this.unit = unit;
+    }
+
+    public Integer getOutType() {
+        return outType;
+    }
+
+    public void setOutType(Integer outType) {
+        this.outType = outType;
     }
 
     public String getBlockName() {
@@ -127,9 +149,11 @@ public class FarmBatchOut implements Serializable {
         sb.append(", batchId=").append(batchId);
         sb.append(", batchCode=").append(batchCode);
         sb.append(", blockId=").append(blockId);
+        sb.append(", productCategoryId=").append(productCategoryId);
         sb.append(", outTime=").append(outTime);
         sb.append(", quantity=").append(quantity);
-        sb.append(", productCategoryId=").append(productCategoryId);
+        sb.append(", unit=").append(unit);
+        sb.append(", outType=").append(outType);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

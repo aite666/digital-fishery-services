@@ -19,7 +19,7 @@ public class FarmSale implements Serializable {
     @ApiModelProperty(value = "种类id")
     private Long productCategoryId;
 
-    @ApiModelProperty(value = "种类名称")
+    @ApiModelProperty(value = "种养品种名称")
     private String productCategoryName;
 
     @ApiModelProperty(value = "销售时间")
@@ -42,6 +42,9 @@ public class FarmSale implements Serializable {
 
     @ApiModelProperty(value = "金额")
     private Double amount;
+
+    @ApiModelProperty(value = "数量单位")
+    private String unit;
 
     private static final long serialVersionUID = 1L;
 
@@ -133,6 +136,14 @@ public class FarmSale implements Serializable {
         this.amount = amount;
     }
 
+    public String getUnit() {
+        return unit;
+    }
+
+    public void setUnit(String unit) {
+        this.unit = unit;
+    }
+
     public String getBlockName() {
         return blockName;
     }
@@ -166,6 +177,7 @@ public class FarmSale implements Serializable {
         sb.append(", quantity=").append(quantity);
         sb.append(", unitPrice=").append(unitPrice);
         sb.append(", amount=").append(amount);
+        sb.append(", unit=").append(unit);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();
