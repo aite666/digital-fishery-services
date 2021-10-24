@@ -34,4 +34,9 @@ public interface FarmAdviceDetailService {
      * 分页查询后台农事建议详情
      */
     List<FarmAdviceDetail> list(Long adviceId, Integer pageSize, Integer pageNum);
+
+    /**
+     * 批量修改农事建议详情
+     */
+    int updateBatch(Long adviceId, List<FarmAdviceDetail> farmAdviceDetailList);
 }

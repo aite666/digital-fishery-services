@@ -13,8 +13,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by qianhan on 2021-09-19
@@ -69,7 +68,30 @@ public class FarmBatchServiceImpl implements FarmBatchService {
 
     @Override
     public List<JSONObject> listProductCategory(Long blockId) {
-        return farmBatchMapper.listProductCategory(blockId);
+        List<JSONObject> list = farmBatchMapper.listProductCategory(blockId);
+        for (JSONObject item : list) {
+            String batchQuantitys = item.get("batchQuantitys").toString();
+            String batchUnits = item.get("batchUnits").toString();
+            String[] batchQuantityLsit = batchQuantitys.split(",");
+            String[] batchUnitList = batchUnits.split(",");
+            HashMap<String, Integer> map = new HashMap<>();
+            for (int i=0; i< batchUnitList.length; i++) {
+                String batchUnit = batchUnitList[i];
+                Integer batchQuantity = Integer.parseInt(batchQuantityLsit[i]);
+                if (map.get(batchUnit) == null) {
+                    map.put(batchUnit, batchQuantity);
+                } else {
+                    map.put(batchUnit, batchQuantity + map.get(batchUnit));
+                }
+            }
+            List<String> batchTotalList = new ArrayList();
+            for (Map.Entry<String, Integer> entry : map.entrySet()) {
+                batchTotalList.add(entry.getValue().toString() + entry.getKey());
+            }
+            String batchTotal = String.join(",", batchTotalList);
+            item.put("batchTotal", batchTotal);
+        }
+        return list;
     }
 
 }
