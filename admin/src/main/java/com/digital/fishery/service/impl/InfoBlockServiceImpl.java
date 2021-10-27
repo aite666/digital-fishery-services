@@ -1,8 +1,10 @@
 package com.digital.fishery.service.impl;
 
+import com.alibaba.fastjson.JSON;
 import com.digital.fishery.mapper.InfoBlockMapper;
 import com.digital.fishery.model.InfoBlock;
 import com.digital.fishery.model.InfoBlockExample;
+import com.digital.fishery.model.InfoBlock;
 import com.digital.fishery.service.InfoBlockService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.util.StringUtil;
@@ -39,7 +41,11 @@ public class InfoBlockServiceImpl implements InfoBlockService {
 
     @Override
     public InfoBlock getItem(Long id) {
-        return infoBlockMapper.selectByPrimaryKey(id);
+        InfoBlock infoBlock = infoBlockMapper.selectByPrimaryKey(id);
+        if (StringUtil.isNotEmpty(infoBlock.getPosition())) {
+            infoBlock.setPositionJson(JSON.parseArray(infoBlock.getPosition()));
+        }
+        return infoBlock;
     }
 
     @Override
@@ -55,7 +61,13 @@ public class InfoBlockServiceImpl implements InfoBlockService {
         if (StringUtil.isNotEmpty(name)) {
             example.createCriteria().andNameEqualTo(name);
         }
-        return infoBlockMapper.selectByExample(example);
+        List<InfoBlock> infoBlockList = infoBlockMapper.selectByExampleWithBLOBs(example);
+        for (InfoBlock infoBlock : infoBlockList) {
+            if (StringUtil.isNotEmpty(infoBlock.getPosition())) {
+                infoBlock.setPositionJson(JSON.parseArray(infoBlock.getPosition()));
+            }
+        }
+        return infoBlockList;
     }
 
 }

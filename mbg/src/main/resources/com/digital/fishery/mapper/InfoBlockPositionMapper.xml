@@ -1,17 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.digital.fishery.mapper.InfoBlockMapper">
-  <resultMap id="BaseResultMap" type="com.digital.fishery.model.InfoBlock">
+<mapper namespace="com.digital.fishery.mapper.InfoBlockPositionMapper">
+  <resultMap id="BaseResultMap" type="com.digital.fishery.model.InfoBlockPosition">
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
-    <result column="name" jdbcType="VARCHAR" property="name" />
-    <result column="description" jdbcType="VARCHAR" property="description" />
-    <result column="area" jdbcType="DOUBLE" property="area" />
-    <result column="status" jdbcType="TINYINT" property="status" />
-    <result column="type" jdbcType="TINYINT" property="type" />
-    <result column="enterprise_id" jdbcType="BIGINT" property="enterpriseId" />
+    <result column="block_id" jdbcType="BIGINT" property="blockId" />
   </resultMap>
-  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.digital.fishery.model.InfoBlock">
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.digital.fishery.model.InfoBlockPosition">
     <result column="position" jdbcType="LONGVARCHAR" property="position" />
   </resultMap>
   <sql id="Example_Where_Clause">
@@ -73,12 +68,12 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, create_time, name, description, area, status, type, enterprise_id
+    id, create_time, block_id
   </sql>
   <sql id="Blob_Column_List">
     position
   </sql>
-  <select id="selectByExampleWithBLOBs" parameterType="com.digital.fishery.model.InfoBlockExample" resultMap="ResultMapWithBLOBs">
+  <select id="selectByExampleWithBLOBs" parameterType="com.digital.fishery.model.InfoBlockPositionExample" resultMap="ResultMapWithBLOBs">
     select
     <if test="distinct">
       distinct
@@ -86,7 +81,7 @@
     <include refid="Base_Column_List" />
     ,
     <include refid="Blob_Column_List" />
-    from info_block
+    from info_block_position
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -94,13 +89,13 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByExample" parameterType="com.digital.fishery.model.InfoBlockExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="com.digital.fishery.model.InfoBlockPositionExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from info_block
+    from info_block_position
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -113,56 +108,39 @@
     <include refid="Base_Column_List" />
     ,
     <include refid="Blob_Column_List" />
-    from info_block
+    from info_block_position
     where id = #{id,jdbcType=BIGINT}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
-    delete from info_block
+    delete from info_block_position
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <delete id="deleteByExample" parameterType="com.digital.fishery.model.InfoBlockExample">
-    delete from info_block
+  <delete id="deleteByExample" parameterType="com.digital.fishery.model.InfoBlockPositionExample">
+    delete from info_block_position
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.digital.fishery.model.InfoBlock">
+  <insert id="insert" parameterType="com.digital.fishery.model.InfoBlockPosition">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into info_block (create_time, name, description, 
-      area, status, type, 
-      enterprise_id, position)
-    values (#{createTime,jdbcType=TIMESTAMP}, #{name,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, 
-      #{area,jdbcType=DOUBLE}, #{status,jdbcType=TINYINT}, #{type,jdbcType=TINYINT}, 
-      #{enterpriseId,jdbcType=BIGINT}, #{position,jdbcType=LONGVARCHAR})
+    insert into info_block_position (create_time, block_id, position
+      )
+    values (#{createTime,jdbcType=TIMESTAMP}, #{blockId,jdbcType=BIGINT}, #{position,jdbcType=LONGVARCHAR}
+      )
   </insert>
-  <insert id="insertSelective" parameterType="com.digital.fishery.model.InfoBlock">
+  <insert id="insertSelective" parameterType="com.digital.fishery.model.InfoBlockPosition">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into info_block
+    insert into info_block_position
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="createTime != null">
         create_time,
       </if>
-      <if test="name != null">
-        name,
-      </if>
-      <if test="description != null">
-        description,
-      </if>
-      <if test="area != null">
-        area,
-      </if>
-      <if test="status != null">
-        status,
-      </if>
-      <if test="type != null">
-        type,
-      </if>
-      <if test="enterpriseId != null">
-        enterprise_id,
+      <if test="blockId != null">
+        block_id,
       </if>
       <if test="position != null">
         position,
@@ -172,37 +150,22 @@
       <if test="createTime != null">
         #{createTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="name != null">
-        #{name,jdbcType=VARCHAR},
-      </if>
-      <if test="description != null">
-        #{description,jdbcType=VARCHAR},
-      </if>
-      <if test="area != null">
-        #{area,jdbcType=DOUBLE},
-      </if>
-      <if test="status != null">
-        #{status,jdbcType=TINYINT},
-      </if>
-      <if test="type != null">
-        #{type,jdbcType=TINYINT},
-      </if>
-      <if test="enterpriseId != null">
-        #{enterpriseId,jdbcType=BIGINT},
+      <if test="blockId != null">
+        #{blockId,jdbcType=BIGINT},
       </if>
       <if test="position != null">
         #{position,jdbcType=LONGVARCHAR},
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.digital.fishery.model.InfoBlockExample" resultType="java.lang.Long">
-    select count(*) from info_block
+  <select id="countByExample" parameterType="com.digital.fishery.model.InfoBlockPositionExample" resultType="java.lang.Long">
+    select count(*) from info_block_position
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map">
-    update info_block
+    update info_block_position
     <set>
       <if test="record.id != null">
         id = #{record.id,jdbcType=BIGINT},
@@ -210,23 +173,8 @@
       <if test="record.createTime != null">
         create_time = #{record.createTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="record.name != null">
-        name = #{record.name,jdbcType=VARCHAR},
-      </if>
-      <if test="record.description != null">
-        description = #{record.description,jdbcType=VARCHAR},
-      </if>
-      <if test="record.area != null">
-        area = #{record.area,jdbcType=DOUBLE},
-      </if>
-      <if test="record.status != null">
-        status = #{record.status,jdbcType=TINYINT},
-      </if>
-      <if test="record.type != null">
-        type = #{record.type,jdbcType=TINYINT},
-      </if>
-      <if test="record.enterpriseId != null">
-        enterprise_id = #{record.enterpriseId,jdbcType=BIGINT},
+      <if test="record.blockId != null">
+        block_id = #{record.blockId,jdbcType=BIGINT},
       </if>
       <if test="record.position != null">
         position = #{record.position,jdbcType=LONGVARCHAR},
@@ -237,57 +185,32 @@
     </if>
   </update>
   <update id="updateByExampleWithBLOBs" parameterType="map">
-    update info_block
+    update info_block_position
     set id = #{record.id,jdbcType=BIGINT},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
-      name = #{record.name,jdbcType=VARCHAR},
-      description = #{record.description,jdbcType=VARCHAR},
-      area = #{record.area,jdbcType=DOUBLE},
-      status = #{record.status,jdbcType=TINYINT},
-      type = #{record.type,jdbcType=TINYINT},
-      enterprise_id = #{record.enterpriseId,jdbcType=BIGINT},
+      block_id = #{record.blockId,jdbcType=BIGINT},
       position = #{record.position,jdbcType=LONGVARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update info_block
+    update info_block_position
     set id = #{record.id,jdbcType=BIGINT},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
-      name = #{record.name,jdbcType=VARCHAR},
-      description = #{record.description,jdbcType=VARCHAR},
-      area = #{record.area,jdbcType=DOUBLE},
-      status = #{record.status,jdbcType=TINYINT},
-      type = #{record.type,jdbcType=TINYINT},
-      enterprise_id = #{record.enterpriseId,jdbcType=BIGINT}
+      block_id = #{record.blockId,jdbcType=BIGINT}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.digital.fishery.model.InfoBlock">
-    update info_block
+  <update id="updateByPrimaryKeySelective" parameterType="com.digital.fishery.model.InfoBlockPosition">
+    update info_block_position
     <set>
       <if test="createTime != null">
         create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="name != null">
-        name = #{name,jdbcType=VARCHAR},
-      </if>
-      <if test="description != null">
-        description = #{description,jdbcType=VARCHAR},
-      </if>
-      <if test="area != null">
-        area = #{area,jdbcType=DOUBLE},
-      </if>
-      <if test="status != null">
-        status = #{status,jdbcType=TINYINT},
-      </if>
-      <if test="type != null">
-        type = #{type,jdbcType=TINYINT},
-      </if>
-      <if test="enterpriseId != null">
-        enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+      <if test="blockId != null">
+        block_id = #{blockId,jdbcType=BIGINT},
       </if>
       <if test="position != null">
         position = #{position,jdbcType=LONGVARCHAR},
@@ -295,27 +218,17 @@
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.digital.fishery.model.InfoBlock">
-    update info_block
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.digital.fishery.model.InfoBlockPosition">
+    update info_block_position
     set create_time = #{createTime,jdbcType=TIMESTAMP},
-      name = #{name,jdbcType=VARCHAR},
-      description = #{description,jdbcType=VARCHAR},
-      area = #{area,jdbcType=DOUBLE},
-      status = #{status,jdbcType=TINYINT},
-      type = #{type,jdbcType=TINYINT},
-      enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+      block_id = #{blockId,jdbcType=BIGINT},
       position = #{position,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.digital.fishery.model.InfoBlock">
-    update info_block
+  <update id="updateByPrimaryKey" parameterType="com.digital.fishery.model.InfoBlockPosition">
+    update info_block_position
     set create_time = #{createTime,jdbcType=TIMESTAMP},
-      name = #{name,jdbcType=VARCHAR},
-      description = #{description,jdbcType=VARCHAR},
-      area = #{area,jdbcType=DOUBLE},
-      status = #{status,jdbcType=TINYINT},
-      type = #{type,jdbcType=TINYINT},
-      enterprise_id = #{enterpriseId,jdbcType=BIGINT}
+      block_id = #{blockId,jdbcType=BIGINT}
     where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

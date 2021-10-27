@@ -1,5 +1,6 @@
 package com.digital.fishery.model;
 
+import com.alibaba.fastjson.JSONArray;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.Serializable;
 import java.util.Date;
@@ -16,8 +17,8 @@ public class InfoBlock implements Serializable {
     @ApiModelProperty(value = "区块描述")
     private String description;
 
-    @ApiModelProperty(value = "面积")
-    private Long area;
+    @ApiModelProperty(value = "面积(亩)")
+    private Double area;
 
     @ApiModelProperty(value = "状态")
     private Byte status;
@@ -27,6 +28,12 @@ public class InfoBlock implements Serializable {
 
     @ApiModelProperty(value = "公司id")
     private Long enterpriseId;
+
+    @ApiModelProperty(value = "坐标数据")
+    private String position;
+
+    @ApiModelProperty(value = "坐标数据Json")
+    private JSONArray positionJson;
 
     private static final long serialVersionUID = 1L;
 
@@ -62,11 +69,11 @@ public class InfoBlock implements Serializable {
         this.description = description;
     }
 
-    public Long getArea() {
+    public Double getArea() {
         return area;
     }
 
-    public void setArea(Long area) {
+    public void setArea(Double area) {
         this.area = area;
     }
 
@@ -94,6 +101,22 @@ public class InfoBlock implements Serializable {
         this.enterpriseId = enterpriseId;
     }
 
+    public String getPosition() {
+        return position;
+    }
+
+    public void setPosition(String position) {
+        this.position = position;
+    }
+
+    public JSONArray getPositionJson() {
+        return positionJson;
+    }
+
+    public void setPositionJson(JSONArray positionJson) {
+        this.positionJson = positionJson;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -108,6 +131,7 @@ public class InfoBlock implements Serializable {
         sb.append(", status=").append(status);
         sb.append(", type=").append(type);
         sb.append(", enterpriseId=").append(enterpriseId);
+        sb.append(", position=").append(position);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

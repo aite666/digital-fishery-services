@@ -375,52 +375,52 @@ public class InfoBlockExample {
             return (Criteria) this;
         }
 
-        public Criteria andAreaEqualTo(Long value) {
+        public Criteria andAreaEqualTo(Double value) {
             addCriterion("area =", value, "area");
             return (Criteria) this;
         }
 
-        public Criteria andAreaNotEqualTo(Long value) {
+        public Criteria andAreaNotEqualTo(Double value) {
             addCriterion("area <>", value, "area");
             return (Criteria) this;
         }
 
-        public Criteria andAreaGreaterThan(Long value) {
+        public Criteria andAreaGreaterThan(Double value) {
             addCriterion("area >", value, "area");
             return (Criteria) this;
         }
 
-        public Criteria andAreaGreaterThanOrEqualTo(Long value) {
+        public Criteria andAreaGreaterThanOrEqualTo(Double value) {
             addCriterion("area >=", value, "area");
             return (Criteria) this;
         }
 
-        public Criteria andAreaLessThan(Long value) {
+        public Criteria andAreaLessThan(Double value) {
             addCriterion("area <", value, "area");
             return (Criteria) this;
         }
 
-        public Criteria andAreaLessThanOrEqualTo(Long value) {
+        public Criteria andAreaLessThanOrEqualTo(Double value) {
             addCriterion("area <=", value, "area");
             return (Criteria) this;
         }
 
-        public Criteria andAreaIn(List<Long> values) {
+        public Criteria andAreaIn(List<Double> values) {
             addCriterion("area in", values, "area");
             return (Criteria) this;
         }
 
-        public Criteria andAreaNotIn(List<Long> values) {
+        public Criteria andAreaNotIn(List<Double> values) {
             addCriterion("area not in", values, "area");
             return (Criteria) this;
         }
 
-        public Criteria andAreaBetween(Long value1, Long value2) {
+        public Criteria andAreaBetween(Double value1, Double value2) {
             addCriterion("area between", value1, value2, "area");
             return (Criteria) this;
         }
 
-        public Criteria andAreaNotBetween(Long value1, Long value2) {
+        public Criteria andAreaNotBetween(Double value1, Double value2) {
             addCriterion("area not between", value1, value2, "area");
             return (Criteria) this;
         }

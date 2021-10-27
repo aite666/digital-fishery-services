@@ -16,15 +16,21 @@ public interface InfoBlockMapper {
 
     int insertSelective(InfoBlock record);
 
+    List<InfoBlock> selectByExampleWithBLOBs(InfoBlockExample example);
+
     List<InfoBlock> selectByExample(InfoBlockExample example);
 
     InfoBlock selectByPrimaryKey(Long id);
 
     int updateByExampleSelective(@Param("record") InfoBlock record, @Param("example") InfoBlockExample example);
 
+    int updateByExampleWithBLOBs(@Param("record") InfoBlock record, @Param("example") InfoBlockExample example);
+
     int updateByExample(@Param("record") InfoBlock record, @Param("example") InfoBlockExample example);
 
     int updateByPrimaryKeySelective(InfoBlock record);
+
+    int updateByPrimaryKeyWithBLOBs(InfoBlock record);
 
     int updateByPrimaryKey(InfoBlock record);
 }
