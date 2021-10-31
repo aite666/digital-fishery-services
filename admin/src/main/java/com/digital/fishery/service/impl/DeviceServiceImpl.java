@@ -65,14 +65,21 @@ public class DeviceServiceImpl implements DeviceService {
     }
 
     @Override
-    public List<Device> list(Integer deviceAddr, String deviceName, Integer pageSize, Integer pageNum) {
+    public List<Device> list(Integer deviceAddr, String deviceName, String deviceType, Long blockId, Integer pageSize, Integer pageNum) {
         PageHelper.startPage(pageNum, pageSize);
         DeviceExample example = new DeviceExample();
+        DeviceExample.Criteria criteria =  example.createCriteria();
         if (deviceAddr != null) {
-            example.createCriteria().andDeviceAddrEqualTo(deviceAddr);
+            criteria.andDeviceAddrEqualTo(deviceAddr);
         }
         if (StringUtils.isNotBlank(deviceName)) {
-            example.createCriteria().andDeviceNameEqualTo(deviceName);
+            criteria.andDeviceNameEqualTo("%" + deviceName + "%");
+        }
+        if (StringUtils.isNotBlank(deviceType)) {
+            criteria.andDeviceTypeEqualTo(deviceType);
+        }
+        if (blockId != null) {
+            criteria.andBlockIdEqualTo(blockId);
         }
         List<Device> deviceList = deviceMapper.selectByExample(example);
         return deviceList;
@@ -129,10 +136,16 @@ public class DeviceServiceImpl implements DeviceService {
     }
 
     @Override
-    public List<DeviceRealTimeVO> realTimeList(List<Integer> deviceAddrs, Integer pageSize1, Integer pageNum) {
+    public List<DeviceRealTimeVO> realTimeList(List<Integer> deviceAddrs) {
+        BaseResponse baseResponse = null;
         Map<String, String> param = new HashMap<>();
-        param.put("deviceAddrs", StringUtils.join(deviceAddrs, ","));
-        BaseResponse baseResponse = deviceHttpClient.doGet(DEVICE_BASE_URL + DEVICE_REAL_TIME_URL, param);
+        if (deviceAddrs != null && deviceAddrs.size() > 0) {
+            param.put("deviceAddrs", StringUtils.join(deviceAddrs, ","));
+            baseResponse = deviceHttpClient.doGet(DEVICE_REAL_TIME_BY_ADDR_RL + DEVICE_REAL_TIME_URL, param);
+        } else {
+            baseResponse = deviceHttpClient.doGet(DEVICE_BASE_URL + DEVICE_REAL_TIME_URL, param);
+        }
+
         if (baseResponse == null) {
             return null;
         }

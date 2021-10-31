@@ -43,6 +43,15 @@ public class FarmStorage implements Serializable {
     @ApiModelProperty(value = "现存数量")
     private Long quantity;
 
+    @ApiModelProperty(value = "许可证号")
+    private String license;
+
+    @ApiModelProperty(value = "生产日期")
+    private Date productionDate;
+
+    @ApiModelProperty(value = "供货主体及联系人、联系电话")
+    private String contacts;
+
     private static final long serialVersionUID = 1L;
 
     public Long getId() {
@@ -147,6 +156,30 @@ public class FarmStorage implements Serializable {
 
     public void setProductCategoryName(String productCategoryName) {
         this.productCategoryName = productCategoryName;
+    }
+
+    public String getLicense() {
+        return license;
+    }
+
+    public void setLicense(String license) {
+        this.license = license;
+    }
+
+    public Date getProductionDate() {
+        return productionDate;
+    }
+
+    public void setProductionDate(Date productionDate) {
+        this.productionDate = productionDate;
+    }
+
+    public String getContacts() {
+        return contacts;
+    }
+
+    public void setContacts(String contacts) {
+        this.contacts = contacts;
     }
 
     @Override

@@ -58,6 +58,12 @@ public class DeviceFactor implements Serializable {
     @ApiModelProperty(value = "帐号启用状态：0->禁用；1->启用")
     private Integer status;
 
+    @ApiModelProperty(value = "区块Id")
+    private Long blockId;
+
+    @ApiModelProperty(value = "区块名称")
+    private String blockName;
+
     private static final long serialVersionUID = 1L;
 
     public Long getId() {
@@ -202,6 +208,22 @@ public class DeviceFactor implements Serializable {
 
     public void setStatus(Integer status) {
         this.status = status;
+    }
+
+    public Long getBlockId() {
+        return blockId;
+    }
+
+    public void setBlockId(Long blockId) {
+        this.blockId = blockId;
+    }
+
+    public String getBlockName() {
+        return blockName;
+    }
+
+    public void setBlockName(String blockName) {
+        this.blockName = blockName;
     }
 
     @Override

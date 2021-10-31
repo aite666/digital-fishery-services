@@ -45,14 +45,18 @@ public class DeviceRelayServiceImpl implements DeviceRelayService {
     }
 
     @Override
-    public List<DeviceRelay> list(Integer relayNo, String relayName, Integer pageSize, Integer pageNum) {
+    public List<DeviceRelay> list(Integer relayNo, String relayName, Integer deviceAddr, Integer pageSize, Integer pageNum) {
         PageHelper.startPage(pageNum, pageSize);
         DeviceRelayExample example = new DeviceRelayExample();
+        DeviceRelayExample.Criteria criteria =  example.createCriteria();
         if (relayNo != null) {
-            example.createCriteria().andRelayNoEqualTo(relayNo);
+            criteria.andRelayNoEqualTo(relayNo);
         }
         if (StringUtil.isNotEmpty(relayName)) {
-            example.createCriteria().andRelayNameEqualTo(relayName);
+            criteria.andRelayNameLike("%" + relayName + "%");
+        }
+        if (deviceAddr != null) {
+            criteria.andDeviceAddrEqualTo(deviceAddr);
         }
         List<DeviceRelay> deviceRelayList = deviceRelayMapper.selectByExample(example);
         return deviceRelayList;

@@ -31,12 +31,12 @@ public interface DeviceService {
     /**
      * 分页查询后台设备
      */
-    List<Device> list(Integer deviceAddr, String deviceName, Integer pageSize, Integer pageNum);
+    List<Device> list(Integer deviceAddr, String deviceName, String deviceType, Long blockId, Integer pageSize, Integer pageNum);
 
     /**
      * 查询结点
      */
     List<DeviceNodeChartsVO> nodeCharts(Integer deviceAddr, Integer nodeId, Integer registerId, String startTime, String endTime);
 
-    List<DeviceRealTimeVO> realTimeList(List<Integer> deviceAddrs, Integer pageSize1, Integer pageNum);
+    List<DeviceRealTimeVO> realTimeList(List<Integer> deviceAddrs);
 }

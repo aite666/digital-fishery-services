@@ -20,6 +20,8 @@
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
     <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="block_id" jdbcType="BIGINT" property="blockId" />
+    <result column="block_name" jdbcType="VARCHAR" property="blockName" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -80,9 +82,9 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, factor_icon, factor_id, factor_name, node_id, offset, register_id, unit, alarm_delay, 
-    alarm_rate, coefficient, device_addr, digits, enabled, sort, create_time, update_time, 
-    status
+    a.id, a.factor_icon, a.factor_id, a.factor_name, a.node_id, a.offset, a.register_id, a.unit, a.alarm_delay,
+    a.alarm_rate, a.coefficient, a.device_addr, a.digits, a.enabled, a.sort, a.create_time, a.update_time,
+    a.status, d.block_id, b.name as block_name
   </sql>
   <select id="selectByExample" parameterType="com.digital.fishery.model.DeviceFactorExample" resultMap="BaseResultMap">
     select
@@ -90,7 +92,9 @@
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from device_factor
+    from device_factor a
+    left join device d on a.device_addr = d.device_addr
+    left join info_block b on d.block_id = b.id
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -101,8 +105,10 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from device_factor
-    where id = #{id,jdbcType=BIGINT}
+    from device_factor a
+    left join device d on a.device_addr = d.device_addr
+    left join info_block b on d.block_id = b.id
+    where a.id = #{id,jdbcType=BIGINT}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from device_factor

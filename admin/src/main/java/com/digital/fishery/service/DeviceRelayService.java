@@ -31,5 +31,5 @@ public interface DeviceRelayService {
     /**
      * 分页查询后台设备
      */
-    List<DeviceRelay> list(Integer relayNo, String relayName, Integer pageSize, Integer pageNum);
+    List<DeviceRelay> list(Integer relayNo, String relayName, Integer deviceAddr, Integer pageSize, Integer pageNum);
 }

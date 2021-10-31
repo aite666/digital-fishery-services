@@ -54,6 +54,15 @@ public class Device implements Serializable {
     @ApiModelProperty(value = "帐号启用状态：0->禁用；1->启用")
     private Integer status;
 
+    @ApiModelProperty(value = "设备类型")
+    private String deviceType;
+
+    @ApiModelProperty(value = "区块id")
+    private Long blockId;
+
+    @ApiModelProperty(value = "区块名称")
+    private String blockName;
+
     @ApiModelProperty(value = "因子")
     private List<DeviceFactor> factors;
 
@@ -195,12 +204,36 @@ public class Device implements Serializable {
         this.status = status;
     }
 
+    public String getDeviceType() {
+        return deviceType;
+    }
+
+    public void setDeviceType(String deviceType) {
+        this.deviceType = deviceType;
+    }
+
+    public Long getBlockId() {
+        return blockId;
+    }
+
+    public void setBlockId(Long blockId) {
+        this.blockId = blockId;
+    }
+
     public List<DeviceFactor> getFactors() {
         return factors;
     }
 
     public void setFactors(List<DeviceFactor> factors) {
         this.factors = factors;
+    }
+
+    public String getBlockName() {
+        return blockName;
+    }
+
+    public void setBlockName(String blockName) {
+        this.blockName = blockName;
     }
 
     @Override
@@ -226,6 +259,8 @@ public class Device implements Serializable {
         sb.append(", createTime=").append(createTime);
         sb.append(", updateTime=").append(updateTime);
         sb.append(", status=").append(status);
+        sb.append(", deviceType=").append(deviceType);
+        sb.append(", blockId=").append(blockId);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

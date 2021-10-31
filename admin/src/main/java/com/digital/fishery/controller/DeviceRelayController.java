@@ -73,9 +73,10 @@ public class DeviceRelayController {
     @ResponseBody
     public CommonResult<CommonPage<DeviceRelay>> list(@RequestParam(value = "relayNo", required = false) Integer relayNo,
                                                        @RequestParam(value = "relayName", required = false) String relayName,
+                                                       @RequestParam(value = "deviceAddr", required = false) Integer deviceAddr,
                                                        @RequestParam(value = "pageSize", defaultValue = "5") Integer pageSize,
                                                        @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum) {
-        List<DeviceRelay> deviceRelayList = deviceRelayService.list(relayNo, relayName, pageSize, pageNum);
+        List<DeviceRelay> deviceRelayList = deviceRelayService.list(relayNo, relayName, deviceAddr, pageSize, pageNum);
         return CommonResult.success(CommonPage.restPage(deviceRelayList));
     }
 }

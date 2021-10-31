@@ -15,6 +15,9 @@
     <result column="max_threshold" jdbcType="BIGINT" property="maxThreshold" />
     <result column="min_threshold" jdbcType="BIGINT" property="minThreshold" />
     <result column="quantity" jdbcType="BIGINT" property="quantity" />
+    <result column="license" jdbcType="VARCHAR" property="license" />
+    <result column="production_date" jdbcType="TIMESTAMP" property="productionDate" />
+    <result column="contacts" jdbcType="VARCHAR" property="contacts" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -76,7 +79,8 @@
   </sql>
   <sql id="Base_Column_List">
     a.id, a.create_time, a.enterprise_id, a.name, a.product_category_id, a.unit, a.brand, a.manufacturer,
-    a.remark, a.max_threshold, a.min_threshold, a.quantity, p.name as product_category_name
+    a.remark, a.max_threshold, a.min_threshold, a.quantity, p.name as product_category_name,
+    a.license, a.production_date, a.contacts
   </sql>
   <select id="selectByExample" parameterType="com.digital.fishery.model.FarmStorageExample" resultMap="BaseResultMap">
     select
@@ -123,11 +127,12 @@
     insert into farm_storage (create_time, enterprise_id, name, 
       product_category_id, unit, brand, 
       manufacturer, remark, max_threshold, 
-      min_threshold, quantity)
+      min_threshold, quantity, license, production_date, contacts)
     values (#{createTime,jdbcType=TIMESTAMP}, #{enterpriseId,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, 
       #{productCategoryId,jdbcType=BIGINT}, #{unit,jdbcType=VARCHAR}, #{brand,jdbcType=VARCHAR}, 
       #{manufacturer,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{maxThreshold,jdbcType=BIGINT}, 
-      #{minThreshold,jdbcType=BIGINT}, #{quantity,jdbcType=BIGINT})
+      #{minThreshold,jdbcType=BIGINT}, #{quantity,jdbcType=BIGINT}, #{license,jdbcType=VARCHAR},
+      #{productionDate,jdbcType=TIMESTAMP}, #{contacts,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.digital.fishery.model.FarmStorage">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
@@ -168,6 +173,15 @@
       <if test="quantity != null">
         quantity,
       </if>
+      <if test="license != null">
+        license,
+      </if>
+      <if test="productionDate != null">
+        production_date,
+      </if>
+      <if test="contacts != null">
+        contacts,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="createTime != null">
@@ -202,6 +216,15 @@
       </if>
       <if test="quantity != null">
         #{quantity,jdbcType=BIGINT},
+      </if>
+      <if test="license != null">
+        #{license,jdbcType=VARCHAR},
+      </if>
+      <if test="productionDate != null">
+        #{productionDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="contacts != null">
+        #{contacts,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -250,6 +273,15 @@
       <if test="record.quantity != null">
         quantity = #{record.quantity,jdbcType=BIGINT},
       </if>
+      <if test="record.license != null">
+        quantity = #{record.license,jdbcType=VARCHAR},
+      </if>
+      <if test="record.productionDate != null">
+        production_date = #{record.productionDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.contacts != null">
+        contacts = #{record.contacts,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -269,6 +301,9 @@
       max_threshold = #{record.maxThreshold,jdbcType=BIGINT},
       min_threshold = #{record.minThreshold,jdbcType=BIGINT},
       quantity = #{record.quantity,jdbcType=BIGINT}
+      license = #{record.license,jdbcType=VARCHAR}
+      production_date = #{record.productionDate,jdbcType=TIMESTAMP}
+      contacts = #{record.contacts,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -309,6 +344,15 @@
       <if test="quantity != null">
         quantity = #{quantity,jdbcType=BIGINT},
       </if>
+      <if test="license != null">
+        license = #{license,jdbcType=VARCHAR},
+      </if>
+      <if test="productionDate != null">
+        production_date = #{productionDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="contacts != null">
+        contacts = #{contacts,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
@@ -325,6 +369,9 @@
       max_threshold = #{maxThreshold,jdbcType=BIGINT},
       min_threshold = #{minThreshold,jdbcType=BIGINT},
       quantity = #{quantity,jdbcType=BIGINT}
+      license = #{license,jdbcType=VARCHAR}
+      production_date = #{productionDate,jdbcType=TIMESTAMP}
+      contacts = #{contacts,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
 

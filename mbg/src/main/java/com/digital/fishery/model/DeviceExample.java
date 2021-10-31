@@ -1144,6 +1144,136 @@ public class DeviceExample {
             addCriterion("status not between", value1, value2, "status");
             return (Criteria) this;
         }
+
+        public Criteria andDeviceTypeIsNull() {
+            addCriterion("device_type is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeviceTypeIsNotNull() {
+            addCriterion("device_type is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeviceTypeEqualTo(String value) {
+            addCriterion("device_type =", value, "deviceType");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeviceTypeNotEqualTo(String value) {
+            addCriterion("device_type <>", value, "deviceType");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeviceTypeGreaterThan(String value) {
+            addCriterion("device_type >", value, "deviceType");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeviceTypeGreaterThanOrEqualTo(String value) {
+            addCriterion("device_type >=", value, "deviceType");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeviceTypeLessThan(String value) {
+            addCriterion("device_type <", value, "deviceType");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeviceTypeLessThanOrEqualTo(String value) {
+            addCriterion("device_type <=", value, "deviceType");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeviceTypeLike(String value) {
+            addCriterion("device_type like", value, "deviceType");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeviceTypeNotLike(String value) {
+            addCriterion("device_type not like", value, "deviceType");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeviceTypeIn(List<String> values) {
+            addCriterion("device_type in", values, "deviceType");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeviceTypeNotIn(List<String> values) {
+            addCriterion("device_type not in", values, "deviceType");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeviceTypeBetween(String value1, String value2) {
+            addCriterion("device_type between", value1, value2, "deviceType");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeviceTypeNotBetween(String value1, String value2) {
+            addCriterion("device_type not between", value1, value2, "deviceType");
+            return (Criteria) this;
+        }
+
+        public Criteria andBlockIdIsNull() {
+            addCriterion("block_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andBlockIdIsNotNull() {
+            addCriterion("block_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andBlockIdEqualTo(Long value) {
+            addCriterion("block_id =", value, "blockId");
+            return (Criteria) this;
+        }
+
+        public Criteria andBlockIdNotEqualTo(Long value) {
+            addCriterion("block_id <>", value, "blockId");
+            return (Criteria) this;
+        }
+
+        public Criteria andBlockIdGreaterThan(Long value) {
+            addCriterion("block_id >", value, "blockId");
+            return (Criteria) this;
+        }
+
+        public Criteria andBlockIdGreaterThanOrEqualTo(Long value) {
+            addCriterion("block_id >=", value, "blockId");
+            return (Criteria) this;
+        }
+
+        public Criteria andBlockIdLessThan(Long value) {
+            addCriterion("block_id <", value, "blockId");
+            return (Criteria) this;
+        }
+
+        public Criteria andBlockIdLessThanOrEqualTo(Long value) {
+            addCriterion("block_id <=", value, "blockId");
+            return (Criteria) this;
+        }
+
+        public Criteria andBlockIdIn(List<Long> values) {
+            addCriterion("block_id in", values, "blockId");
+            return (Criteria) this;
+        }
+
+        public Criteria andBlockIdNotIn(List<Long> values) {
+            addCriterion("block_id not in", values, "blockId");
+            return (Criteria) this;
+        }
+
+        public Criteria andBlockIdBetween(Long value1, Long value2) {
+            addCriterion("block_id between", value1, value2, "blockId");
+            return (Criteria) this;
+        }
+
+        public Criteria andBlockIdNotBetween(Long value1, Long value2) {
+            addCriterion("block_id not between", value1, value2, "blockId");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

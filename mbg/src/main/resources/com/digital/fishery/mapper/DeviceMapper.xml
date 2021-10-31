@@ -19,6 +19,9 @@
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
     <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="device_type" jdbcType="VARCHAR" property="deviceType" />
+    <result column="block_id" jdbcType="BIGINT" property="blockId" />
+    <result column="block_name" jdbcType="VARCHAR" property="blockName" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -79,9 +82,9 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, alarm_record, alarm_switch, device_addr, device_name, group_id, lat, Lng, offlineinterval, 
-    savedatainterval, sort, use_mark_location, max_voice_alarm_times, max_sms_alarm_times, 
-    create_time, update_time, status
+    a.id, a.alarm_record, a.alarm_switch, a.device_addr, a.device_name, a.group_id, a.lat, a.Lng, a.offlineinterval,
+    a.savedatainterval, a.sort, a.use_mark_location, a.max_voice_alarm_times, a.max_sms_alarm_times,
+    a.create_time, a.update_time, a.status, a.device_type, a.block_id, b.name as block_name
   </sql>
   <select id="selectByExample" parameterType="com.digital.fishery.model.DeviceExample" resultMap="BaseResultMap">
     select
@@ -89,7 +92,8 @@
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from device
+    from device a
+    left join info_block b on a.block_id = b.id
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -100,8 +104,9 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from device
-    where id = #{id,jdbcType=BIGINT}
+    from device a
+    left join info_block b on a.block_id = b.id
+    where a.id = #{id,jdbcType=BIGINT}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from device
@@ -122,13 +127,15 @@
       Lng, offlineinterval, savedatainterval, 
       sort, use_mark_location, max_voice_alarm_times, 
       max_sms_alarm_times, create_time, update_time, 
-      status)
+      status, device_type, block_id
+      )
     values (#{alarmRecord,jdbcType=INTEGER}, #{alarmSwitch,jdbcType=INTEGER}, #{deviceAddr,jdbcType=INTEGER}, 
       #{deviceName,jdbcType=VARCHAR}, #{groupId,jdbcType=VARCHAR}, #{lat,jdbcType=DOUBLE}, 
       #{lng,jdbcType=DOUBLE}, #{offlineinterval,jdbcType=INTEGER}, #{savedatainterval,jdbcType=INTEGER}, 
       #{sort,jdbcType=INTEGER}, #{useMarkLocation,jdbcType=INTEGER}, #{maxVoiceAlarmTimes,jdbcType=INTEGER}, 
       #{maxSmsAlarmTimes,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
-      #{status,jdbcType=INTEGER})
+      #{status,jdbcType=INTEGER}, #{deviceType,jdbcType=VARCHAR}, #{blockId,jdbcType=BIGINT}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.digital.fishery.model.Device">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
@@ -184,6 +191,12 @@
       <if test="status != null">
         status,
       </if>
+      <if test="deviceType != null">
+        device_type,
+      </if>
+      <if test="blockId != null">
+        block_id,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="alarmRecord != null">
@@ -233,6 +246,12 @@
       </if>
       <if test="status != null">
         #{status,jdbcType=INTEGER},
+      </if>
+      <if test="deviceType != null">
+        #{deviceType,jdbcType=VARCHAR},
+      </if>
+      <if test="blockId != null">
+        #{blockId,jdbcType=BIGINT},
       </if>
     </trim>
   </insert>
@@ -296,6 +315,12 @@
       <if test="record.status != null">
         status = #{record.status,jdbcType=INTEGER},
       </if>
+      <if test="record.deviceType != null">
+        device_type = #{record.deviceType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.blockId != null">
+        block_id = #{record.blockId,jdbcType=BIGINT},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -319,7 +344,9 @@
       max_sms_alarm_times = #{record.maxSmsAlarmTimes,jdbcType=INTEGER},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
       update_time = #{record.updateTime,jdbcType=TIMESTAMP},
-      status = #{record.status,jdbcType=INTEGER}
+      status = #{record.status,jdbcType=INTEGER},
+      device_type = #{record.deviceType,jdbcType=VARCHAR},
+      block_id = #{record.blockId,jdbcType=BIGINT}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -375,6 +402,12 @@
       <if test="status != null">
         status = #{status,jdbcType=INTEGER},
       </if>
+      <if test="deviceType != null">
+        device_type = #{deviceType,jdbcType=VARCHAR},
+      </if>
+      <if test="blockId != null">
+        block_id = #{blockId,jdbcType=BIGINT},
+      </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
@@ -395,7 +428,9 @@
       max_sms_alarm_times = #{maxSmsAlarmTimes,jdbcType=INTEGER},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
-      status = #{status,jdbcType=INTEGER}
+      status = #{status,jdbcType=INTEGER},
+      device_type = #{deviceType,jdbcType=VARCHAR},
+      block_id = #{blockId,jdbcType=BIGINT}
     where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

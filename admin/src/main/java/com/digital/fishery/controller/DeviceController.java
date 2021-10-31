@@ -75,9 +75,11 @@ public class DeviceController {
     @ResponseBody
     public CommonResult<CommonPage<Device>> list(@RequestParam(value = "deviceAddr", required = false) Integer deviceAddr,
                                                  @RequestParam(value = "deviceName", required = false) String deviceName,
+                                                 @RequestParam(value = "deviceType", required = false) String deviceType,
+                                                 @RequestParam(value = "blockId", required = false) Long blockId,
                                                  @RequestParam(value = "pageSize", defaultValue = "5") Integer pageSize,
                                                  @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum) {
-        List<Device> deviceList = deviceService.list(deviceAddr, deviceName, pageSize, pageNum);
+        List<Device> deviceList = deviceService.list(deviceAddr, deviceName, deviceType, blockId, pageSize, pageNum);
         return CommonResult.success(CommonPage.restPage(deviceList));
     }
 
@@ -93,13 +95,11 @@ public class DeviceController {
         return CommonResult.success(result);
     }
 
-    @ApiOperation("分页查询设备")
+    @ApiOperation("分页查询实时数据")
     @RequestMapping(value = "/realtime/list", method = RequestMethod.GET)
     @ResponseBody
-    public CommonResult<CommonPage<DeviceRealTimeVO>> realTimeList(@RequestParam(value = "deviceAddrs", required = false) List<Integer> deviceAddrs,
-                                                         @RequestParam(value = "pageSize", defaultValue = "5") Integer pageSize,
-                                                         @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum) {
-        List<DeviceRealTimeVO> deviceRealTimeVOList = deviceService.realTimeList(deviceAddrs, pageSize, pageNum);
-        return CommonResult.success(CommonPage.restPage(deviceRealTimeVOList));
+    public CommonResult<List<DeviceRealTimeVO> > realTimeList(@RequestParam(value = "deviceAddrs", required = false) List<Integer> deviceAddrs) {
+        List<DeviceRealTimeVO> deviceRealTimeVOList = deviceService.realTimeList(deviceAddrs);
+        return CommonResult.success(deviceRealTimeVOList);
     }
 }

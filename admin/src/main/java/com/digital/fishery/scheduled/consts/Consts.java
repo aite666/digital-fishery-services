@@ -13,7 +13,8 @@ public interface Consts {
     String DEVICE_URL = "/api/device/getDeviceList";
     String DEVICE_RELAY_URL = "/api/device/getRelayList";
     String DEVICE_HISTORY_URL = "/api/data/historyList";
-    String DEVICE_REAL_TIME_URL = "/api/data/getRealTimeDataByDeviceAddr";
+    String DEVICE_REAL_TIME_URL = "/api/data/getRealTimeData";
+    String DEVICE_REAL_TIME_BY_ADDR_RL = "/api/data/getRealTimeDataByDeviceAddr";
 
 
 }

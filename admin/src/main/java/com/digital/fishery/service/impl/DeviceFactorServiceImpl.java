@@ -45,14 +45,18 @@ public class DeviceFactorServiceImpl implements DeviceFactorService {
     }
 
     @Override
-    public List<DeviceFactor> list(String factorId, String factorName, Integer pageSize, Integer pageNum) {
+    public List<DeviceFactor> list(String factorId, String factorName, Integer deviceAddr, Integer pageSize, Integer pageNum) {
         PageHelper.startPage(pageNum, pageSize);
         DeviceFactorExample example = new DeviceFactorExample();
+        DeviceFactorExample.Criteria criteria =  example.createCriteria();
         if (StringUtils.isNotBlank(factorId)) {
-            example.createCriteria().andFactorIdEqualTo(factorId);
+            criteria.andFactorIdEqualTo(factorId);
         }
         if (StringUtils.isNotBlank(factorName)) {
-            example.createCriteria().andFactorNameEqualTo(factorName);
+            criteria.andFactorNameLike("%" + factorName + "%");
+        }
+        if (deviceAddr != null) {
+            criteria.andDeviceAddrEqualTo(deviceAddr);
         }
         List<DeviceFactor> deviceFactorList = deviceFactorMapper.selectByExample(example);
         return deviceFactorList;
