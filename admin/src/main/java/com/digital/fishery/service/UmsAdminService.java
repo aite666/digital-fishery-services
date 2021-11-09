@@ -84,4 +84,11 @@ public interface UmsAdminService {
      * 获取用户信息
      */
     UserDetails loadUserByUsername(String username);
+
+    /**
+     * 微信小程序登录功能
+     * @param code 唯一码
+     * @return 生成的JWT的token
+     */
+    String weChatLogin(String code);
 }

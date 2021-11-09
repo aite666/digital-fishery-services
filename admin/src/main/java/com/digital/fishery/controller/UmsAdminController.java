@@ -4,6 +4,7 @@ import cn.hutool.core.collection.CollUtil;
 import com.digital.fishery.dto.UmsAdminLoginParam;
 import com.digital.fishery.dto.UmsAdminParam;
 import com.digital.fishery.dto.UpdateAdminPasswordParam;
+import com.digital.fishery.dto.WeChatLoginVO;
 import com.digital.fishery.service.UmsAdminService;
 import com.digital.fishery.service.UmsRoleService;
 import com.digital.fishery.api.CommonPage;
@@ -201,6 +202,22 @@ public class UmsAdminController {
     public CommonResult<List<UmsRole>> getRoleList(@PathVariable Long adminId) {
         List<UmsRole> roleList = adminService.getRoleList(adminId);
         return CommonResult.success(roleList);
+    }
+
+
+    @ApiOperation(value = "微信登录以后返回token")
+    @RequestMapping(value = "/weChatLogin", method = RequestMethod.POST)
+    @ResponseBody
+    public CommonResult weChatLogin(@RequestBody WeChatLoginVO weChatLoginVO) {
+
+        String token = adminService.weChatLogin(weChatLoginVO.getCode());
+        if (token == null) {
+            return CommonResult.validateFailed("用户名或密码错误");
+        }
+        Map<String, String> tokenMap = new HashMap<>();
+        tokenMap.put("token", token);
+        tokenMap.put("tokenHead", tokenHead);
+        return CommonResult.success(tokenMap);
     }
 
 }

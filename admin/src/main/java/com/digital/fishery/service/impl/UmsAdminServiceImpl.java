@@ -267,4 +267,18 @@ public class UmsAdminServiceImpl implements UmsAdminService {
         }
         throw new UsernameNotFoundException("用户名或密码错误");
     }
+
+    @Override
+    public String weChatLogin(String code) {
+        String token = null;
+        try {
+            // code -> openid
+            String urlFormat = "https://api.weixin.qq.com/sns/jscode2session?appid=%s&secret=%s&js_code=%s&grant_type=authorization_code";
+//            String url = String.format(urlFormat, WeChat.appId, WeChat.secret, code);
+//            String json = WeChat.sendGet(url);
+        } catch (AuthenticationException e) {
+            LOGGER.warn("登录异常:{}", e.getMessage());
+        }
+        return token;
+    }
 }
