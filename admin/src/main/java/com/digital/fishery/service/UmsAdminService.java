@@ -1,5 +1,6 @@
 package com.digital.fishery.service;
 
+import com.digital.fishery.dto.UmsAdminLoginParam;
 import com.digital.fishery.dto.UmsAdminParam;
 import com.digital.fishery.dto.UpdateAdminPasswordParam;
 import com.digital.fishery.model.UmsAdmin;
@@ -86,9 +87,14 @@ public interface UmsAdminService {
     UserDetails loadUserByUsername(String username);
 
     /**
-     * 微信小程序登录功能
-     * @param code 唯一码
-     * @return 生成的JWT的token
+     * 检测用户是否绑定
+     * @param code
+     * @return  token
      */
-    String weChatLogin(String code);
+    String wechatCheckBind(String code);
+
+    /**
+     * 绑定用户
+     */
+    String wechatBind(UmsAdminLoginParam umsAdminLoginParam);
 }

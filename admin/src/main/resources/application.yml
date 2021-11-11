@@ -53,6 +53,7 @@ secure:
       - /admin/logout
       - /minio/upload
       - /qrCode/**
+      - /admin/wechat/**
 
 aliyun:
   oss:

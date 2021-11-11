@@ -2,13 +2,17 @@ package com.digital.fishery.service.impl;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.digital.fishery.bo.AdminUserDetails;
 import com.digital.fishery.dao.UmsAdminRoleRelationDao;
+import com.digital.fishery.dto.UmsAdminLoginParam;
 import com.digital.fishery.dto.UmsAdminParam;
 import com.digital.fishery.dto.UpdateAdminPasswordParam;
 import com.digital.fishery.model.*;
 import com.digital.fishery.service.UmsAdminCacheService;
 import com.digital.fishery.service.UmsAdminService;
+import com.digital.fishery.util.HttpClientUtil;
 import com.github.pagehelper.PageHelper;
 import com.digital.fishery.exception.Asserts;
 import com.digital.fishery.util.RequestUtil;
@@ -20,6 +24,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -35,6 +40,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -44,6 +50,14 @@ import java.util.List;
 @Service
 public class UmsAdminServiceImpl implements UmsAdminService {
     private static final Logger LOGGER = LoggerFactory.getLogger(UmsAdminServiceImpl.class);
+
+    private static final String openIdUrl = "https://api.weixin.qq.com/sns/jscode2session?appid=%s&secret=%s&js_code=%s&grant_type=authorization_code";
+
+    @Value("${wechat.app.id}")
+    private String WECHAT_APP_ID;
+    @Value("${wechat.app.secret}")
+    private String WECHAT_APP_SECRET;
+
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
     @Autowired
@@ -269,16 +283,60 @@ public class UmsAdminServiceImpl implements UmsAdminService {
     }
 
     @Override
-    public String weChatLogin(String code) {
-        String token = null;
-        try {
-            // code -> openid
-            String urlFormat = "https://api.weixin.qq.com/sns/jscode2session?appid=%s&secret=%s&js_code=%s&grant_type=authorization_code";
-//            String url = String.format(urlFormat, WeChat.appId, WeChat.secret, code);
-//            String json = WeChat.sendGet(url);
-        } catch (AuthenticationException e) {
-            LOGGER.warn("登录异常:{}", e.getMessage());
+    public String wechatCheckBind(String code) {
+        String openId = getOpenId(code);
+        UmsAdminExample example = new UmsAdminExample();
+        example.createCriteria().andOpenIdEqualTo(openId);
+        List<UmsAdmin> umsAdmins = adminMapper.selectByExample(example);
+        if (CollectionUtils.isEmpty(umsAdmins) || umsAdmins.get(0) != null) {
+            return null;
         }
+        UmsAdmin umsAdmin = umsAdmins.get(0);
+        UserDetails userDetails = loadUserByUsername(umsAdmin.getUsername());
+        return getToken(userDetails);
+    }
+
+    @Override
+    public String wechatBind(UmsAdminLoginParam param) {
+        String openId = getOpenId(param.getPassword());
+        UmsAdminExample example = new UmsAdminExample();
+        example.createCriteria().andOpenIdEqualTo(openId);
+        List<UmsAdmin> umsAdmins = adminMapper.selectByExample(example);
+        if (CollectionUtils.isEmpty(umsAdmins) || umsAdmins.get(0) != null) {
+            return null;
+        }
+        UmsAdmin umsAdmin = umsAdmins.get(0);
+        UserDetails userDetails = loadUserByUsername(umsAdmin.getUsername());
+        if(!passwordEncoder.matches(param.getPassword(),userDetails.getPassword())){
+            Asserts.fail("密码不正确");
+        }
+        if(!userDetails.isEnabled()){
+            Asserts.fail("帐号已被禁用");
+        }
+        return getToken(userDetails);
+    }
+
+    /**
+     * 获取用户openId
+     * @param code
+     * @return
+     */
+    private String getOpenId(String code) {
+        String requestUrl = String.format(openIdUrl, WECHAT_APP_ID, WECHAT_APP_SECRET, code);
+        String responseStr = HttpClientUtil.doGet(requestUrl, new HashMap<>());
+        if (StringUtils.isEmpty(responseStr)) {
+            return null;
+        }
+        JSONObject jsonObject = JSON.parseObject(responseStr);
+        return jsonObject.getString("openid");
+    }
+
+    private String getToken(UserDetails userDetails) {
+        UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        String token = jwtTokenUtil.generateToken(userDetails);
+//            updateLoginTimeByUsername(username);
+        insertLoginLog(userDetails.getUsername());
         return token;
     }
 }

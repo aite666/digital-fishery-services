@@ -16,6 +16,7 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -89,7 +90,7 @@ public class UmsAdminController {
     @RequestMapping(value = "/info", method = RequestMethod.GET)
     @ResponseBody
     public CommonResult getAdminInfo(Principal principal) {
-        if(principal==null){
+        if (principal == null) {
             return CommonResult.unauthorized(null);
         }
         String username = principal.getName();
@@ -99,9 +100,9 @@ public class UmsAdminController {
         data.put("menus", roleService.getMenuList(umsAdmin.getId()));
         data.put("icon", umsAdmin.getIcon());
         List<UmsRole> roleList = adminService.getRoleList(umsAdmin.getId());
-        if(CollUtil.isNotEmpty(roleList)){
+        if (CollUtil.isNotEmpty(roleList)) {
             List<String> roles = roleList.stream().map(UmsRole::getName).collect(Collectors.toList());
-            data.put("roles",roles);
+            data.put("roles", roles);
         }
         return CommonResult.success(data);
     }
@@ -174,10 +175,10 @@ public class UmsAdminController {
     @ApiOperation("修改帐号状态")
     @RequestMapping(value = "/updateStatus/{id}", method = RequestMethod.POST)
     @ResponseBody
-    public CommonResult updateStatus(@PathVariable Long id,@RequestParam(value = "status") Integer status) {
+    public CommonResult updateStatus(@PathVariable Long id, @RequestParam(value = "status") Integer status) {
         UmsAdmin umsAdmin = new UmsAdmin();
         umsAdmin.setStatus(status);
-        int count = adminService.update(id,umsAdmin);
+        int count = adminService.update(id, umsAdmin);
         if (count > 0) {
             return CommonResult.success(count);
         }
@@ -204,20 +205,25 @@ public class UmsAdminController {
         return CommonResult.success(roleList);
     }
 
-
-    @ApiOperation(value = "微信登录以后返回token")
-    @RequestMapping(value = "/weChatLogin", method = RequestMethod.POST)
+    @ApiOperation("检测用户是否绑定")
+    @RequestMapping(value = "/wechat/checkBind", method = RequestMethod.GET)
     @ResponseBody
-    public CommonResult weChatLogin(@RequestBody WeChatLoginVO weChatLoginVO) {
-
-        String token = adminService.weChatLogin(weChatLoginVO.getCode());
-        if (token == null) {
-            return CommonResult.validateFailed("用户名或密码错误");
+    public CommonResult wechatCheckBind(@RequestParam(value = "code") String code) {
+        String token = adminService.wechatCheckBind(code);
+        if (StringUtils.isEmpty(token)) {
+            return CommonResult.failed("用户未绑定");
         }
-        Map<String, String> tokenMap = new HashMap<>();
-        tokenMap.put("token", token);
-        tokenMap.put("tokenHead", tokenHead);
-        return CommonResult.success(tokenMap);
+        return CommonResult.success(token);
     }
 
+    @ApiOperation("绑定用户")
+    @RequestMapping(value = "/wechat/bind", method = RequestMethod.GET)
+    @ResponseBody
+    public CommonResult wechatBind(@RequestBody UmsAdminLoginParam umsAdminLoginParam) {
+        String token = adminService.wechatBind(umsAdminLoginParam);
+        if (StringUtils.isEmpty(token)) {
+            return CommonResult.failed("获取token失败");
+        }
+        return CommonResult.success(token);
+    }
 }
