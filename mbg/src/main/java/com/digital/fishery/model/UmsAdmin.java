@@ -32,7 +32,8 @@ public class UmsAdmin implements Serializable {
     @ApiModelProperty(value = "帐号启用状态：0->禁用；1->启用")
     private Integer status;
 
-    private String openId;
+    @ApiModelProperty(value = "公司id")
+    private Long enterpriseId;
 
     private static final long serialVersionUID = 1L;
 
@@ -116,12 +117,12 @@ public class UmsAdmin implements Serializable {
         this.status = status;
     }
 
-    public String getOpenId() {
-        return openId;
+    public Long getEnterpriseId() {
+        return enterpriseId;
     }
 
-    public void setOpenId(String openId) {
-        this.openId = openId;
+    public void setEnterpriseId(Long enterpriseId) {
+        this.enterpriseId = enterpriseId;
     }
 
     @Override
@@ -140,7 +141,7 @@ public class UmsAdmin implements Serializable {
         sb.append(", createTime=").append(createTime);
         sb.append(", loginTime=").append(loginTime);
         sb.append(", status=").append(status);
-        sb.append(", openId=").append(openId);
+        sb.append(", enterpriseId=").append(enterpriseId);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

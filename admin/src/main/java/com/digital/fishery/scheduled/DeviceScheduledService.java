@@ -7,6 +7,7 @@ import com.digital.fishery.common.DeviceHttpClient;
 import com.digital.fishery.mapper.*;
 import com.digital.fishery.model.*;
 import com.digital.fishery.scheduled.domain.BaseResponse;
+import com.digital.fishery.service.AlarmRecordService;
 import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,6 +42,9 @@ public class DeviceScheduledService {
     private DeviceNodeMapper deviceNodeMapper;
     @Autowired
     private DeviceHttpClient deviceHttpClient;
+
+    @Autowired
+    private AlarmRecordService alarmRecordService;
 
     /**
      * 设备组信息每天凌晨0点15分执行一次
@@ -186,6 +190,9 @@ public class DeviceScheduledService {
                     deviceNode.setCreateTime(new Date());
                     deviceNodeMapper.insert(deviceNode);
                 }
+            }
+            if (CollectionUtils.isNotEmpty(deviceNodeResp)) {
+                alarmRecordService.sync(deviceNodeResp);
             }
         }
         LOGGER.info("insertDeviceNode finish");

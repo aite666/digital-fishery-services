@@ -1,18 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.digital.fishery.mapper.UmsAdminMapper">
-  <resultMap id="BaseResultMap" type="com.digital.fishery.model.UmsAdmin">
+<mapper namespace="com.digital.fishery.mapper.AlarmRuleMapper">
+  <resultMap id="BaseResultMap" type="com.digital.fishery.model.AlarmRule">
     <id column="id" jdbcType="BIGINT" property="id" />
-    <result column="username" jdbcType="VARCHAR" property="username" />
-    <result column="password" jdbcType="VARCHAR" property="password" />
-    <result column="icon" jdbcType="VARCHAR" property="icon" />
-    <result column="email" jdbcType="VARCHAR" property="email" />
-    <result column="nick_name" jdbcType="VARCHAR" property="nickName" />
-    <result column="note" jdbcType="VARCHAR" property="note" />
+    <result column="factor_name" jdbcType="VARCHAR" property="factorName" />
+    <result column="threshold" jdbcType="DOUBLE" property="threshold" />
+    <result column="operator" jdbcType="VARCHAR" property="operator" />
+    <result column="block_id" jdbcType="BIGINT" property="blockId" />
+    <result column="type" jdbcType="INTEGER" property="type" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
-    <result column="login_time" jdbcType="TIMESTAMP" property="loginTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
     <result column="status" jdbcType="INTEGER" property="status" />
-    <result column="enterprise_id" jdbcType="BIGINT" property="enterpriseId" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -73,16 +71,15 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, username, password, icon, email, nick_name, note, create_time, login_time, status, 
-    enterprise_id
+    id, factor_name, threshold, operator, block_id, type, create_time, update_time, status
   </sql>
-  <select id="selectByExample" parameterType="com.digital.fishery.model.UmsAdminExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="com.digital.fishery.model.AlarmRuleExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from ums_admin
+    from alarm_rule
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -93,143 +90,123 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from ums_admin
+    from alarm_rule
     where id = #{id,jdbcType=BIGINT}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
-    delete from ums_admin
+    delete from alarm_rule
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <delete id="deleteByExample" parameterType="com.digital.fishery.model.UmsAdminExample">
-    delete from ums_admin
+  <delete id="deleteByExample" parameterType="com.digital.fishery.model.AlarmRuleExample">
+    delete from alarm_rule
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.digital.fishery.model.UmsAdmin">
+  <insert id="insert" parameterType="com.digital.fishery.model.AlarmRule">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into ums_admin (username, password, icon, 
-      email, nick_name, note, 
-      create_time, login_time, status, 
-      enterprise_id)
-    values (#{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{icon,jdbcType=VARCHAR}, 
-      #{email,jdbcType=VARCHAR}, #{nickName,jdbcType=VARCHAR}, #{note,jdbcType=VARCHAR}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{loginTime,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER}, 
-      #{enterpriseId,jdbcType=BIGINT})
+    insert into alarm_rule (factor_name, threshold, operator, 
+      block_id, type, create_time, 
+      update_time, status)
+    values (#{factorName,jdbcType=VARCHAR}, #{threshold,jdbcType=DOUBLE}, #{operator,jdbcType=VARCHAR}, 
+      #{blockId,jdbcType=BIGINT}, #{type,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER})
   </insert>
-  <insert id="insertSelective" parameterType="com.digital.fishery.model.UmsAdmin">
+  <insert id="insertSelective" parameterType="com.digital.fishery.model.AlarmRule">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into ums_admin
+    insert into alarm_rule
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="username != null">
-        username,
+      <if test="factorName != null">
+        factor_name,
       </if>
-      <if test="password != null">
-        password,
+      <if test="threshold != null">
+        threshold,
       </if>
-      <if test="icon != null">
-        icon,
+      <if test="operator != null">
+        operator,
       </if>
-      <if test="email != null">
-        email,
+      <if test="blockId != null">
+        block_id,
       </if>
-      <if test="nickName != null">
-        nick_name,
-      </if>
-      <if test="note != null">
-        note,
+      <if test="type != null">
+        type,
       </if>
       <if test="createTime != null">
         create_time,
       </if>
-      <if test="loginTime != null">
-        login_time,
+      <if test="updateTime != null">
+        update_time,
       </if>
       <if test="status != null">
         status,
       </if>
-      <if test="enterpriseId != null">
-        enterprise_id,
-      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="username != null">
-        #{username,jdbcType=VARCHAR},
+      <if test="factorName != null">
+        #{factorName,jdbcType=VARCHAR},
       </if>
-      <if test="password != null">
-        #{password,jdbcType=VARCHAR},
+      <if test="threshold != null">
+        #{threshold,jdbcType=DOUBLE},
       </if>
-      <if test="icon != null">
-        #{icon,jdbcType=VARCHAR},
+      <if test="operator != null">
+        #{operator,jdbcType=VARCHAR},
       </if>
-      <if test="email != null">
-        #{email,jdbcType=VARCHAR},
+      <if test="blockId != null">
+        #{blockId,jdbcType=BIGINT},
       </if>
-      <if test="nickName != null">
-        #{nickName,jdbcType=VARCHAR},
-      </if>
-      <if test="note != null">
-        #{note,jdbcType=VARCHAR},
+      <if test="type != null">
+        #{type,jdbcType=INTEGER},
       </if>
       <if test="createTime != null">
         #{createTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="loginTime != null">
-        #{loginTime,jdbcType=TIMESTAMP},
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
       </if>
       <if test="status != null">
         #{status,jdbcType=INTEGER},
       </if>
-      <if test="enterpriseId != null">
-        #{enterpriseId,jdbcType=BIGINT},
-      </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.digital.fishery.model.UmsAdminExample" resultType="java.lang.Long">
-    select count(*) from ums_admin
+  <select id="countByExample" parameterType="com.digital.fishery.model.AlarmRuleExample" resultType="java.lang.Long">
+    select count(*) from alarm_rule
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map">
-    update ums_admin
+    update alarm_rule
     <set>
       <if test="record.id != null">
         id = #{record.id,jdbcType=BIGINT},
       </if>
-      <if test="record.username != null">
-        username = #{record.username,jdbcType=VARCHAR},
+      <if test="record.factorName != null">
+        factor_name = #{record.factorName,jdbcType=VARCHAR},
       </if>
-      <if test="record.password != null">
-        password = #{record.password,jdbcType=VARCHAR},
+      <if test="record.threshold != null">
+        threshold = #{record.threshold,jdbcType=DOUBLE},
       </if>
-      <if test="record.icon != null">
-        icon = #{record.icon,jdbcType=VARCHAR},
+      <if test="record.operator != null">
+        operator = #{record.operator,jdbcType=VARCHAR},
       </if>
-      <if test="record.email != null">
-        email = #{record.email,jdbcType=VARCHAR},
+      <if test="record.blockId != null">
+        block_id = #{record.blockId,jdbcType=BIGINT},
       </if>
-      <if test="record.nickName != null">
-        nick_name = #{record.nickName,jdbcType=VARCHAR},
-      </if>
-      <if test="record.note != null">
-        note = #{record.note,jdbcType=VARCHAR},
+      <if test="record.type != null">
+        type = #{record.type,jdbcType=INTEGER},
       </if>
       <if test="record.createTime != null">
         create_time = #{record.createTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="record.loginTime != null">
-        login_time = #{record.loginTime,jdbcType=TIMESTAMP},
+      <if test="record.updateTime != null">
+        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
       </if>
       <if test="record.status != null">
         status = #{record.status,jdbcType=INTEGER},
-      </if>
-      <if test="record.enterpriseId != null">
-        enterprise_id = #{record.enterpriseId,jdbcType=BIGINT},
       </if>
     </set>
     <if test="_parameter != null">
@@ -237,70 +214,60 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update ums_admin
+    update alarm_rule
     set id = #{record.id,jdbcType=BIGINT},
-      username = #{record.username,jdbcType=VARCHAR},
-      password = #{record.password,jdbcType=VARCHAR},
-      icon = #{record.icon,jdbcType=VARCHAR},
-      email = #{record.email,jdbcType=VARCHAR},
-      nick_name = #{record.nickName,jdbcType=VARCHAR},
-      note = #{record.note,jdbcType=VARCHAR},
+      factor_name = #{record.factorName,jdbcType=VARCHAR},
+      threshold = #{record.threshold,jdbcType=DOUBLE},
+      operator = #{record.operator,jdbcType=VARCHAR},
+      block_id = #{record.blockId,jdbcType=BIGINT},
+      type = #{record.type,jdbcType=INTEGER},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
-      login_time = #{record.loginTime,jdbcType=TIMESTAMP},
-      status = #{record.status,jdbcType=INTEGER},
-      enterprise_id = #{record.enterpriseId,jdbcType=BIGINT}
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      status = #{record.status,jdbcType=INTEGER}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.digital.fishery.model.UmsAdmin">
-    update ums_admin
+  <update id="updateByPrimaryKeySelective" parameterType="com.digital.fishery.model.AlarmRule">
+    update alarm_rule
     <set>
-      <if test="username != null">
-        username = #{username,jdbcType=VARCHAR},
+      <if test="factorName != null">
+        factor_name = #{factorName,jdbcType=VARCHAR},
       </if>
-      <if test="password != null">
-        password = #{password,jdbcType=VARCHAR},
+      <if test="threshold != null">
+        threshold = #{threshold,jdbcType=DOUBLE},
       </if>
-      <if test="icon != null">
-        icon = #{icon,jdbcType=VARCHAR},
+      <if test="operator != null">
+        operator = #{operator,jdbcType=VARCHAR},
       </if>
-      <if test="email != null">
-        email = #{email,jdbcType=VARCHAR},
+      <if test="blockId != null">
+        block_id = #{blockId,jdbcType=BIGINT},
       </if>
-      <if test="nickName != null">
-        nick_name = #{nickName,jdbcType=VARCHAR},
-      </if>
-      <if test="note != null">
-        note = #{note,jdbcType=VARCHAR},
+      <if test="type != null">
+        type = #{type,jdbcType=INTEGER},
       </if>
       <if test="createTime != null">
         create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="loginTime != null">
-        login_time = #{loginTime,jdbcType=TIMESTAMP},
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
       </if>
       <if test="status != null">
         status = #{status,jdbcType=INTEGER},
       </if>
-      <if test="enterpriseId != null">
-        enterprise_id = #{enterpriseId,jdbcType=BIGINT},
-      </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.digital.fishery.model.UmsAdmin">
-    update ums_admin
-    set username = #{username,jdbcType=VARCHAR},
-      password = #{password,jdbcType=VARCHAR},
-      icon = #{icon,jdbcType=VARCHAR},
-      email = #{email,jdbcType=VARCHAR},
-      nick_name = #{nickName,jdbcType=VARCHAR},
-      note = #{note,jdbcType=VARCHAR},
+  <update id="updateByPrimaryKey" parameterType="com.digital.fishery.model.AlarmRule">
+    update alarm_rule
+    set factor_name = #{factorName,jdbcType=VARCHAR},
+      threshold = #{threshold,jdbcType=DOUBLE},
+      operator = #{operator,jdbcType=VARCHAR},
+      block_id = #{blockId,jdbcType=BIGINT},
+      type = #{type,jdbcType=INTEGER},
       create_time = #{createTime,jdbcType=TIMESTAMP},
-      login_time = #{loginTime,jdbcType=TIMESTAMP},
-      status = #{status,jdbcType=INTEGER},
-      enterprise_id = #{enterpriseId,jdbcType=BIGINT}
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      status = #{status,jdbcType=INTEGER}
     where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>
