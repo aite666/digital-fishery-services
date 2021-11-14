@@ -9,6 +9,8 @@ import com.digital.fishery.dao.UmsAdminRoleRelationDao;
 import com.digital.fishery.dto.UmsAdminLoginParam;
 import com.digital.fishery.dto.UmsAdminParam;
 import com.digital.fishery.dto.UpdateAdminPasswordParam;
+import com.digital.fishery.dto.WeChatLoginResult;
+import com.digital.fishery.mapper.UmsAdminWxMapper;
 import com.digital.fishery.model.*;
 import com.digital.fishery.service.UmsAdminCacheService;
 import com.digital.fishery.service.UmsAdminService;
@@ -64,6 +66,8 @@ public class UmsAdminServiceImpl implements UmsAdminService {
     private PasswordEncoder passwordEncoder;
     @Autowired
     private UmsAdminMapper adminMapper;
+    @Autowired
+    private UmsAdminWxMapper adminWxMapper;
     @Autowired
     private UmsAdminRoleRelationMapper adminRoleRelationMapper;
     @Autowired
@@ -283,37 +287,63 @@ public class UmsAdminServiceImpl implements UmsAdminService {
     }
 
     @Override
-    public String wechatCheckBind(String code) {
+    public WeChatLoginResult wechatCheckBind(String code) {
         String openId = getOpenId(code);
-        UmsAdminExample example = new UmsAdminExample();
+        UmsAdminWxExample example = new UmsAdminWxExample();
         example.createCriteria().andOpenIdEqualTo(openId);
-        List<UmsAdmin> umsAdmins = adminMapper.selectByExample(example);
-        if (CollectionUtils.isEmpty(umsAdmins) || umsAdmins.get(0) != null) {
+        List<UmsAdminWx> adminWxList = adminWxMapper.selectByExample(example);
+        if (CollectionUtils.isEmpty(adminWxList) || adminWxList.get(0) == null) {
             return null;
         }
-        UmsAdmin umsAdmin = umsAdmins.get(0);
+        UmsAdminWx umsAdminWx = adminWxList.get(0);
+        UmsAdmin umsAdmin = adminMapper.selectByPrimaryKey(umsAdminWx.getUserId());
         UserDetails userDetails = loadUserByUsername(umsAdmin.getUsername());
-        return getToken(userDetails);
+        String token = getToken(userDetails);
+        WeChatLoginResult result = new WeChatLoginResult();
+        result.setToken(token);
+        result.setUmsAdmin(umsAdmin);
+        return result;
     }
 
     @Override
-    public String wechatBind(UmsAdminLoginParam param) {
-        String openId = getOpenId(param.getPassword());
-        UmsAdminExample example = new UmsAdminExample();
-        example.createCriteria().andOpenIdEqualTo(openId);
-        List<UmsAdmin> umsAdmins = adminMapper.selectByExample(example);
-        if (CollectionUtils.isEmpty(umsAdmins) || umsAdmins.get(0) != null) {
-            return null;
-        }
-        UmsAdmin umsAdmin = umsAdmins.get(0);
-        UserDetails userDetails = loadUserByUsername(umsAdmin.getUsername());
-        if(!passwordEncoder.matches(param.getPassword(),userDetails.getPassword())){
+    public WeChatLoginResult wechatBind(UmsAdminLoginParam param) {
+        UmsAdmin umsAdmin = getAdminByUsername(param.getUsername());
+        if(!passwordEncoder.matches(param.getPassword(),umsAdmin.getPassword())){
             Asserts.fail("密码不正确");
         }
-        if(!userDetails.isEnabled()){
-            Asserts.fail("帐号已被禁用");
+        if (umsAdmin.getStatus() != 1) {
+            Asserts.fail("账号已停用");
         }
-        return getToken(userDetails);
+        String openId = getOpenId(param.getCode());
+        UmsAdminWxExample example = new UmsAdminWxExample();
+        example.createCriteria().andOpenIdEqualTo(openId);
+        List<UmsAdminWx> adminWxList = adminWxMapper.selectByExample(example);
+        if (CollectionUtils.isEmpty(adminWxList) || adminWxList.get(0) == null) {
+            UmsAdminWx wx = new UmsAdminWx();
+            wx.setOpenId(openId);
+            wx.setUserId(umsAdmin.getId());
+            adminWxMapper.insert(wx);
+        } else {
+            UmsAdminWx umsAdminWx = adminWxList.get(0);
+            if (!umsAdminWx.getUserId().equals(umsAdmin.getId())) {
+                umsAdminWx.setUserId(umsAdmin.getId());
+                adminWxMapper.updateByPrimaryKey(umsAdminWx);
+            }
+        }
+        UserDetails userDetails = loadUserByUsername(umsAdmin.getUsername());
+        String token = getToken(userDetails);
+        WeChatLoginResult result = new WeChatLoginResult();
+        result.setToken(token);
+        result.setUmsAdmin(umsAdmin);
+        return result;
+    }
+
+    @Override
+    public void wechatLogout(String code) {
+        String openId = getOpenId(code);
+        UmsAdminWxExample example = new UmsAdminWxExample();
+        example.createCriteria().andOpenIdEqualTo(openId);
+        adminWxMapper.deleteByExample(example);
     }
 
     /**

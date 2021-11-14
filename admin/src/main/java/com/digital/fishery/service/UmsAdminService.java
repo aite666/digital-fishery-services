@@ -3,6 +3,7 @@ package com.digital.fishery.service;
 import com.digital.fishery.dto.UmsAdminLoginParam;
 import com.digital.fishery.dto.UmsAdminParam;
 import com.digital.fishery.dto.UpdateAdminPasswordParam;
+import com.digital.fishery.dto.WeChatLoginResult;
 import com.digital.fishery.model.UmsAdmin;
 import com.digital.fishery.model.UmsResource;
 import com.digital.fishery.model.UmsRole;
@@ -32,7 +33,7 @@ public interface UmsAdminService {
      * @param password 密码
      * @return 生成的JWT的token
      */
-    String login(String username,String password);
+    String login(String username, String password);
 
     /**
      * 刷新token的功能
@@ -91,10 +92,15 @@ public interface UmsAdminService {
      * @param code
      * @return  token
      */
-    String wechatCheckBind(String code);
+    WeChatLoginResult wechatCheckBind(String code);
 
     /**
      * 绑定用户
      */
-    String wechatBind(UmsAdminLoginParam umsAdminLoginParam);
+    WeChatLoginResult wechatBind(UmsAdminLoginParam umsAdminLoginParam);
+
+    /**
+     * 微信登出
+     */
+    void wechatLogout(String code);
 }

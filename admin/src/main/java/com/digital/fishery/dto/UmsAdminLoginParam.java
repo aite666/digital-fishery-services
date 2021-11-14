@@ -19,6 +19,6 @@ public class UmsAdminLoginParam {
     @NotEmpty
     @ApiModelProperty(value = "密码",required = true)
     private String password;
-    @ApiModelProperty(value = "唯一码")
+    @ApiModelProperty(value = "code")
     private String code;
 }

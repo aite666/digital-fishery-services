@@ -8,8 +8,10 @@ spring:
     active: dev #默认为开发环境
   servlet:
     multipart:
-      enabled: false #开启文件上传
-      max-file-size: 10MB #限制文件上传大小为10M
+      enabled: true #开启文件上传
+      max-file-size: 100MB #限制文件上传大小为100M
+      max-request-size: 100MB
+      file-size-threshold: 100MB
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss
     time-zone: GMT+8

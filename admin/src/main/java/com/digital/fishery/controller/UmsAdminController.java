@@ -4,7 +4,7 @@ import cn.hutool.core.collection.CollUtil;
 import com.digital.fishery.dto.UmsAdminLoginParam;
 import com.digital.fishery.dto.UmsAdminParam;
 import com.digital.fishery.dto.UpdateAdminPasswordParam;
-import com.digital.fishery.dto.WeChatLoginVO;
+import com.digital.fishery.dto.WeChatLoginResult;
 import com.digital.fishery.service.UmsAdminService;
 import com.digital.fishery.service.UmsRoleService;
 import com.digital.fishery.api.CommonPage;
@@ -209,21 +209,29 @@ public class UmsAdminController {
     @RequestMapping(value = "/wechat/checkBind", method = RequestMethod.GET)
     @ResponseBody
     public CommonResult wechatCheckBind(@RequestParam(value = "code") String code) {
-        String token = adminService.wechatCheckBind(code);
-        if (StringUtils.isEmpty(token)) {
+        WeChatLoginResult result = adminService.wechatCheckBind(code);
+        if (StringUtils.isEmpty(result.getToken())) {
             return CommonResult.failed("用户未绑定");
         }
-        return CommonResult.success(token);
+        return CommonResult.success(result);
     }
 
     @ApiOperation("绑定用户")
-    @RequestMapping(value = "/wechat/bind", method = RequestMethod.GET)
+    @RequestMapping(value = "/wechat/bind", method = RequestMethod.POST)
     @ResponseBody
     public CommonResult wechatBind(@RequestBody UmsAdminLoginParam umsAdminLoginParam) {
-        String token = adminService.wechatBind(umsAdminLoginParam);
-        if (StringUtils.isEmpty(token)) {
+        WeChatLoginResult result = adminService.wechatBind(umsAdminLoginParam);
+        if (StringUtils.isEmpty(result.getToken())) {
             return CommonResult.failed("获取token失败");
         }
-        return CommonResult.success(token);
+        return CommonResult.success(result);
+    }
+
+    @ApiOperation("绑定用户")
+    @RequestMapping(value = "/wechat/logout", method = RequestMethod.GET)
+    @ResponseBody
+    public CommonResult wechatLogout(@RequestParam(value = "code") String code) {
+        adminService.wechatLogout(code);
+        return CommonResult.success("退出登陆");
     }
 }
