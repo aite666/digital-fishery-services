@@ -18,6 +18,9 @@
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
     <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="unit" jdbcType="VARCHAR" property="unit" />
+    <result column="block_id" jdbcType="BIGINT" property="blockId" />
+    <result column="block_name" jdbcType="VARCHAR" property="blockName" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -78,8 +81,9 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, device_addr, record_time, node_id, lng, lat, record_id, record_time_str, register_id, 
-    register_name, text, value, alarm_level, create_time, update_time, status
+    a.id, a.device_addr, a.record_time, a.node_id, a.lng, a.lat, a.record_id, a.record_time_str, a.register_id,
+    a.register_name, a.text, a.value, a.alarm_level, a.create_time, a.update_time, a.status,
+    b.id as block_id, b.`name` as block_name, f.unit
   </sql>
   <select id="selectByExample" parameterType="com.digital.fishery.model.DeviceNodeExample" resultMap="BaseResultMap">
     select
@@ -87,7 +91,11 @@
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from device_node
+    from device_node a
+    left join device d on d.device_addr = a.device_addr
+    left join info_block b on b.id = d.block_id
+    left join device_factor f on f.device_addr = a.device_addr and f.node_id = a.node_id
+    and f.register_id = a.register_id
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -98,8 +106,12 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from device_node
-    where id = #{id,jdbcType=BIGINT}
+    from device_node a
+    left join device d on d.device_addr = a.device_addr
+    left join info_block b on b.id = d.block_id
+    left join device_factor f on f.device_addr = a.device_addr and f.node_id = a.node_id
+    and f.register_id = a.register_id
+    where a.id = #{id,jdbcType=BIGINT}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from device_node

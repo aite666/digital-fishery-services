@@ -168,7 +168,8 @@ public class DeviceScheduledService {
             param.put("deviceAddr", deviceAddr.toString());
             param.put("nodeId", "-1");
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat(DATETIME_FORMATTER);
-            param.put("startTime", simpleDateFormat.format(new Date(new Date().getTime() - (1000*60*30))));
+//            param.put("startTime", simpleDateFormat.format(new Date(new Date().getTime() - (1000*60*30))));
+            param.put("startTime", "2020-01-01 00:00:00");
             param.put("endTime", simpleDateFormat.format(new Date()));
             BaseResponse baseResponse = deviceHttpClient.doGet(DEVICE_BASE_URL + DEVICE_HISTORY_URL, param);
             if (baseResponse == null) {

@@ -36,7 +36,10 @@ public interface DeviceService {
     /**
      * 查询结点
      */
-    List<DeviceNodeChartsVO> nodeCharts(Integer deviceAddr, Integer nodeId, Integer registerId, String startTime, String endTime);
+    List<DeviceNodeChartsVO> nodeCharts(Integer deviceAddr, Integer nodeId, Integer registerId, String registerName, Long blockId, String startTime, String endTime);
 
+    /**
+     * 查询实时数据
+     */
     List<DeviceRealTimeVO> realTimeList(List<Integer> deviceAddrs);
 }

@@ -88,10 +88,12 @@ public class DeviceController {
     @ResponseBody
     public CommonResult<List<DeviceNodeChartsVO>> nodeCharts(@RequestParam(value = "deviceAddr", required = false) Integer deviceAddr,
                                                      @RequestParam(value = "nodeId", required = false) Integer nodeId,
-                                                     @RequestParam(value = "registerId") Integer registerId,
+                                                     @RequestParam(value = "registerId", required = false) Integer registerId,
+                                                     @RequestParam(value = "registerName", required = false) String registerName,
+                                                     @RequestParam(value = "blockId", required = false) Long blockId,
                                                      @RequestParam(value = "startTime") String startTime,
                                                      @RequestParam(value = "endTime") String endTime) {
-        List<DeviceNodeChartsVO> result = deviceService.nodeCharts(deviceAddr, nodeId, registerId, startTime, endTime);
+        List<DeviceNodeChartsVO> result = deviceService.nodeCharts(deviceAddr, nodeId, registerId, registerName, blockId, startTime, endTime);
         return CommonResult.success(result);
     }
 

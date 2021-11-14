@@ -176,7 +176,12 @@ public class DeviceNodeExample {
         }
 
         public Criteria andDeviceAddrEqualTo(Integer value) {
-            addCriterion("device_addr =", value, "deviceAddr");
+            addCriterion("a.device_addr =", value, "deviceAddr");
+            return (Criteria) this;
+        }
+
+        public Criteria andBlockIdEqualTo(Long value) {
+            addCriterion("d.block_id =", value, "blockId");
             return (Criteria) this;
         }
 
@@ -276,7 +281,7 @@ public class DeviceNodeExample {
         }
 
         public Criteria andRecordTimeBetween(Date value1, Date value2) {
-            addCriterion("record_time between", value1, value2, "recordTime");
+            addCriterion("a.record_time between", value1, value2, "recordTime");
             return (Criteria) this;
         }
 
@@ -296,7 +301,7 @@ public class DeviceNodeExample {
         }
 
         public Criteria andNodeIdEqualTo(Integer value) {
-            addCriterion("node_id =", value, "nodeId");
+            addCriterion("a.node_id =", value, "nodeId");
             return (Criteria) this;
         }
 
@@ -616,7 +621,7 @@ public class DeviceNodeExample {
         }
 
         public Criteria andRegisterIdEqualTo(Integer value) {
-            addCriterion("register_id =", value, "registerId");
+            addCriterion("a.register_id =", value, "registerId");
             return (Criteria) this;
         }
 
@@ -676,7 +681,7 @@ public class DeviceNodeExample {
         }
 
         public Criteria andRegisterNameEqualTo(String value) {
-            addCriterion("register_name =", value, "registerName");
+            addCriterion("a.register_name =", value, "registerName");
             return (Criteria) this;
         }
 

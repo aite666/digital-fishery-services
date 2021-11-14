@@ -13,6 +13,12 @@ public class DeviceNodeChartsVO {
     @ApiModelProperty(value = "节点id")
     private Integer nodeId;
 
+    @ApiModelProperty(value = "区块id")
+    private Long blockId;
+
+    @ApiModelProperty(value = "区块名称")
+    private String blockName;
+
     private List<NodeData> data;
 
     public static class NodeData {
@@ -33,6 +39,9 @@ public class DeviceNodeChartsVO {
 
         @ApiModelProperty(value = "数值")
         private Double value;
+
+        @ApiModelProperty(value = "单位")
+        private String unit;
 
         public Integer getRegisterId() {
             return registerId;
@@ -81,6 +90,15 @@ public class DeviceNodeChartsVO {
         public void setValue(Double value) {
             this.value = value;
         }
+
+        public String getUnit() {
+            return unit;
+        }
+
+        public void setUnit(String unit) {
+            this.unit = unit;
+        }
+
     }
 
     public Integer getDeviceAddr() {
@@ -105,5 +123,21 @@ public class DeviceNodeChartsVO {
 
     public void setData(List<NodeData> data) {
         this.data = data;
+    }
+
+    public Long getBlockId() {
+        return blockId;
+    }
+
+    public void setBlockId(Long blockId) {
+        this.blockId = blockId;
+    }
+
+    public String getBlockName() {
+        return blockName;
+    }
+
+    public void setBlockName(String blockName) {
+        this.blockName = blockName;
     }
 }

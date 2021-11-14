@@ -86,20 +86,30 @@ public class DeviceServiceImpl implements DeviceService {
     }
 
     @Override
-    public List<DeviceNodeChartsVO> nodeCharts(Integer deviceAddr, Integer nodeId, Integer registerId, String startTime, String endTime) {
+    public List<DeviceNodeChartsVO> nodeCharts(Integer deviceAddr, Integer nodeId, Integer registerId, String registerName, Long blockId, String startTime, String endTime) {
         DeviceNodeExample example = new DeviceNodeExample();
+        example.setOrderByClause("record_time");
+        DeviceNodeExample.Criteria criteria = example.createCriteria();
         if (deviceAddr != null) {
-            example.createCriteria().andDeviceAddrEqualTo(deviceAddr);
+            criteria.andDeviceAddrEqualTo(deviceAddr);
         }
         if (nodeId != null) {
-            example.createCriteria().andNodeIdEqualTo(nodeId);
+            criteria.andNodeIdEqualTo(nodeId);
         }
-        example.createCriteria().andRegisterIdEqualTo(registerId);
+        if (registerId != null) {
+            criteria.andRegisterIdEqualTo(registerId);
+        }
+        if (registerName != null) {
+            criteria.andRegisterNameEqualTo(registerName);
+        }
+        if (blockId != null) {
+            criteria.andBlockIdEqualTo(blockId);
+        }
         try {
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat(DATETIME_FORMATTER);
             Date start = simpleDateFormat.parse(startTime);
             Date end = simpleDateFormat.parse(endTime);
-            example.createCriteria().andRecordTimeBetween(start, end);
+            criteria.andRecordTimeBetween(start, end);
             List<DeviceNode> deviceNodes = deviceNodeMapper.selectByExample(example);
             if (CollectionUtils.isEmpty(deviceNodes)) {
                 logger.warn("NODE NOT FOUND");
@@ -107,7 +117,7 @@ public class DeviceServiceImpl implements DeviceService {
             }
 
             Map<String, List<DeviceNode>> map = deviceNodes.stream()
-                    .collect(Collectors.groupingBy(o -> (o.getDeviceAddr().toString() + "," + o.getNodeId().toString())));
+                    .collect(Collectors.groupingBy(o -> (o.getDeviceAddr().toString() + "," + o.getNodeId().toString() + "," + o.getBlockId().toString() + "," + o.getBlockName())));
 
             List<DeviceNodeChartsVO> result = new ArrayList<>();
             for (Map.Entry<String, List<DeviceNode>> entry : map.entrySet()) {
@@ -117,6 +127,8 @@ public class DeviceServiceImpl implements DeviceService {
                 String[] split = key.split(",");
                 vo.setDeviceAddr(Integer.parseInt(split[0]));
                 vo.setNodeId(Integer.parseInt(split[1]));
+                vo.setBlockId(Long.parseLong(split[2]));
+                vo.setBlockName(split[3]);
 
                 List<DeviceNodeChartsVO.NodeData> data = new ArrayList<>();
                 List<DeviceNode> value = entry.getValue();

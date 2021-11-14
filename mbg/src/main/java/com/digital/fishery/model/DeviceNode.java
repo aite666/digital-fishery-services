@@ -52,6 +52,15 @@ public class DeviceNode implements Serializable {
     @ApiModelProperty(value = "帐号启用状态：0->禁用；1->启用")
     private Integer status;
 
+    @ApiModelProperty(value = "单位")
+    private String unit;
+
+    @ApiModelProperty(value = "区块id")
+    private Long blockId;
+
+    @ApiModelProperty(value = "区块名称")
+    private String blockName;
+
     private static final long serialVersionUID = 1L;
 
     public Long getId() {
@@ -180,6 +189,30 @@ public class DeviceNode implements Serializable {
 
     public void setStatus(Integer status) {
         this.status = status;
+    }
+
+    public String getUnit() {
+        return unit;
+    }
+
+    public void setUnit(String unit) {
+        this.unit = unit;
+    }
+
+    public Long getBlockId() {
+        return blockId;
+    }
+
+    public void setBlockId(Long blockId) {
+        this.blockId = blockId;
+    }
+
+    public String getBlockName() {
+        return blockName;
+    }
+
+    public void setBlockName(String blockName) {
+        this.blockName = blockName;
     }
 
     @Override

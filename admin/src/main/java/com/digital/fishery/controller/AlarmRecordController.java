@@ -34,9 +34,10 @@ public class AlarmRecordController {
     }
 
     @ApiOperation("用户已读操作")
-    @RequestMapping(value = "/count", method = RequestMethod.POST)
+    @RequestMapping(value = "/updateStatus", method = RequestMethod.GET)
     @ResponseBody
-    public CommonResult updateStatus(@PathVariable Long recordId, @PathVariable Long userId) {
+    public CommonResult updateStatus(@RequestParam(value = "recordId", required = false) Long recordId,
+                                     @RequestParam(value = "userId") Long userId) {
         alarmRecordService.updateStatus(recordId, userId);
         return CommonResult.success("更改状态成功");
     }
