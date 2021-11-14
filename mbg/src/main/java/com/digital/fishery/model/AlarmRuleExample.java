@@ -206,7 +206,7 @@ public class AlarmRuleExample {
         }
 
         public Criteria andFactorNameLike(String value) {
-            addCriterion("factor_name like", value, "factorName");
+            addCriterion("a.factor_name like", value, "factorName");
             return (Criteria) this;
         }
 
@@ -376,7 +376,7 @@ public class AlarmRuleExample {
         }
 
         public Criteria andBlockIdEqualTo(Long value) {
-            addCriterion("block_id =", value, "blockId");
+            addCriterion("a.block_id =", value, "blockId");
             return (Criteria) this;
         }
 
@@ -436,7 +436,7 @@ public class AlarmRuleExample {
         }
 
         public Criteria andTypeEqualTo(Integer value) {
-            addCriterion("type =", value, "type");
+            addCriterion("a.type =", value, "type");
             return (Criteria) this;
         }
 

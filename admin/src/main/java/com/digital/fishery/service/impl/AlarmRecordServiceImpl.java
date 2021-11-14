@@ -6,16 +6,20 @@ import com.digital.fishery.mapper.*;
 import com.digital.fishery.model.*;
 import com.digital.fishery.service.AlarmRecordService;
 import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.util.StringUtil;
 import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static com.digital.fishery.scheduled.consts.Consts.DATETIME_FORMATTER;
 
 @Service
 public class AlarmRecordServiceImpl implements AlarmRecordService {
@@ -103,20 +107,47 @@ public class AlarmRecordServiceImpl implements AlarmRecordService {
     }
 
     @Override
-    public List<AlarmRecord> list(Long userId, Long blockId, Integer pageSize, Integer pageNum) {
+    public List<AlarmRecord> list(Long userId, Long blockId, String description, String startTime, String endTime, Integer pageSize, Integer pageNum) {
         PageHelper.startPage(pageNum, pageSize);
-        AlarmContactRecordExample alarmContactRecordExample = new AlarmContactRecordExample();
-        alarmContactRecordExample.createCriteria().andUserIdEqualTo(userId);
-        List<AlarmContactRecord> alarmContactRecords = alarmContactRecordMapper.selectByExample(alarmContactRecordExample);
-        if (CollectionUtils.isEmpty(alarmContactRecords)) {
-            return null;
-        }
-        List<Long> recordIds = alarmContactRecords.stream().map(AlarmContactRecord::getRecordId).collect(Collectors.toList());
-
         AlarmRecordExample example = new AlarmRecordExample();
-        AlarmRecordExample.Criteria criteria = example.createCriteria();
-        criteria.andIdIn(recordIds);
-        return  alarmRecordMapper.selectByExample(example);
+        AlarmRecordExample.Criteria recordCriteria = example.createCriteria();
+        if (userId != null) {
+            AlarmContactRecordExample alarmContactRecordExample = new AlarmContactRecordExample();
+            AlarmContactRecordExample.Criteria criteria = alarmContactRecordExample.createCriteria();
+            criteria.andUserIdEqualTo(userId);
+            List<AlarmContactRecord> alarmContactRecords = alarmContactRecordMapper.selectByExample(alarmContactRecordExample);
+            if (CollectionUtils.isEmpty(alarmContactRecords)) {
+                return new ArrayList<>();
+            }
+            List<Long> recordIds = alarmContactRecords.stream().map(AlarmContactRecord::getRecordId).collect(Collectors.toList());
+            recordCriteria.andIdIn(recordIds);
+        }
+        if (blockId != null) {
+            AlarmRuleExample alarmRuleExample = new AlarmRuleExample();
+            alarmRuleExample.createCriteria().andBlockIdEqualTo(blockId);
+            List<AlarmRule> alarmRules = alarmRuleMapper.selectByExample(alarmRuleExample);
+            if (CollectionUtils.isEmpty(alarmRules)) {
+                return new ArrayList<>();
+            }
+            List<Long> ruleIds = alarmRules.stream().map(AlarmRule::getId).collect(Collectors.toList());
+            recordCriteria.andRuleIdIn(ruleIds);
+        }
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(DATETIME_FORMATTER);
+        if (StringUtil.isNotEmpty(description)) {
+            recordCriteria.andDescriptionLike("%" + description + "%");
+        }
+        try {
+            if (StringUtil.isNotEmpty(startTime)) {
+                recordCriteria.andAlarmTimeGreaterThanOrEqualTo(simpleDateFormat.parse(startTime));
+            }
+            if (StringUtil.isNotEmpty(endTime)) {
+                recordCriteria.andAlarmTimeLessThanOrEqualTo(simpleDateFormat.parse(endTime));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return alarmRecordMapper.selectByExample(example);
     }
 
     @Override
@@ -168,6 +199,11 @@ public class AlarmRecordServiceImpl implements AlarmRecordService {
             alarmContactRecord.setCreateTime(new Date());
             alarmContactRecordMapper.insert(alarmContactRecord);
         }
+    }
+
+    @Override
+    public int delete(Long id) {
+        return alarmRecordMapper.deleteByPrimaryKey(id);
     }
 
 }

@@ -14,5 +14,5 @@ public interface AlarmRuleService {
 
     int delete(Long id);
 
-    List<AlarmRule> list(Long blockId, Integer type, Integer pageSize, Integer pageNum);
+    List<AlarmRule> list(Long blockId, Integer type, String factorName, Integer pageSize, Integer pageNum);
 }

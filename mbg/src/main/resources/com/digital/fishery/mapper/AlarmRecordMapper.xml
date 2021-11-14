@@ -9,6 +9,8 @@
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
     <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="block_id" jdbcType="BIGINT" property="blockId" />
+    <result column="block_name" jdbcType="VARCHAR" property="blockName" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -69,7 +71,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, rule_id, description, alarm_time, create_time, update_time, status
+    a.id, a.rule_id, a.description, a.alarm_time, a.create_time, a.update_time, a.status,
+    r.block_id, b.name as block_name
   </sql>
   <select id="selectByExample" parameterType="com.digital.fishery.model.AlarmRecordExample" resultMap="BaseResultMap">
     select
@@ -77,7 +80,9 @@
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from alarm_record
+    from alarm_record a
+    left join alarm_rule r on r.id = a.rule_id
+    left join info_block b on b.id = r.block_id
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -88,8 +93,10 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from alarm_record
-    where id = #{id,jdbcType=BIGINT}
+    from alarm_record a
+    left join alarm_rule r on r.id = a.rule_id
+    left join info_block b on b.id = r.block_id
+    where a.id = #{id,jdbcType=BIGINT}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from alarm_record

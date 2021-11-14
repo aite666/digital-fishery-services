@@ -5,6 +5,7 @@ import com.digital.fishery.model.AlarmRule;
 import com.digital.fishery.model.AlarmRuleExample;
 import com.digital.fishery.service.AlarmRuleService;
 import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.util.StringUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,7 +43,7 @@ public class AlarmRuleServiceImpl implements AlarmRuleService {
     }
 
     @Override
-    public List<AlarmRule> list(Long blockId, Integer type, Integer pageSize, Integer pageNum) {
+    public List<AlarmRule> list(Long blockId, Integer type, String factorName, Integer pageSize, Integer pageNum) {
         PageHelper.startPage(pageNum, pageSize);
         AlarmRuleExample example = new AlarmRuleExample();
         AlarmRuleExample.Criteria criteria = example.createCriteria();
@@ -51,6 +52,9 @@ public class AlarmRuleServiceImpl implements AlarmRuleService {
         }
         if (type != null) {
             criteria.andTypeEqualTo(type);
+        }
+        if (StringUtil.isNotEmpty(factorName)) {
+            criteria.andFactorNameLike("%" + factorName + "%");
         }
         List<AlarmRule> AlarmRuleList = alarmRuleMapper.selectByExample(example);
         return AlarmRuleList;

@@ -45,12 +45,27 @@ public class AlarmRecordController {
     @ApiOperation("分页查询告警列表")
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     @ResponseBody
-    public CommonResult<CommonPage<AlarmRecord>> list(@RequestParam(value = "userId") Long userId,
-                                                    @RequestParam(value = "blockId", required = false) Long blockId,
-                                                    @RequestParam(value = "pageSize", defaultValue = "5") Integer pageSize,
-                                                    @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum) {
-        List<AlarmRecord> alarmRules = alarmRecordService.list(userId, blockId, pageSize, pageNum);
+    public CommonResult<CommonPage<AlarmRecord>> list(@RequestParam(value = "userId", required = false) Long userId,
+                                                      @RequestParam(value = "blockId", required = false) Long blockId,
+                                                      @RequestParam(value = "description", required = false) String description,
+                                                      @RequestParam(value = "startTime", required = false) String startTime,
+                                                      @RequestParam(value = "endTime", required = false) String endTime,
+                                                      @RequestParam(value = "pageSize", defaultValue = "5") Integer pageSize,
+                                                      @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum) {
+        List<AlarmRecord> alarmRules = alarmRecordService.list(userId, blockId, description, startTime, endTime, pageSize, pageNum);
         return CommonResult.success(CommonPage.restPage(alarmRules));
+    }
+
+    @ApiOperation("根据ID删除告警记录")
+    @RequestMapping(value = "/delete/{id}", method = RequestMethod.POST)
+    @ResponseBody
+    public CommonResult delete(@PathVariable Long id) {
+        int count = alarmRecordService.delete(id);
+        if (count > 0) {
+            return CommonResult.success(count);
+        } else {
+            return CommonResult.failed();
+        }
     }
 
 }

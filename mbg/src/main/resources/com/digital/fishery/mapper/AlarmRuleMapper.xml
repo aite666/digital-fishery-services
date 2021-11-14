@@ -7,6 +7,7 @@
     <result column="threshold" jdbcType="DOUBLE" property="threshold" />
     <result column="operator" jdbcType="VARCHAR" property="operator" />
     <result column="block_id" jdbcType="BIGINT" property="blockId" />
+    <result column="block_name" jdbcType="VARCHAR" property="blockName" />
     <result column="type" jdbcType="INTEGER" property="type" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
@@ -71,7 +72,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, factor_name, threshold, operator, block_id, type, create_time, update_time, status
+    a.id, a.factor_name, a.threshold, a.operator, a.block_id, a.type, a.create_time, a.update_time, a.status,
+    b.name as block_name
   </sql>
   <select id="selectByExample" parameterType="com.digital.fishery.model.AlarmRuleExample" resultMap="BaseResultMap">
     select
@@ -79,7 +81,8 @@
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from alarm_rule
+    from alarm_rule a
+    left join info_block b on b.id = a.block_id
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -90,8 +93,9 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from alarm_rule
-    where id = #{id,jdbcType=BIGINT}
+    from alarm_rule a
+    left join info_block b on b.id = a.block_id
+    where a.id = #{id,jdbcType=BIGINT}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from alarm_rule

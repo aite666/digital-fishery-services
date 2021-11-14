@@ -96,6 +96,7 @@ public class UmsAdminController {
         String username = principal.getName();
         UmsAdmin umsAdmin = adminService.getAdminByUsername(username);
         Map<String, Object> data = new HashMap<>();
+        data.put("userId", umsAdmin.getId());
         data.put("username", umsAdmin.getUsername());
         data.put("menus", roleService.getMenuList(umsAdmin.getId()));
         data.put("icon", umsAdmin.getIcon());

@@ -10,9 +10,11 @@ public interface AlarmRecordService {
 
     void sync(List<DeviceNodeResp> deviceNodeResp);
 
-    List<AlarmRecord> list(Long userId, Long blockId, Integer pageSize, Integer pageNum);
+    List<AlarmRecord> list(Long userId, Long blockId, String description, String startTime, String endTime, Integer pageSize, Integer pageNum);
 
     Long count(Long userId);
 
     void updateStatus(Long recordId, Long userId);
+
+    int delete(Long id);
 }

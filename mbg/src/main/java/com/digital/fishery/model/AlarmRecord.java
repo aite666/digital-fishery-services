@@ -22,6 +22,12 @@ public class AlarmRecord implements Serializable {
     @ApiModelProperty(value = "更新时间")
     private Date updateTime;
 
+    @ApiModelProperty(value = "区块id")
+    private Long blockId;
+
+    @ApiModelProperty(value = "区块名称")
+    private String blockName;
+
     @ApiModelProperty(value = "启用状态：0->禁用；1->启用")
     private Integer status;
 
@@ -81,6 +87,22 @@ public class AlarmRecord implements Serializable {
 
     public void setStatus(Integer status) {
         this.status = status;
+    }
+
+    public Long getBlockId() {
+        return blockId;
+    }
+
+    public void setBlockId(Long blockId) {
+        this.blockId = blockId;
+    }
+
+    public String getBlockName() {
+        return blockName;
+    }
+
+    public void setBlockName(String blockName) {
+        this.blockName = blockName;
     }
 
     @Override

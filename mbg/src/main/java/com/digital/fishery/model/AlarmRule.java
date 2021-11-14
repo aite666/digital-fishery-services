@@ -19,6 +19,9 @@ public class AlarmRule implements Serializable {
     @ApiModelProperty(value = "区块id")
     private Long blockId;
 
+    @ApiModelProperty(value = "区块名称")
+    private String blockName;
+
     @ApiModelProperty(value = "告警类型")
     private Integer type;
 
@@ -103,6 +106,14 @@ public class AlarmRule implements Serializable {
 
     public void setStatus(Integer status) {
         this.status = status;
+    }
+
+    public String getBlockName() {
+        return blockName;
+    }
+
+    public void setBlockName(String blockName) {
+        this.blockName = blockName;
     }
 
     @Override
