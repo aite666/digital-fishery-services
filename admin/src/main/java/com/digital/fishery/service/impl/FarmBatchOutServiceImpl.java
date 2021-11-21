@@ -14,8 +14,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by qianhan on 2021-09-19
@@ -51,15 +53,20 @@ public class FarmBatchOutServiceImpl implements FarmBatchOutService {
     }
 
     @Override
-    public List<FarmBatchOut> list(String batchCode, Long blockId, Integer pageSize, Integer pageNum) {
+    public List<FarmBatchOut> list(String batchCode, Long blockId, String blockIds, Integer pageSize, Integer pageNum) {
         PageHelper.startPage(pageNum, pageSize);
         FarmBatchOutExample example = new FarmBatchOutExample();
+        FarmBatchOutExample.Criteria criteria = example.createCriteria();
 //        example.setOrderByClause("sort desc");
         if (StringUtil.isNotEmpty(batchCode)) {
-            example.createCriteria().andBatchCodeEqualTo(batchCode);
+            criteria.andBatchCodeEqualTo(batchCode);
         }
         if (blockId != null) {
-            example.createCriteria().andBlockIdEqualTo(blockId);
+            criteria.andBlockIdEqualTo(blockId);
+        }
+        if (StringUtil.isNotEmpty(blockIds)) {
+            List<Long> blockIdList = Arrays.stream(blockIds.split(",")).map(Long::parseLong).collect(Collectors.toList());
+            criteria.andBlockIdIn(blockIdList);
         }
         return farmBatchOutMapper.selectByExample(example);
     }

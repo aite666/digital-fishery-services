@@ -176,7 +176,7 @@ public class UmsAdminExample {
         }
 
         public Criteria andUsernameEqualTo(String value) {
-            addCriterion("username =", value, "username");
+            addCriterion("a.username =", value, "username");
             return (Criteria) this;
         }
 
@@ -206,7 +206,7 @@ public class UmsAdminExample {
         }
 
         public Criteria andUsernameLike(String value) {
-            addCriterion("username like", value, "username");
+            addCriterion("a.username like", value, "username");
             return (Criteria) this;
         }
 
@@ -486,7 +486,7 @@ public class UmsAdminExample {
         }
 
         public Criteria andNickNameLike(String value) {
-            addCriterion("nick_name like", value, "nickName");
+            addCriterion("a.nick_name like", value, "nickName");
             return (Criteria) this;
         }
 
@@ -776,7 +776,7 @@ public class UmsAdminExample {
         }
 
         public Criteria andEnterpriseIdEqualTo(Long value) {
-            addCriterion("enterprise_id =", value, "enterpriseId");
+            addCriterion("a.enterprise_id =", value, "enterpriseId");
             return (Criteria) this;
         }
 

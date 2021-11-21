@@ -47,12 +47,13 @@ public class AlarmRecordController {
     @ResponseBody
     public CommonResult<CommonPage<AlarmRecord>> list(@RequestParam(value = "userId", required = false) Long userId,
                                                       @RequestParam(value = "blockId", required = false) Long blockId,
+                                                      @RequestParam(value = "blockIds", required = false) String blockIds,
                                                       @RequestParam(value = "description", required = false) String description,
                                                       @RequestParam(value = "startTime", required = false) String startTime,
                                                       @RequestParam(value = "endTime", required = false) String endTime,
                                                       @RequestParam(value = "pageSize", defaultValue = "5") Integer pageSize,
                                                       @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum) {
-        List<AlarmRecord> alarmRules = alarmRecordService.list(userId, blockId, description, startTime, endTime, pageSize, pageNum);
+        List<AlarmRecord> alarmRules = alarmRecordService.list(userId, blockId, blockIds, description, startTime, endTime, pageSize, pageNum);
         return CommonResult.success(CommonPage.restPage(alarmRules));
     }
 

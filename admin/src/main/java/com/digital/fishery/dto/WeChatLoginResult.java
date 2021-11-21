@@ -14,6 +14,9 @@ public class WeChatLoginResult {
     @ApiModelProperty(value = "用户信息")
     private UmsAdmin umsAdmin;
 
+    @ApiModelProperty(value = "返回信息")
+    private String message;
+
     public String getToken() {
         return token;
     }
@@ -28,5 +31,13 @@ public class WeChatLoginResult {
 
     public void setUmsAdmin(UmsAdmin umsAdmin) {
         this.umsAdmin = umsAdmin;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
     }
 }

@@ -406,7 +406,7 @@ public class AlarmRuleExample {
         }
 
         public Criteria andBlockIdIn(List<Long> values) {
-            addCriterion("block_id in", values, "blockId");
+            addCriterion("a.block_id in", values, "blockId");
             return (Criteria) this;
         }
 

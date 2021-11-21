@@ -33,5 +33,5 @@ public interface FarmInspectionService {
     /**
      * 分页查询后台区试
      */
-    List<FarmInspection> list(Long blockId, Integer pageSize, Integer pageNum);
+    List<FarmInspection> list(Long blockId, Long adminId, String blockIds, String startTime, String endTime, Integer pageSize, Integer pageNum);
 }

@@ -6,8 +6,9 @@
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="inspection_time" jdbcType="TIMESTAMP" property="inspectionTime" />
     <result column="block_id" jdbcType="BIGINT" property="blockId" />
-    <result column="block_name" jdbcType="VARCHAR" property="blockName" />
     <result column="create_user" jdbcType="VARCHAR" property="createUser" />
+    <result column="admin_id" jdbcType="BIGINT" property="adminId" />
+    <result column="block_name" jdbcType="VARCHAR" property="blockName" />
   </resultMap>
   <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.digital.fishery.model.FarmInspection">
     <result column="images" jdbcType="LONGVARCHAR" property="images" />
@@ -74,7 +75,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    a.id, a.create_time, a.inspection_time, a.block_id, a.create_user, b.name as block_name
+    a.id, a.create_time, a.inspection_time, a.block_id, a.create_user, a.admin_id, b.name as block_name
   </sql>
   <sql id="Blob_Column_List">
     a.images, a.product_data, a.environment_data, a.character_description
@@ -135,12 +136,12 @@
       SELECT LAST_INSERT_ID()
     </selectKey>
     insert into farm_inspection (create_time, inspection_time, block_id, 
-      create_user, images, product_data, 
-      environment_data, character_description
+      create_user, admin_id, images, 
+      product_data, environment_data, character_description
       )
     values (#{createTime,jdbcType=TIMESTAMP}, #{inspectionTime,jdbcType=TIMESTAMP}, #{blockId,jdbcType=BIGINT}, 
-      #{createUser,jdbcType=VARCHAR}, #{images,jdbcType=LONGVARCHAR}, #{productData,jdbcType=LONGVARCHAR}, 
-      #{environmentData,jdbcType=LONGVARCHAR}, #{characterDescription,jdbcType=LONGVARCHAR}
+      #{createUser,jdbcType=VARCHAR}, #{adminId,jdbcType=BIGINT}, #{images,jdbcType=LONGVARCHAR}, 
+      #{productData,jdbcType=LONGVARCHAR}, #{environmentData,jdbcType=LONGVARCHAR}, #{characterDescription,jdbcType=LONGVARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.digital.fishery.model.FarmInspection">
@@ -160,6 +161,9 @@
       </if>
       <if test="createUser != null">
         create_user,
+      </if>
+      <if test="adminId != null">
+        admin_id,
       </if>
       <if test="images != null">
         images,
@@ -186,6 +190,9 @@
       </if>
       <if test="createUser != null">
         #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="adminId != null">
+        #{adminId,jdbcType=BIGINT},
       </if>
       <if test="images != null">
         #{images,jdbcType=LONGVARCHAR},
@@ -225,6 +232,9 @@
       <if test="record.createUser != null">
         create_user = #{record.createUser,jdbcType=VARCHAR},
       </if>
+      <if test="record.adminId != null">
+        admin_id = #{record.adminId,jdbcType=BIGINT},
+      </if>
       <if test="record.images != null">
         images = #{record.images,jdbcType=LONGVARCHAR},
       </if>
@@ -249,6 +259,7 @@
       inspection_time = #{record.inspectionTime,jdbcType=TIMESTAMP},
       block_id = #{record.blockId,jdbcType=BIGINT},
       create_user = #{record.createUser,jdbcType=VARCHAR},
+      admin_id = #{record.adminId,jdbcType=BIGINT},
       images = #{record.images,jdbcType=LONGVARCHAR},
       product_data = #{record.productData,jdbcType=LONGVARCHAR},
       environment_data = #{record.environmentData,jdbcType=LONGVARCHAR},
@@ -263,7 +274,8 @@
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
       inspection_time = #{record.inspectionTime,jdbcType=TIMESTAMP},
       block_id = #{record.blockId,jdbcType=BIGINT},
-      create_user = #{record.createUser,jdbcType=VARCHAR}
+      create_user = #{record.createUser,jdbcType=VARCHAR},
+      admin_id = #{record.adminId,jdbcType=BIGINT}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -282,6 +294,9 @@
       </if>
       <if test="createUser != null">
         create_user = #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="adminId != null">
+        admin_id = #{adminId,jdbcType=BIGINT},
       </if>
       <if test="images != null">
         images = #{images,jdbcType=LONGVARCHAR},
@@ -304,6 +319,7 @@
       inspection_time = #{inspectionTime,jdbcType=TIMESTAMP},
       block_id = #{blockId,jdbcType=BIGINT},
       create_user = #{createUser,jdbcType=VARCHAR},
+      admin_id = #{adminId,jdbcType=BIGINT},
       images = #{images,jdbcType=LONGVARCHAR},
       product_data = #{productData,jdbcType=LONGVARCHAR},
       environment_data = #{environmentData,jdbcType=LONGVARCHAR},
@@ -315,7 +331,8 @@
     set create_time = #{createTime,jdbcType=TIMESTAMP},
       inspection_time = #{inspectionTime,jdbcType=TIMESTAMP},
       block_id = #{blockId,jdbcType=BIGINT},
-      create_user = #{createUser,jdbcType=VARCHAR}
+      create_user = #{createUser,jdbcType=VARCHAR},
+      admin_id = #{adminId,jdbcType=BIGINT}
     where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

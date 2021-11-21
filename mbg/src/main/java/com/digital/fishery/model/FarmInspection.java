@@ -22,6 +22,9 @@ public class FarmInspection implements Serializable {
     @ApiModelProperty(value = "创建人")
     private String createUser;
 
+    @ApiModelProperty(value = "用户id")
+    private Long adminId;
+
     @ApiModelProperty(value = "图片")
     private String images;
 
@@ -76,6 +79,14 @@ public class FarmInspection implements Serializable {
         this.createUser = createUser;
     }
 
+    public Long getAdminId() {
+        return adminId;
+    }
+
+    public void setAdminId(Long adminId) {
+        this.adminId = adminId;
+    }
+
     public String getImages() {
         return images;
     }
@@ -127,6 +138,7 @@ public class FarmInspection implements Serializable {
         sb.append(", inspectionTime=").append(inspectionTime);
         sb.append(", blockId=").append(blockId);
         sb.append(", createUser=").append(createUser);
+        sb.append(", adminId=").append(adminId);
         sb.append(", images=").append(images);
         sb.append(", productData=").append(productData);
         sb.append(", environmentData=").append(environmentData);

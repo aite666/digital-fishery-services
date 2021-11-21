@@ -33,5 +33,5 @@ public interface FarmSaleService {
     /**
      * 分页查询后台销售
      */
-    List<FarmSale> list(Long blockId, Integer pageSize, Integer pageNum);
+    List<FarmSale> list(Long blockId, String blockIds, Integer pageSize, Integer pageNum);
 }

@@ -13,6 +13,7 @@
     <result column="login_time" jdbcType="TIMESTAMP" property="loginTime" />
     <result column="status" jdbcType="INTEGER" property="status" />
     <result column="enterprise_id" jdbcType="BIGINT" property="enterpriseId" />
+    <result column="enterprise_name" jdbcType="VARCHAR" property="enterpriseName" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -73,8 +74,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, username, password, icon, email, nick_name, note, create_time, login_time, status, 
-    enterprise_id
+    a.id, a.username, a.password, a.icon, a.email, a.nick_name, a.note, a.create_time, a.login_time, a.status,
+    a.enterprise_id, e.name as enterprise_name
   </sql>
   <select id="selectByExample" parameterType="com.digital.fishery.model.UmsAdminExample" resultMap="BaseResultMap">
     select
@@ -82,7 +83,8 @@
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from ums_admin
+    from ums_admin a
+    left join info_enterprise e on e.id = enterprise_id
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -93,8 +95,9 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from ums_admin
-    where id = #{id,jdbcType=BIGINT}
+    from ums_admin a
+    left join info_enterprise e on e.id = enterprise_id
+    where a.id = #{id,jdbcType=BIGINT}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from ums_admin

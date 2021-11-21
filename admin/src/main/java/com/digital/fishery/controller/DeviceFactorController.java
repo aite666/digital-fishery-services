@@ -74,9 +74,11 @@ public class DeviceFactorController {
     public CommonResult<CommonPage<DeviceFactor>> list(@RequestParam(value = "factorId", required = false) String factorId,
                                                        @RequestParam(value = "factorName", required = false) String factorName,
                                                        @RequestParam(value = "deviceAddr", required = false) Integer deviceAddr,
+                                                       @RequestParam(value = "blockId", required = false) Long blockId,
+                                                       @RequestParam(value = "blockIds", required = false) String blockIds,
                                                        @RequestParam(value = "pageSize", defaultValue = "5") Integer pageSize,
                                                        @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum) {
-        List<DeviceFactor> deviceFactorList = deviceFactorService.list(factorId, factorName, deviceAddr, pageSize, pageNum);
+        List<DeviceFactor> deviceFactorList = deviceFactorService.list(factorId, factorName, deviceAddr, blockId, blockIds, pageSize, pageNum);
         return CommonResult.success(CommonPage.restPage(deviceFactorList));
     }
 }

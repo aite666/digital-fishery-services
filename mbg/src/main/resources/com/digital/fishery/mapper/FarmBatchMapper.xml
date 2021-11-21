@@ -114,6 +114,12 @@
     <if test="blockId != null">
      and a.block_id = #{blockId,jdbcType=BIGINT}
     </if>
+    <if test="blockIdList != null and blockIdList.size() > 0">
+      and a.block_id IN
+      <foreach item="item" index="index" collection="blockIdList" open="("  close=")" separator=",">
+        #{item}
+      </foreach>
+    </if>
     group by a.product_category_id
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">

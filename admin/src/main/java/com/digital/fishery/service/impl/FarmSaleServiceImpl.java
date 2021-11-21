@@ -11,8 +11,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by qianhan on 2021-09-19
@@ -48,12 +50,17 @@ public class FarmSaleServiceImpl implements FarmSaleService {
     }
 
     @Override
-    public List<FarmSale> list(Long blockId, Integer pageSize, Integer pageNum) {
+    public List<FarmSale> list(Long blockId, String blockIds, Integer pageSize, Integer pageNum) {
         PageHelper.startPage(pageNum, pageSize);
         FarmSaleExample example = new FarmSaleExample();
 //        example.setOrderByClause("sort desc");
+        FarmSaleExample.Criteria criteria = example.createCriteria();
         if (blockId != null) {
-            example.createCriteria().andBlockIdEqualTo(blockId);
+            criteria.andBlockIdEqualTo(blockId);
+        }
+        if (StringUtil.isNotEmpty(blockIds)) {
+            List<Long> blockIdList = Arrays.stream(blockIds.split(",")).map(Long::parseLong).collect(Collectors.toList());
+            criteria.andBlockIdIn(blockIdList);
         }
         return farmSaleMapper.selectByExample(example);
     }

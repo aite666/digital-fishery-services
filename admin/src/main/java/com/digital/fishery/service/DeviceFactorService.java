@@ -29,5 +29,5 @@ public interface DeviceFactorService {
     /**
      * 分页查询后台设备因子
      */
-    List<DeviceFactor> list(String factorId, String factorName, Integer deviceAddr, Integer pageSize, Integer pageNum);
+    List<DeviceFactor> list(String factorId, String factorName, Integer deviceAddr, Long blockId, String blockIds, Integer pageSize, Integer pageNum);
 }

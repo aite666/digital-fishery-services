@@ -246,7 +246,7 @@ public class DeviceFactorExample {
         }
 
         public Criteria andFactorIdEqualTo(String value) {
-            addCriterion("factor_id =", value, "factorId");
+            addCriterion("a.factor_id =", value, "factorId");
             return (Criteria) this;
         }
 
@@ -346,7 +346,7 @@ public class DeviceFactorExample {
         }
 
         public Criteria andFactorNameLike(String value) {
-            addCriterion("factor_name like", value, "factorName");
+            addCriterion("a.factor_name like", value, "factorName");
             return (Criteria) this;
         }
 
@@ -816,7 +816,22 @@ public class DeviceFactorExample {
         }
 
         public Criteria andDeviceAddrEqualTo(Integer value) {
+            addCriterion("a.device_addr =", value, "deviceAddr");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeviceAddrEqualTo2(Integer value) {
             addCriterion("device_addr =", value, "deviceAddr");
+            return (Criteria) this;
+        }
+
+        public Criteria andBlockIdEqualTo(Long value) {
+            addCriterion("d.block_id =", value, "blockId");
+            return (Criteria) this;
+        }
+
+        public Criteria andBlockIdIn(List<Long> values) {
+            addCriterion("d.block_id in", values, "blockId");
             return (Criteria) this;
         }
 

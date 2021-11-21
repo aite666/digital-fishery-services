@@ -29,5 +29,5 @@ public interface FarmBatchMapper {
 
     int updateByPrimaryKey(FarmBatch record);
 
-    List<JSONObject> listProductCategory(Long blockId);
+    List<JSONObject> listProductCategory(Long blockId, List<Long> blockIdList);
 }

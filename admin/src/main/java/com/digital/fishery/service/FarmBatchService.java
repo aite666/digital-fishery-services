@@ -34,10 +34,10 @@ public interface FarmBatchService {
     /**
      * 分页查询后台批次
      */
-    List<FarmBatch> list(String name, Long blockId, Integer pageSize, Integer pageNum);
+    List<FarmBatch> list(String name, Long blockId, String blockIds, String farmTime, Integer pageSize, Integer pageNum);
 
     /**
      * 根据区块id查询所有的养殖种类、批次数以及批次列表
      */
-    List<JSONObject> listProductCategory(Long blockId);
+    List<JSONObject> listProductCategory(Long blockId, String blockIds);
 }

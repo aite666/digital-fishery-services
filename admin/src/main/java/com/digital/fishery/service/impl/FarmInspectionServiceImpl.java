@@ -11,8 +11,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
+
+import static com.digital.fishery.scheduled.consts.Consts.DATETIME_FORMATTER;
 
 /**
  * Created by qianhan on 2021-09-19
@@ -48,12 +54,34 @@ public class FarmInspectionServiceImpl implements FarmInspectionService {
     }
 
     @Override
-    public List<FarmInspection> list(Long blockId, Integer pageSize, Integer pageNum) {
+    public List<FarmInspection> list(Long blockId, Long adminId, String blockIds, String startTime, String endTime, Integer pageSize, Integer pageNum) {
         PageHelper.startPage(pageNum, pageSize);
         FarmInspectionExample example = new FarmInspectionExample();
-//        example.setOrderByClause("sort desc");
+        example.setOrderByClause("a.inspection_time desc");
+        FarmInspectionExample.Criteria criteria = example.createCriteria();
         if (blockId != null) {
-            example.createCriteria().andBlockIdEqualTo(blockId);
+            criteria.andBlockIdEqualTo(blockId);
+        }
+        if (adminId != null) {
+            criteria.andAdminIdEqualTo(adminId);
+        }
+        if (StringUtil.isNotEmpty(blockIds)) {
+            List<Long> blockIdList = Arrays.stream(blockIds.split(",")).map(Long::parseLong).collect(Collectors.toList());
+            criteria.andBlockIdIn(blockIdList);
+        }
+        try {
+            if (StringUtil.isNotEmpty(startTime)) {
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat(DATETIME_FORMATTER);
+                Date start = simpleDateFormat.parse(startTime);
+                criteria.andInspectionTimeGreaterThanOrEqualTo(start);
+            }
+            if (StringUtil.isNotEmpty(endTime)) {
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat(DATETIME_FORMATTER);
+                Date end = simpleDateFormat.parse(endTime);
+                criteria.andInspectionTimeLessThanOrEqualTo(end);
+            }
+        } catch (ParseException e) {
+            LOGGER.warn("ParseException, ", e);
         }
         return farmInspectionMapper.selectByExampleWithBLOBs(example);
     }

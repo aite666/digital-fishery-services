@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -107,7 +108,7 @@ public class AlarmRecordServiceImpl implements AlarmRecordService {
     }
 
     @Override
-    public List<AlarmRecord> list(Long userId, Long blockId, String description, String startTime, String endTime, Integer pageSize, Integer pageNum) {
+    public List<AlarmRecord> list(Long userId, Long blockId, String blockIds, String description, String startTime, String endTime, Integer pageSize, Integer pageNum) {
         PageHelper.startPage(pageNum, pageSize);
         AlarmRecordExample example = new AlarmRecordExample();
         AlarmRecordExample.Criteria recordCriteria = example.createCriteria();
@@ -122,9 +123,16 @@ public class AlarmRecordServiceImpl implements AlarmRecordService {
             List<Long> recordIds = alarmContactRecords.stream().map(AlarmContactRecord::getRecordId).collect(Collectors.toList());
             recordCriteria.andIdIn(recordIds);
         }
-        if (blockId != null) {
+        if (blockId != null || StringUtil.isNotEmpty(blockIds)) {
             AlarmRuleExample alarmRuleExample = new AlarmRuleExample();
-            alarmRuleExample.createCriteria().andBlockIdEqualTo(blockId);
+            AlarmRuleExample.Criteria criteria = alarmRuleExample.createCriteria();
+            if (blockId != null) {
+                criteria.andBlockIdEqualTo(blockId);
+            }
+            if (StringUtil.isNotEmpty(blockIds)) {
+                List<Long> blockIdList = Arrays.stream(blockIds.split(",")).map(Long::parseLong).collect(Collectors.toList());
+                criteria.andBlockIdIn(blockIdList);
+            }
             List<AlarmRule> alarmRules = alarmRuleMapper.selectByExample(alarmRuleExample);
             if (CollectionUtils.isEmpty(alarmRules)) {
                 return new ArrayList<>();
@@ -183,7 +191,7 @@ public class AlarmRecordServiceImpl implements AlarmRecordService {
 
         // 查询用户
         InfoBlock infoBlock = infoBlockMapper.selectByPrimaryKey(alarmRule.getBlockId());
-        if (infoBlock == null) {
+        if (infoBlock.getEnterpriseId() == null) {
             logger.info("未绑定企业");
             return;
         }

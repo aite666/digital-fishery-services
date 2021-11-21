@@ -33,5 +33,5 @@ public interface FarmAdviceService {
     /**
      * 分页查询后台农事建议
      */
-    List<FarmAdvice> list(String name, Integer pageSize, Integer pageNum);
+    List<FarmAdvice> list(String name, Long blockId, String blockIds, Integer pageSize, Integer pageNum);
 }

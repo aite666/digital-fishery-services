@@ -5,6 +5,8 @@ import com.digital.fishery.dto.UmsAdminLoginParam;
 import com.digital.fishery.dto.UmsAdminParam;
 import com.digital.fishery.dto.UpdateAdminPasswordParam;
 import com.digital.fishery.dto.WeChatLoginResult;
+import com.digital.fishery.model.InfoBlock;
+import com.digital.fishery.service.InfoBlockService;
 import com.digital.fishery.service.UmsAdminService;
 import com.digital.fishery.service.UmsRoleService;
 import com.digital.fishery.api.CommonPage;
@@ -13,15 +15,17 @@ import com.digital.fishery.model.UmsAdmin;
 import com.digital.fishery.model.UmsRole;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import lombok.val;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
-import org.springframework.util.StringUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.security.Principal;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -100,6 +104,8 @@ public class UmsAdminController {
         data.put("username", umsAdmin.getUsername());
         data.put("menus", roleService.getMenuList(umsAdmin.getId()));
         data.put("icon", umsAdmin.getIcon());
+        data.put("enterpriseId", umsAdmin.getEnterpriseId());
+        data.put("blockIds", adminService.getBlockIdsByEnterpriseId(umsAdmin.getEnterpriseId()));
         List<UmsRole> roleList = adminService.getRoleList(umsAdmin.getId());
         if (CollUtil.isNotEmpty(roleList)) {
             List<String> roles = roleList.stream().map(UmsRole::getName).collect(Collectors.toList());
@@ -120,8 +126,9 @@ public class UmsAdminController {
     @ResponseBody
     public CommonResult<CommonPage<UmsAdmin>> list(@RequestParam(value = "keyword", required = false) String keyword,
                                                    @RequestParam(value = "pageSize", defaultValue = "5") Integer pageSize,
-                                                   @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum) {
-        List<UmsAdmin> adminList = adminService.list(keyword, pageSize, pageNum);
+                                                   @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
+                                                   @RequestParam(value = "enterpriseId", required = false) Long enterpriseId) {
+        List<UmsAdmin> adminList = adminService.list(keyword, enterpriseId, pageSize, pageNum);
         return CommonResult.success(CommonPage.restPage(adminList));
     }
 
@@ -223,7 +230,7 @@ public class UmsAdminController {
     public CommonResult wechatBind(@RequestBody UmsAdminLoginParam umsAdminLoginParam) {
         WeChatLoginResult result = adminService.wechatBind(umsAdminLoginParam);
         if (StringUtils.isEmpty(result.getToken())) {
-            return CommonResult.failed("获取token失败");
+            return CommonResult.failed(result.getMessage());
         }
         return CommonResult.success(result);
     }

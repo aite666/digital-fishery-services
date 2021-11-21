@@ -35,6 +35,12 @@ public class UmsAdmin implements Serializable {
     @ApiModelProperty(value = "公司id")
     private Long enterpriseId;
 
+    @ApiModelProperty(value = "公司名称")
+    private String enterpriseName;
+
+    @ApiModelProperty(value = "所管理的区块")
+    private String blockIds;
+
     private static final long serialVersionUID = 1L;
 
     public Long getId() {
@@ -125,6 +131,22 @@ public class UmsAdmin implements Serializable {
         this.enterpriseId = enterpriseId;
     }
 
+    public String getEnterpriseName() {
+        return enterpriseName;
+    }
+
+    public void setEnterpriseName(String enterpriseName) {
+        this.enterpriseName = enterpriseName;
+    }
+
+    public String getBlockIds() {
+        return blockIds;
+    }
+
+    public void setBlockIds(String blockIds) {
+        this.blockIds = blockIds;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -142,6 +164,7 @@ public class UmsAdmin implements Serializable {
         sb.append(", loginTime=").append(loginTime);
         sb.append(", status=").append(status);
         sb.append(", enterpriseId=").append(enterpriseId);
+        sb.append(", blockIds=").append(blockIds);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

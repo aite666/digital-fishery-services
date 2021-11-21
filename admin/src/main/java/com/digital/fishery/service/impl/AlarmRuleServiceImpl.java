@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class AlarmRuleServiceImpl implements AlarmRuleService {
@@ -43,12 +44,16 @@ public class AlarmRuleServiceImpl implements AlarmRuleService {
     }
 
     @Override
-    public List<AlarmRule> list(Long blockId, Integer type, String factorName, Integer pageSize, Integer pageNum) {
+    public List<AlarmRule> list(Long blockId, String blockIds, Integer type, String factorName, Integer pageSize, Integer pageNum) {
         PageHelper.startPage(pageNum, pageSize);
         AlarmRuleExample example = new AlarmRuleExample();
         AlarmRuleExample.Criteria criteria = example.createCriteria();
         if (blockId != null) {
             criteria.andBlockIdEqualTo(blockId);
+        }
+        if (StringUtil.isNotEmpty(blockIds)) {
+            List<Long> blockIdList = Arrays.stream(blockIds.split(",")).map(Long::parseLong).collect(Collectors.toList());
+            criteria.andBlockIdIn(blockIdList);
         }
         if (type != null) {
             criteria.andTypeEqualTo(type);

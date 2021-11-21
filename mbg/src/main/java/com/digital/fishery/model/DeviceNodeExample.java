@@ -185,6 +185,11 @@ public class DeviceNodeExample {
             return (Criteria) this;
         }
 
+        public Criteria andBlockIdIn(List<Long> values) {
+            addCriterion("d.block_id in", values, "blockId");
+            return (Criteria) this;
+        }
+
         public Criteria andDeviceAddrNotEqualTo(Integer value) {
             addCriterion("device_addr <>", value, "deviceAddr");
             return (Criteria) this;

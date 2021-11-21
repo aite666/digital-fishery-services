@@ -22,6 +22,7 @@
     <result column="status" jdbcType="INTEGER" property="status" />
     <result column="block_id" jdbcType="BIGINT" property="blockId" />
     <result column="block_name" jdbcType="VARCHAR" property="blockName" />
+    <result column="device_name" jdbcType="VARCHAR" property="deviceName" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -84,7 +85,7 @@
   <sql id="Base_Column_List">
     a.id, a.factor_icon, a.factor_id, a.factor_name, a.node_id, a.offset, a.register_id, a.unit, a.alarm_delay,
     a.alarm_rate, a.coefficient, a.device_addr, a.digits, a.enabled, a.sort, a.create_time, a.update_time,
-    a.status, d.block_id, b.name as block_name
+    a.status, d.block_id, b.name as block_name, d.device_name
   </sql>
   <select id="selectByExample" parameterType="com.digital.fishery.model.DeviceFactorExample" resultMap="BaseResultMap">
     select

@@ -72,9 +72,10 @@ public class FarmSaleController {
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     @ResponseBody
     public CommonResult<CommonPage<FarmSale>> list(@RequestParam(value = "blockId", required = false) Long blockId,
-                                                         @RequestParam(value = "pageSize", defaultValue = "5") Integer pageSize,
-                                                         @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum) {
-        List<FarmSale> farmSaleList = farmSaleService.list(blockId, pageSize, pageNum);
+                                                   @RequestParam(value = "blockIds", required = false) String blockIds,
+                                                   @RequestParam(value = "pageSize", defaultValue = "5") Integer pageSize,
+                                                   @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum) {
+        List<FarmSale> farmSaleList = farmSaleService.list(blockId, blockIds, pageSize, pageNum);
         return CommonResult.success(CommonPage.restPage(farmSaleList));
     }
 }

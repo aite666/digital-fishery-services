@@ -74,9 +74,10 @@ public class FarmBatchOutController {
     @ResponseBody
     public CommonResult<CommonPage<FarmBatchOut>> list(@RequestParam(value = "name", required = false) String name,
                                                        @RequestParam(value = "blockId", required = false) Long blockId,
+                                                       @RequestParam(value = "blockIds", required = false) String blockIds,
                                                        @RequestParam(value = "pageSize", defaultValue = "5") Integer pageSize,
                                                        @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum) {
-        List<FarmBatchOut> farmBatchOutList = farmBatchOutService.list(name, blockId, pageSize, pageNum);
+        List<FarmBatchOut> farmBatchOutList = farmBatchOutService.list(name, blockId, blockIds, pageSize, pageNum);
         return CommonResult.success(CommonPage.restPage(farmBatchOutList));
     }
 

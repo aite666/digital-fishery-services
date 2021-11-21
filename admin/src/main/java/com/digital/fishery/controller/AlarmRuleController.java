@@ -72,11 +72,12 @@ public class AlarmRuleController {
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     @ResponseBody
     public CommonResult<CommonPage<AlarmRule>> list(@RequestParam(value = "blockId", required = false) Long blockId,
-                                                 @RequestParam(value = "type", required = false) Integer type,
-                                                 @RequestParam(value = "factorName", required = false) String factorName,
-                                                 @RequestParam(value = "pageSize", defaultValue = "5") Integer pageSize,
-                                                 @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum) {
-        List<AlarmRule> alarmRules = alarmRuleService.list(blockId, type, factorName, pageSize, pageNum);
+                                                    @RequestParam(value = "blockIds", required = false) String blockIds,
+                                                    @RequestParam(value = "type", required = false) Integer type,
+                                                    @RequestParam(value = "factorName", required = false) String factorName,
+                                                    @RequestParam(value = "pageSize", defaultValue = "5") Integer pageSize,
+                                                    @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum) {
+        List<AlarmRule> alarmRules = alarmRuleService.list(blockId, blockIds, type, factorName, pageSize, pageNum);
         return CommonResult.success(CommonPage.restPage(alarmRules));
     }
 

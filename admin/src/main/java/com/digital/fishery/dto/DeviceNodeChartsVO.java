@@ -10,6 +10,9 @@ public class DeviceNodeChartsVO {
     @ApiModelProperty(value = "设备地址")
     private Integer deviceAddr;
 
+    @ApiModelProperty(value = "设备名称")
+    private String deviceName;
+
     @ApiModelProperty(value = "节点id")
     private Integer nodeId;
 
@@ -139,5 +142,13 @@ public class DeviceNodeChartsVO {
 
     public void setBlockName(String blockName) {
         this.blockName = blockName;
+    }
+
+    public String getDeviceName() {
+        return deviceName;
+    }
+
+    public void setDeviceName(String deviceName) {
+        this.deviceName = deviceName;
     }
 }

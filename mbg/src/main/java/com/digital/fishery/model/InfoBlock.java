@@ -29,6 +29,9 @@ public class InfoBlock implements Serializable {
     @ApiModelProperty(value = "公司id")
     private Long enterpriseId;
 
+    @ApiModelProperty(value = "公司名称")
+    private String enterpriseName;
+
     @ApiModelProperty(value = "坐标数据")
     private String position;
 
@@ -115,6 +118,14 @@ public class InfoBlock implements Serializable {
 
     public void setPositionJson(JSONArray positionJson) {
         this.positionJson = positionJson;
+    }
+
+    public String getEnterpriseName() {
+        return enterpriseName;
+    }
+
+    public void setEnterpriseName(String enterpriseName) {
+        this.enterpriseName = enterpriseName;
     }
 
     @Override

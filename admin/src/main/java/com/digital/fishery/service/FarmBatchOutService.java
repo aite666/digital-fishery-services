@@ -34,7 +34,7 @@ public interface FarmBatchOutService {
     /**
      * 分页查询后台批次
      */
-    List<FarmBatchOut> list(String name, Long blockId, Integer pageSize, Integer pageNum);
+    List<FarmBatchOut> list(String name, Long blockId, String blockIds, Integer pageSize, Integer pageNum);
 
     /**
      * 查询农事批次数量

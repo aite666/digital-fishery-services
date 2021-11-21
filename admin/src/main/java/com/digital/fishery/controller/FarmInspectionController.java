@@ -72,9 +72,13 @@ public class FarmInspectionController {
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     @ResponseBody
     public CommonResult<CommonPage<FarmInspection>> list(@RequestParam(value = "blockId", required = false) Long blockId,
+                                                         @RequestParam(value = "adminId", required = false) Long adminId,
+                                                         @RequestParam(value = "blockIds", required = false) String blockIds,
+                                                         @RequestParam(value = "startTime", required = false) String startTime,
+                                                         @RequestParam(value = "endTime", required = false) String endTime,
                                                          @RequestParam(value = "pageSize", defaultValue = "5") Integer pageSize,
                                                          @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum) {
-        List<FarmInspection> farmInspectionList = farmInspectionService.list(blockId, pageSize, pageNum);
+        List<FarmInspection> farmInspectionList = farmInspectionService.list(blockId, adminId, blockIds, startTime, endTime, pageSize, pageNum);
         return CommonResult.success(CommonPage.restPage(farmInspectionList));
     }
 }

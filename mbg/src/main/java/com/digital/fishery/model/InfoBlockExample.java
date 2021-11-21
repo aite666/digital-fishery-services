@@ -146,7 +146,7 @@ public class InfoBlockExample {
         }
 
         public Criteria andIdIn(List<Long> values) {
-            addCriterion("id in", values, "id");
+            addCriterion("a.id in", values, "id");
             return (Criteria) this;
         }
 
@@ -236,7 +236,7 @@ public class InfoBlockExample {
         }
 
         public Criteria andNameEqualTo(String value) {
-            addCriterion("name =", value, "name");
+            addCriterion("a.name =", value, "name");
             return (Criteria) this;
         }
 

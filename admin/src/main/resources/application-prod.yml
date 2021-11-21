@@ -28,3 +28,8 @@ logging:
 
 logstash:
   host: logstash
+
+wechat:
+  app:
+    id: wxa0b3845e2b0c970f
+    secret: 74d9540893ad2f6207bb0cf283b77f48

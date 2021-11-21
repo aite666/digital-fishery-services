@@ -30,5 +30,5 @@ logstash:
 
 wechat:
   app:
-    id: wx82bd94ad31e20b18
-    secret: 429f3ef3653e5a6bdc1cb46e95fb80a3
+    id: wxa0b3845e2b0c970f
+    secret: 74d9540893ad2f6207bb0cf283b77f48

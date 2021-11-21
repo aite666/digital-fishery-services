@@ -10,7 +10,7 @@ import com.digital.fishery.dto.UmsAdminLoginParam;
 import com.digital.fishery.dto.UmsAdminParam;
 import com.digital.fishery.dto.UpdateAdminPasswordParam;
 import com.digital.fishery.dto.WeChatLoginResult;
-import com.digital.fishery.mapper.UmsAdminWxMapper;
+import com.digital.fishery.mapper.*;
 import com.digital.fishery.model.*;
 import com.digital.fishery.service.UmsAdminCacheService;
 import com.digital.fishery.service.UmsAdminService;
@@ -18,10 +18,8 @@ import com.digital.fishery.util.HttpClientUtil;
 import com.github.pagehelper.PageHelper;
 import com.digital.fishery.exception.Asserts;
 import com.digital.fishery.util.RequestUtil;
-import com.digital.fishery.mapper.UmsAdminLoginLogMapper;
-import com.digital.fishery.mapper.UmsAdminMapper;
-import com.digital.fishery.mapper.UmsAdminRoleRelationMapper;
 import com.digital.fishery.util.JwtTokenUtil;
+import com.github.pagehelper.util.StringUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -44,6 +42,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * 后台用户管理Service实现类
@@ -75,17 +74,26 @@ public class UmsAdminServiceImpl implements UmsAdminService {
     @Autowired
     private UmsAdminLoginLogMapper loginLogMapper;
     @Autowired
+    private InfoBlockMapper infoBlockMapper;
+    @Autowired
     private UmsAdminCacheService adminCacheService;
 
     @Override
     public UmsAdmin getAdminByUsername(String username) {
         UmsAdmin admin = adminCacheService.getAdmin(username);
-        if(admin!=null) return  admin;
+        if (admin != null) {
+            if (StringUtils.isEmpty(admin.getBlockIds())) {
+                admin.setBlockIds(this.getBlockIdsByEnterpriseId(admin.getEnterpriseId()));
+            }
+            return admin;
+        }
+//        UmsAdmin admin = new UmsAdmin();
         UmsAdminExample example = new UmsAdminExample();
         example.createCriteria().andUsernameEqualTo(username);
         List<UmsAdmin> adminList = adminMapper.selectByExample(example);
         if (adminList != null && adminList.size() > 0) {
             admin = adminList.get(0);
+            admin.setBlockIds(this.getBlockIdsByEnterpriseId(admin.getEnterpriseId()));
             adminCacheService.setAdmin(admin);
             return admin;
         }
@@ -93,11 +101,25 @@ public class UmsAdminServiceImpl implements UmsAdminService {
     }
 
     @Override
+    public String getBlockIdsByEnterpriseId(Long enterpriseId) {
+        String blockIds = null;
+        if (enterpriseId != null && enterpriseId != -1) {
+            InfoBlockExample example = new InfoBlockExample();
+            InfoBlockExample.Criteria criteria = example.createCriteria();
+            criteria.andEnterpriseIdEqualTo(enterpriseId);
+            List<InfoBlock> infoBlockList = infoBlockMapper.selectByExampleWithBLOBs(example);
+            List<Long> blockIdList = infoBlockList.stream().map(InfoBlock::getId).collect(Collectors.toList());
+            blockIds = org.apache.commons.lang.StringUtils.join(blockIdList, ",");
+        }
+        return blockIds;
+    }
+
+    @Override
     public UmsAdmin register(UmsAdminParam umsAdminParam) {
         UmsAdmin umsAdmin = new UmsAdmin();
         BeanUtils.copyProperties(umsAdminParam, umsAdmin);
         umsAdmin.setCreateTime(new Date());
-        umsAdmin.setStatus(1);
+//        umsAdmin.setStatus(1);
         //查询是否有相同用户名的用户
         UmsAdminExample example = new UmsAdminExample();
         example.createCriteria().andUsernameEqualTo(umsAdmin.getUsername());
@@ -173,13 +195,16 @@ public class UmsAdminServiceImpl implements UmsAdminService {
     }
 
     @Override
-    public List<UmsAdmin> list(String keyword, Integer pageSize, Integer pageNum) {
+    public List<UmsAdmin> list(String keyword, Long enterpriseId, Integer pageSize, Integer pageNum) {
         PageHelper.startPage(pageNum, pageSize);
         UmsAdminExample example = new UmsAdminExample();
         UmsAdminExample.Criteria criteria = example.createCriteria();
         if (!StringUtils.isEmpty(keyword)) {
             criteria.andUsernameLike("%" + keyword + "%");
-            example.or(example.createCriteria().andNickNameLike("%" + keyword + "%"));
+            example.or(criteria.andNickNameLike("%" + keyword + "%"));
+        }
+        if (enterpriseId != null) {
+            criteria.andEnterpriseIdEqualTo(enterpriseId);
         }
         return adminMapper.selectByExample(example);
     }
@@ -297,6 +322,7 @@ public class UmsAdminServiceImpl implements UmsAdminService {
         }
         UmsAdminWx umsAdminWx = adminWxList.get(0);
         UmsAdmin umsAdmin = adminMapper.selectByPrimaryKey(umsAdminWx.getUserId());
+        umsAdmin.setBlockIds(this.getBlockIdsByEnterpriseId(umsAdmin.getEnterpriseId()));
         UserDetails userDetails = loadUserByUsername(umsAdmin.getUsername());
         String token = getToken(userDetails);
         WeChatLoginResult result = new WeChatLoginResult();
@@ -307,12 +333,21 @@ public class UmsAdminServiceImpl implements UmsAdminService {
 
     @Override
     public WeChatLoginResult wechatBind(UmsAdminLoginParam param) {
+        WeChatLoginResult result = new WeChatLoginResult();
         UmsAdmin umsAdmin = getAdminByUsername(param.getUsername());
-        if(!passwordEncoder.matches(param.getPassword(),umsAdmin.getPassword())){
-            Asserts.fail("密码不正确");
+        if (umsAdmin == null) {
+            result.setMessage("用户名不存在");
+            return result;
         }
-        if (umsAdmin.getStatus() != 1) {
-            Asserts.fail("账号已停用");
+        if(!passwordEncoder.matches(param.getPassword(),umsAdmin.getPassword())){
+//            Asserts.fail("密码不正确");
+            result.setMessage("密码不正确");
+            return result;
+        }
+        if (umsAdmin.getStatus() == null || umsAdmin.getStatus() != 1) {
+//            Asserts.fail("账号已停用");
+            result.setMessage("账号已停用，请联系管理员");
+            return result;
         }
         String openId = getOpenId(param.getCode());
         UmsAdminWxExample example = new UmsAdminWxExample();
@@ -332,9 +367,9 @@ public class UmsAdminServiceImpl implements UmsAdminService {
         }
         UserDetails userDetails = loadUserByUsername(umsAdmin.getUsername());
         String token = getToken(userDetails);
-        WeChatLoginResult result = new WeChatLoginResult();
         result.setToken(token);
         result.setUmsAdmin(umsAdmin);
+        result.setMessage("登陆成功");
         return result;
     }
 

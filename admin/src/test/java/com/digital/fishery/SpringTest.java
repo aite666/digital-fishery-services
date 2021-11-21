@@ -59,7 +59,7 @@ public class SpringTest {
     @Test
     public void test07() {
         List<Integer> deviceAddrs = Arrays.asList(40161421,40146980,40146973);
-        List<DeviceRealTimeVO> deviceRealTimeVOList = deviceService.realTimeList(deviceAddrs);
+        List<DeviceRealTimeVO> deviceRealTimeVOList = deviceService.realTimeList(deviceAddrs, null, null);
         System.out.println(JSON.toJSONString(deviceRealTimeVOList));
     }
 

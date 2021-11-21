@@ -49,7 +49,7 @@ public interface UmsAdminService {
     /**
      * 根据用户名或昵称分页查询用户
      */
-    List<UmsAdmin> list(String keyword, Integer pageSize, Integer pageNum);
+    List<UmsAdmin> list(String keyword, Long enterpriseId, Integer pageSize, Integer pageNum);
 
     /**
      * 修改指定用户信息
@@ -103,4 +103,9 @@ public interface UmsAdminService {
      * 微信登出
      */
     void wechatLogout(String code);
+
+    /**
+     * 根据公司id或者blockIds
+     */
+    String getBlockIdsByEnterpriseId(Long enterpriseId);
 }

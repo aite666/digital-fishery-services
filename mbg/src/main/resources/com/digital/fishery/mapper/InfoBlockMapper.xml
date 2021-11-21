@@ -10,6 +10,7 @@
     <result column="status" jdbcType="TINYINT" property="status" />
     <result column="type" jdbcType="TINYINT" property="type" />
     <result column="enterprise_id" jdbcType="BIGINT" property="enterpriseId" />
+    <result column="enterprise_name" jdbcType="VARCHAR" property="enterpriseName" />
   </resultMap>
   <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.digital.fishery.model.InfoBlock">
     <result column="position" jdbcType="LONGVARCHAR" property="position" />
@@ -73,7 +74,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, create_time, name, description, area, status, type, enterprise_id
+    a.id, a.create_time, a.name, a.description, a.area, a.status, a.type, a.enterprise_id,
+    e.name as enterprise_name
   </sql>
   <sql id="Blob_Column_List">
     position
@@ -86,7 +88,8 @@
     <include refid="Base_Column_List" />
     ,
     <include refid="Blob_Column_List" />
-    from info_block
+    from info_block a
+    left join info_enterprise e on e.id = a.enterprise_id
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -100,7 +103,8 @@
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from info_block
+    from info_block a
+    left join info_enterprise e on e.id = a.enterprise_id
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -113,8 +117,9 @@
     <include refid="Base_Column_List" />
     ,
     <include refid="Blob_Column_List" />
-    from info_block
-    where id = #{id,jdbcType=BIGINT}
+    from info_block a
+    left join info_enterprise e on e.id = a.enterprise_id
+    where a.id = #{id,jdbcType=BIGINT}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from info_block

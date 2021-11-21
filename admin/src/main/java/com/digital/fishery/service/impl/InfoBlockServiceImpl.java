@@ -13,8 +13,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by qianhan on 2021-09-19
@@ -54,12 +56,20 @@ public class InfoBlockServiceImpl implements InfoBlockService {
     }
 
     @Override
-    public List<InfoBlock> list(String name, Integer pageSize, Integer pageNum) {
+    public List<InfoBlock> list(String name, Long enterpriseId, String blockIds, Integer pageSize, Integer pageNum) {
         PageHelper.startPage(pageNum, pageSize);
         InfoBlockExample example = new InfoBlockExample();
 //        example.setOrderByClause("sort desc");
+        InfoBlockExample.Criteria criteria = example.createCriteria();
         if (StringUtil.isNotEmpty(name)) {
-            example.createCriteria().andNameEqualTo(name);
+            criteria.andNameEqualTo(name);
+        }
+        if (enterpriseId != null) {
+            criteria.andEnterpriseIdEqualTo(enterpriseId);
+        }
+        if (StringUtil.isNotEmpty(blockIds)) {
+            List<Long> blockIdList = Arrays.stream(blockIds.split(",")).map(Long::parseLong).collect(Collectors.toList());
+            criteria.andIdIn(blockIdList);
         }
         List<InfoBlock> infoBlockList = infoBlockMapper.selectByExampleWithBLOBs(example);
         for (InfoBlock infoBlock : infoBlockList) {

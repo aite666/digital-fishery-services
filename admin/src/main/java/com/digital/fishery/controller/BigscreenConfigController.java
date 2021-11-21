@@ -85,8 +85,8 @@ public class BigscreenConfigController {
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     @ResponseBody
     public CommonResult<CommonPage<BigscreenConfig>> list(@RequestParam(value = "name", required = false) String name,
-                                                         @RequestParam(value = "pageSize", defaultValue = "5") Integer pageSize,
-                                                         @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum) {
+                                                          @RequestParam(value = "pageSize", defaultValue = "5") Integer pageSize,
+                                                          @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum) {
         List<BigscreenConfig> bigscreenConfigList = bigscreenConfigService.list(name, pageSize, pageNum);
         return CommonResult.success(CommonPage.restPage(bigscreenConfigList));
     }

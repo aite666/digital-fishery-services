@@ -64,6 +64,9 @@ public class DeviceFactor implements Serializable {
     @ApiModelProperty(value = "区块名称")
     private String blockName;
 
+    @ApiModelProperty(value = "设备名称")
+    private String deviceName;
+
     private static final long serialVersionUID = 1L;
 
     public Long getId() {
@@ -224,6 +227,14 @@ public class DeviceFactor implements Serializable {
 
     public void setBlockName(String blockName) {
         this.blockName = blockName;
+    }
+
+    public String getDeviceName() {
+        return deviceName;
+    }
+
+    public void setDeviceName(String deviceName) {
+        this.deviceName = deviceName;
     }
 
     @Override

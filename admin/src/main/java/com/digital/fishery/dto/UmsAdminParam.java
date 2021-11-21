@@ -29,4 +29,6 @@ public class UmsAdminParam {
     private String nickName;
     @ApiModelProperty(value = "备注")
     private String note;
+    @ApiModelProperty(value = "企业id")
+    private Long enterpriseId;
 }

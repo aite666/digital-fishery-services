@@ -72,9 +72,11 @@ public class InfoBlockController {
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     @ResponseBody
     public CommonResult<CommonPage<InfoBlock>> list(@RequestParam(value = "name", required = false) String name,
-                                                         @RequestParam(value = "pageSize", defaultValue = "5") Integer pageSize,
-                                                         @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum) {
-        List<InfoBlock> infoBlockList = infoBlockService.list(name, pageSize, pageNum);
+                                                    @RequestParam(value = "enterpriseId", required = false) Long enterpriseId,
+                                                    @RequestParam(value = "blockIds", required = false) String blockIds,
+                                                    @RequestParam(value = "pageSize", defaultValue = "5") Integer pageSize,
+                                                    @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum) {
+        List<InfoBlock> infoBlockList = infoBlockService.list(name, enterpriseId, blockIds, pageSize, pageNum);
         return CommonResult.success(CommonPage.restPage(infoBlockList));
     }
 }

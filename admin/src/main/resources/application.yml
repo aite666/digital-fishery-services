@@ -56,6 +56,7 @@ secure:
       - /minio/upload
       - /qrCode/**
       - /admin/wechat/**
+      - /enterprise/list
 
 aliyun:
   oss:

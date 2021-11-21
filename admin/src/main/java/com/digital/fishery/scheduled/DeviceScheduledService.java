@@ -8,6 +8,7 @@ import com.digital.fishery.mapper.*;
 import com.digital.fishery.model.*;
 import com.digital.fishery.scheduled.domain.BaseResponse;
 import com.digital.fishery.service.AlarmRecordService;
+import lombok.val;
 import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -78,7 +79,6 @@ public class DeviceScheduledService {
 //            if (CollectionUtils.isEmpty(groupIds)) {
 //                return;
 //            }
-
         BaseResponse baseResponse = deviceHttpClient.doGet(DEVICE_BASE_URL + DEVICE_URL, null);
         if (baseResponse == null) {
             return;
@@ -88,9 +88,22 @@ public class DeviceScheduledService {
             return;
         }
 
-        deviceMapper.deleteByExample(new DeviceExample());
+        //这里先保留所有采集设备的一些信息，然后再删除新增
+        DeviceExample deviceExample = new DeviceExample();
+        deviceExample.createCriteria().andDeviceTypeEqualTo("采集设备");
+        List<Device> dbDeviceList = deviceMapper.selectByExample(deviceExample);
+        Map<Integer, Device> dbBlockInfo = new HashMap<Integer, Device>();
+        for (int i=0; i<dbDeviceList.size(); i++) {
+            dbBlockInfo.put(dbDeviceList.get(i).getDeviceAddr(), dbDeviceList.get(i));
+        }
+        deviceMapper.deleteByExample(deviceExample);
         for (Device device : deviceList) {
             device.setCreateTime(new Date());
+            device.setDeviceType("采集设备");
+            if (dbBlockInfo.get(device.getDeviceAddr()) != null) {
+                device.setBlockId(dbBlockInfo.get(device.getDeviceAddr()).getBlockId());
+                device.setDeviceName(dbBlockInfo.get(device.getDeviceAddr()).getDeviceName());
+            }
             deviceMapper.insert(device);
 
             // factors
@@ -99,7 +112,7 @@ public class DeviceScheduledService {
                 continue;
             }
             DeviceFactorExample delFactorExample = new DeviceFactorExample();
-            delFactorExample.createCriteria().andDeviceAddrEqualTo(device.getDeviceAddr());
+            delFactorExample.createCriteria().andDeviceAddrEqualTo2(device.getDeviceAddr());
             deviceFactorMapper.deleteByExample(delFactorExample);
 
             for (DeviceFactor factor : factors) {

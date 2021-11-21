@@ -14,6 +14,8 @@ import com.digital.fishery.model.DeviceNodeExample;
 import com.digital.fishery.service.DeviceService;
 import com.digital.fishery.dto.DeviceRealTimeVO;
 import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.util.StringUtil;
+import lombok.val;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -65,7 +67,7 @@ public class DeviceServiceImpl implements DeviceService {
     }
 
     @Override
-    public List<Device> list(Integer deviceAddr, String deviceName, String deviceType, Long blockId, Integer pageSize, Integer pageNum) {
+    public List<Device> list(Integer deviceAddr, String deviceName, String deviceType, Long blockId, String blockIds, Integer pageSize, Integer pageNum) {
         PageHelper.startPage(pageNum, pageSize);
         DeviceExample example = new DeviceExample();
         DeviceExample.Criteria criteria =  example.createCriteria();
@@ -81,12 +83,16 @@ public class DeviceServiceImpl implements DeviceService {
         if (blockId != null) {
             criteria.andBlockIdEqualTo(blockId);
         }
+        if (StringUtil.isNotEmpty(blockIds)) {
+            List<Long> blockIdList = Arrays.stream(blockIds.split(",")).map(Long::parseLong).collect(Collectors.toList());
+            criteria.andBlockIdIn(blockIdList);
+        }
         List<Device> deviceList = deviceMapper.selectByExample(example);
         return deviceList;
     }
 
     @Override
-    public List<DeviceNodeChartsVO> nodeCharts(Integer deviceAddr, Integer nodeId, Integer registerId, String registerName, Long blockId, String startTime, String endTime) {
+    public List<DeviceNodeChartsVO> nodeCharts(Integer deviceAddr, Integer nodeId, Integer registerId, String registerName, Long blockId, String blockIds, String startTime, String endTime) {
         DeviceNodeExample example = new DeviceNodeExample();
         example.setOrderByClause("record_time");
         DeviceNodeExample.Criteria criteria = example.createCriteria();
@@ -105,6 +111,10 @@ public class DeviceServiceImpl implements DeviceService {
         if (blockId != null) {
             criteria.andBlockIdEqualTo(blockId);
         }
+        if (StringUtil.isNotEmpty(blockIds)) {
+            List<Long> blockIdList = Arrays.stream(blockIds.split(",")).map(Long::parseLong).collect(Collectors.toList());
+            criteria.andBlockIdIn(blockIdList);
+        }
         try {
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat(DATETIME_FORMATTER);
             Date start = simpleDateFormat.parse(startTime);
@@ -117,7 +127,7 @@ public class DeviceServiceImpl implements DeviceService {
             }
 
             Map<String, List<DeviceNode>> map = deviceNodes.stream()
-                    .collect(Collectors.groupingBy(o -> (o.getDeviceAddr().toString() + "," + o.getNodeId().toString() + "," + o.getBlockId().toString() + "," + o.getBlockName())));
+                    .collect(Collectors.groupingBy(o -> (o.getDeviceAddr().toString() + "," + o.getNodeId().toString() + "," + o.getBlockId().toString() + "," + o.getBlockName() + "," + o.getDeviceName())));
 
             List<DeviceNodeChartsVO> result = new ArrayList<>();
             for (Map.Entry<String, List<DeviceNode>> entry : map.entrySet()) {
@@ -129,6 +139,7 @@ public class DeviceServiceImpl implements DeviceService {
                 vo.setNodeId(Integer.parseInt(split[1]));
                 vo.setBlockId(Long.parseLong(split[2]));
                 vo.setBlockName(split[3]);
+                vo.setDeviceName(split[4]);
 
                 List<DeviceNodeChartsVO.NodeData> data = new ArrayList<>();
                 List<DeviceNode> value = entry.getValue();
@@ -148,20 +159,44 @@ public class DeviceServiceImpl implements DeviceService {
     }
 
     @Override
-    public List<DeviceRealTimeVO> realTimeList(List<Integer> deviceAddrs) {
+    public List<DeviceRealTimeVO> realTimeList(List<Integer> deviceAddrs, Long blockId, String blockIds) {
         BaseResponse baseResponse = null;
+        List<DeviceRealTimeVO> deviceRealTimeVOList = new ArrayList<>();
         Map<String, String> param = new HashMap<>();
+        List<Integer> deviceAddrList = null;
+        if (blockId != null || StringUtil.isNotEmpty(blockIds)) {
+            DeviceExample example = new DeviceExample();
+            DeviceExample.Criteria criteria = example.createCriteria();
+            if (blockId != null) {
+                criteria.andBlockIdEqualTo(blockId);
+            }
+            if (StringUtil.isNotEmpty(blockIds)) {
+                List<Long> blockIdList = Arrays.stream(blockIds.split(",")).map(Long::parseLong).collect(Collectors.toList());
+                criteria.andBlockIdIn(blockIdList);
+            }
+            List<Device> deviceList = deviceMapper.selectByExample(example);
+            deviceAddrList = deviceList.stream().map(Device::getDeviceAddr).collect(Collectors.toList());
+        }
+        if (deviceAddrList != null && deviceAddrList.size() == 0) {
+            return deviceRealTimeVOList;
+        }
         if (deviceAddrs != null && deviceAddrs.size() > 0) {
+            if (deviceAddrList != null && deviceAddrList.size() > 0) {
+                deviceAddrs = (List<Integer>)CollectionUtils.intersection(deviceAddrList, deviceAddrs);
+            }
             param.put("deviceAddrs", StringUtils.join(deviceAddrs, ","));
             baseResponse = deviceHttpClient.doGet(DEVICE_REAL_TIME_BY_ADDR_RL + DEVICE_REAL_TIME_URL, param);
         } else {
+            if (deviceAddrList != null && deviceAddrList.size() > 0) {
+                param.put("deviceAddrs", StringUtils.join(deviceAddrList, ","));
+            }
             baseResponse = deviceHttpClient.doGet(DEVICE_BASE_URL + DEVICE_REAL_TIME_URL, param);
         }
 
         if (baseResponse == null) {
-            return null;
+            return deviceRealTimeVOList;
         }
-        List<DeviceRealTimeVO> deviceRealTimeVOList = JSON.parseObject(baseResponse.getData().toString(), new TypeReference<List<DeviceRealTimeVO>>() {});
+        deviceRealTimeVOList = JSON.parseObject(baseResponse.getData().toString(), new TypeReference<List<DeviceRealTimeVO>>() {});
         return deviceRealTimeVOList;
     }
 }

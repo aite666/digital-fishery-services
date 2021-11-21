@@ -33,5 +33,5 @@ public interface InfoBlockService {
     /**
      * 分页查询后台区块信息
      */
-    List<InfoBlock> list(String name, Integer pageSize, Integer pageNum);
+    List<InfoBlock> list(String name, Long enterpriseId, String blockIds, Integer pageSize, Integer pageNum);
 }

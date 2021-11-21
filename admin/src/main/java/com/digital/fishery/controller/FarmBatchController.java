@@ -76,17 +76,20 @@ public class FarmBatchController {
     @ResponseBody
     public CommonResult<CommonPage<FarmBatch>> list(@RequestParam(value = "name", required = false) String name,
                                                     @RequestParam(value = "blockId", required = false) Long blockId,
-                                                         @RequestParam(value = "pageSize", defaultValue = "5") Integer pageSize,
-                                                         @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum) {
-        List<FarmBatch> farmBatchList = farmBatchService.list(name, blockId, pageSize, pageNum);
+                                                    @RequestParam(value = "blockIds", required = false) String blockIds,
+                                                    @RequestParam(value = "farmTime", required = false) String farmTime,
+                                                    @RequestParam(value = "pageSize", defaultValue = "5") Integer pageSize,
+                                                    @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum) {
+        List<FarmBatch> farmBatchList = farmBatchService.list(name, blockId, blockIds, farmTime, pageSize, pageNum);
         return CommonResult.success(CommonPage.restPage(farmBatchList));
     }
 
     @ApiOperation("根据区块id查询所有的养殖种类、批次数以及批次列表")
     @RequestMapping(value = "/listProductCategory", method = RequestMethod.GET)
     @ResponseBody
-    public CommonResult listProductCategory(@RequestParam(value = "blockId", required = false) Long blockId) {
-        List<JSONObject> farmBatchList = farmBatchService.listProductCategory(blockId);
+    public CommonResult listProductCategory(@RequestParam(value = "blockId", required = false) Long blockId,
+                                            @RequestParam(value = "blockIds", required = false) String blockIds) {
+        List<JSONObject> farmBatchList = farmBatchService.listProductCategory(blockId, blockIds);
         return CommonResult.success(farmBatchList);
     }
 }

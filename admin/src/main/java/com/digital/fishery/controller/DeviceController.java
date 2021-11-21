@@ -77,9 +77,10 @@ public class DeviceController {
                                                  @RequestParam(value = "deviceName", required = false) String deviceName,
                                                  @RequestParam(value = "deviceType", required = false) String deviceType,
                                                  @RequestParam(value = "blockId", required = false) Long blockId,
+                                                 @RequestParam(value = "blockIds", required = false) String blockIds,
                                                  @RequestParam(value = "pageSize", defaultValue = "5") Integer pageSize,
                                                  @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum) {
-        List<Device> deviceList = deviceService.list(deviceAddr, deviceName, deviceType, blockId, pageSize, pageNum);
+        List<Device> deviceList = deviceService.list(deviceAddr, deviceName, deviceType, blockId, blockIds, pageSize, pageNum);
         return CommonResult.success(CommonPage.restPage(deviceList));
     }
 
@@ -91,17 +92,20 @@ public class DeviceController {
                                                      @RequestParam(value = "registerId", required = false) Integer registerId,
                                                      @RequestParam(value = "registerName", required = false) String registerName,
                                                      @RequestParam(value = "blockId", required = false) Long blockId,
+                                                     @RequestParam(value = "blockIds", required = false) String blockIds,
                                                      @RequestParam(value = "startTime") String startTime,
                                                      @RequestParam(value = "endTime") String endTime) {
-        List<DeviceNodeChartsVO> result = deviceService.nodeCharts(deviceAddr, nodeId, registerId, registerName, blockId, startTime, endTime);
+        List<DeviceNodeChartsVO> result = deviceService.nodeCharts(deviceAddr, nodeId, registerId, registerName, blockId, blockIds, startTime, endTime);
         return CommonResult.success(result);
     }
 
     @ApiOperation("分页查询实时数据")
     @RequestMapping(value = "/realtime/list", method = RequestMethod.GET)
     @ResponseBody
-    public CommonResult<List<DeviceRealTimeVO> > realTimeList(@RequestParam(value = "deviceAddrs", required = false) List<Integer> deviceAddrs) {
-        List<DeviceRealTimeVO> deviceRealTimeVOList = deviceService.realTimeList(deviceAddrs);
+    public CommonResult<List<DeviceRealTimeVO> > realTimeList(@RequestParam(value = "deviceAddrs", required = false) List<Integer> deviceAddrs,
+                                                              @RequestParam(value = "blockId", required = false) Long blockId,
+                                                              @RequestParam(value = "blockIds", required = false) String blockIds) {
+        List<DeviceRealTimeVO> deviceRealTimeVOList = deviceService.realTimeList(deviceAddrs, blockId, blockIds);
         return CommonResult.success(deviceRealTimeVOList);
     }
 }
