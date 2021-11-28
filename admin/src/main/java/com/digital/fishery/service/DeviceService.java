@@ -42,4 +42,9 @@ public interface DeviceService {
      * 查询实时数据
      */
     List<DeviceRealTimeVO> realTimeList(List<Integer> deviceAddrs, Long blockId, String blockIds);
+
+    /**
+     * 刷新设备数据
+     */
+    int refeash();
 }

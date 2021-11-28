@@ -8,6 +8,7 @@ import com.digital.fishery.mapper.*;
 import com.digital.fishery.model.*;
 import com.digital.fishery.scheduled.domain.BaseResponse;
 import com.digital.fishery.service.AlarmRecordService;
+import com.digital.fishery.service.DeviceService;
 import lombok.val;
 import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
@@ -46,6 +47,8 @@ public class DeviceScheduledService {
 
     @Autowired
     private AlarmRecordService alarmRecordService;
+    @Autowired
+    private DeviceService deviceService;
 
     /**
      * 设备组信息每天凌晨0点15分执行一次
@@ -71,55 +74,7 @@ public class DeviceScheduledService {
      */
     @Scheduled(cron = "0 0 1 * * ?")
     public void insertDevice() {
-//            List<DeviceGroup> deviceGroupList = deviceGroupMapper.selectByExample(new DeviceGroupExample());
-//            if (CollectionUtils.isEmpty(deviceGroupList)) {
-//                return;
-//            }
-//            List<String> groupIds = deviceGroupList.stream().map(DeviceGroup::getGroupid).collect(Collectors.toList());
-//            if (CollectionUtils.isEmpty(groupIds)) {
-//                return;
-//            }
-        BaseResponse baseResponse = deviceHttpClient.doGet(DEVICE_BASE_URL + DEVICE_URL, null);
-        if (baseResponse == null) {
-            return;
-        }
-        List<Device> deviceList = JSON.parseObject(baseResponse.getData().toString(), new TypeReference<List<Device>>() {});
-        if (CollectionUtils.isEmpty(deviceList)) {
-            return;
-        }
-
-        //这里先保留所有采集设备的一些信息，然后再删除新增
-        DeviceExample deviceExample = new DeviceExample();
-        deviceExample.createCriteria().andDeviceTypeEqualTo("采集设备");
-        List<Device> dbDeviceList = deviceMapper.selectByExample(deviceExample);
-        Map<Integer, Device> dbBlockInfo = new HashMap<Integer, Device>();
-        for (int i=0; i<dbDeviceList.size(); i++) {
-            dbBlockInfo.put(dbDeviceList.get(i).getDeviceAddr(), dbDeviceList.get(i));
-        }
-        deviceMapper.deleteByExample(deviceExample);
-        for (Device device : deviceList) {
-            device.setCreateTime(new Date());
-            device.setDeviceType("采集设备");
-            if (dbBlockInfo.get(device.getDeviceAddr()) != null) {
-                device.setBlockId(dbBlockInfo.get(device.getDeviceAddr()).getBlockId());
-                device.setDeviceName(dbBlockInfo.get(device.getDeviceAddr()).getDeviceName());
-            }
-            deviceMapper.insert(device);
-
-            // factors
-            List<DeviceFactor> factors = device.getFactors();
-            if (CollectionUtils.isEmpty(factors)) {
-                continue;
-            }
-            DeviceFactorExample delFactorExample = new DeviceFactorExample();
-            delFactorExample.createCriteria().andDeviceAddrEqualTo2(device.getDeviceAddr());
-            deviceFactorMapper.deleteByExample(delFactorExample);
-
-            for (DeviceFactor factor : factors) {
-                factor.setCreateTime(new Date());
-                deviceFactorMapper.insert(factor);
-            }
-        }
+        deviceService.refeash();
         LOGGER.info("insertDevice finish");
     }
 
@@ -181,8 +136,8 @@ public class DeviceScheduledService {
             param.put("deviceAddr", deviceAddr.toString());
             param.put("nodeId", "-1");
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat(DATETIME_FORMATTER);
-//            param.put("startTime", simpleDateFormat.format(new Date(new Date().getTime() - (1000*60*30))));
-            param.put("startTime", "2020-01-01 00:00:00");
+            param.put("startTime", simpleDateFormat.format(new Date(System.currentTimeMillis() - (1000*60*30))));
+//            param.put("startTime", "2020-01-01 00:00:00");
             param.put("endTime", simpleDateFormat.format(new Date()));
             BaseResponse baseResponse = deviceHttpClient.doGet(DEVICE_BASE_URL + DEVICE_HISTORY_URL, param);
             if (baseResponse == null) {

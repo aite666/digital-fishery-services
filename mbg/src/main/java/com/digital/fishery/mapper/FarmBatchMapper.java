@@ -30,4 +30,6 @@ public interface FarmBatchMapper {
     int updateByPrimaryKey(FarmBatch record);
 
     List<JSONObject> listProductCategory(Long blockId, List<Long> blockIdList);
+
+    List<JSONObject> getHomeBatchData(List<Long> blockIdList, String startTime, String endTime);
 }

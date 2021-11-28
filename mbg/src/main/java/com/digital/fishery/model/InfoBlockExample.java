@@ -150,6 +150,11 @@ public class InfoBlockExample {
             return (Criteria) this;
         }
 
+        public Criteria andIdIn2(List<Long> values) {
+            addCriterion("id in", values, "id");
+            return (Criteria) this;
+        }
+
         public Criteria andIdNotIn(List<Long> values) {
             addCriterion("id not in", values, "id");
             return (Criteria) this;

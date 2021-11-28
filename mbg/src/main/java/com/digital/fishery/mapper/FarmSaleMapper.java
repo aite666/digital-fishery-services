@@ -1,5 +1,6 @@
 package com.digital.fishery.mapper;
 
+import com.alibaba.fastjson.JSONObject;
 import com.digital.fishery.model.FarmSale;
 import com.digital.fishery.model.FarmSaleExample;
 import java.util.List;
@@ -27,4 +28,6 @@ public interface FarmSaleMapper {
     int updateByPrimaryKeySelective(FarmSale record);
 
     int updateByPrimaryKey(FarmSale record);
+
+    List<JSONObject> getHomeSaleData(List<Long> blockIdList, String startTime, String endTime);
 }

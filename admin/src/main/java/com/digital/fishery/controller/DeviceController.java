@@ -108,4 +108,16 @@ public class DeviceController {
         List<DeviceRealTimeVO> deviceRealTimeVOList = deviceService.realTimeList(deviceAddrs, blockId, blockIds);
         return CommonResult.success(deviceRealTimeVOList);
     }
+
+    @ApiOperation("刷新设备数据")
+    @RequestMapping(value = "/refeash", method = RequestMethod.GET)
+    @ResponseBody
+    public CommonResult refeash() {
+        int count = deviceService.refeash();
+        if (count > 0) {
+            return CommonResult.success(count);
+        } else {
+            return CommonResult.failed();
+        }
+    }
 }

@@ -210,6 +210,11 @@ public class AlarmRecordExample {
             return (Criteria) this;
         }
 
+        public Criteria andRuleIdIn2(List<Long> values) {
+            addCriterion("rule_id in", values, "ruleId");
+            return (Criteria) this;
+        }
+
         public Criteria andRuleIdNotIn(List<Long> values) {
             addCriterion("rule_id not in", values, "ruleId");
             return (Criteria) this;
@@ -325,6 +330,11 @@ public class AlarmRecordExample {
             return (Criteria) this;
         }
 
+        public Criteria andAlarmTimeGreaterThanOrEqualTo2(Date value) {
+            addCriterion("alarm_time >=", value, "alarmTime");
+            return (Criteria) this;
+        }
+
         public Criteria andAlarmTimeLessThan(Date value) {
             addCriterion("a.alarm_time <", value, "alarmTime");
             return (Criteria) this;
@@ -332,6 +342,11 @@ public class AlarmRecordExample {
 
         public Criteria andAlarmTimeLessThanOrEqualTo(Date value) {
             addCriterion("a.alarm_time <=", value, "alarmTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andAlarmTimeLessThanOrEqualTo2(Date value) {
+            addCriterion("alarm_time <=", value, "alarmTime");
             return (Criteria) this;
         }
 

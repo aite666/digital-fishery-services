@@ -3,14 +3,12 @@ package com.digital.fishery.service.impl;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
 import com.digital.fishery.common.DeviceHttpClient;
+import com.digital.fishery.mapper.DeviceFactorMapper;
+import com.digital.fishery.model.*;
 import com.digital.fishery.scheduled.domain.BaseResponse;
 import com.digital.fishery.dto.DeviceNodeChartsVO;
 import com.digital.fishery.mapper.DeviceMapper;
 import com.digital.fishery.mapper.DeviceNodeMapper;
-import com.digital.fishery.model.Device;
-import com.digital.fishery.model.DeviceExample;
-import com.digital.fishery.model.DeviceNode;
-import com.digital.fishery.model.DeviceNodeExample;
 import com.digital.fishery.service.DeviceService;
 import com.digital.fishery.dto.DeviceRealTimeVO;
 import com.github.pagehelper.PageHelper;
@@ -40,6 +38,8 @@ public class DeviceServiceImpl implements DeviceService {
     private DeviceMapper deviceMapper;
     @Autowired
     private DeviceNodeMapper deviceNodeMapper;
+    @Autowired
+    private DeviceFactorMapper deviceFactorMapper;
 
     @Autowired
     private DeviceHttpClient deviceHttpClient;
@@ -198,5 +198,52 @@ public class DeviceServiceImpl implements DeviceService {
         }
         deviceRealTimeVOList = JSON.parseObject(baseResponse.getData().toString(), new TypeReference<List<DeviceRealTimeVO>>() {});
         return deviceRealTimeVOList;
+    }
+
+    @Override
+    public int refeash() {
+        int count = 0;
+        BaseResponse baseResponse = deviceHttpClient.doGet(DEVICE_BASE_URL + DEVICE_URL, null);
+        if (baseResponse == null) {
+            return count;
+        }
+        List<Device> deviceList = JSON.parseObject(baseResponse.getData().toString(), new TypeReference<List<Device>>() {});
+        if (CollectionUtils.isEmpty(deviceList)) {
+            return count;
+        }
+
+        //这里先保留所有采集设备的一些信息，然后再删除新增
+        DeviceExample deviceExample = new DeviceExample();
+        deviceExample.createCriteria().andDeviceTypeEqualTo("采集设备");
+        List<Device> dbDeviceList = deviceMapper.selectByExample(deviceExample);
+        Map<Integer, Device> dbBlockInfo = new HashMap<Integer, Device>();
+        for (int i=0; i<dbDeviceList.size(); i++) {
+            dbBlockInfo.put(dbDeviceList.get(i).getDeviceAddr(), dbDeviceList.get(i));
+        }
+        deviceMapper.deleteByExample(deviceExample);
+        for (Device device : deviceList) {
+            device.setCreateTime(new Date());
+            device.setDeviceType("采集设备");
+            if (dbBlockInfo.get(device.getDeviceAddr()) != null) {
+                device.setBlockId(dbBlockInfo.get(device.getDeviceAddr()).getBlockId());
+                device.setDeviceName(dbBlockInfo.get(device.getDeviceAddr()).getDeviceName());
+            }
+            deviceMapper.insert(device);
+
+            // factors
+            List<DeviceFactor> factors = device.getFactors();
+            if (CollectionUtils.isEmpty(factors)) {
+                continue;
+            }
+            DeviceFactorExample delFactorExample = new DeviceFactorExample();
+            delFactorExample.createCriteria().andDeviceAddrEqualTo2(device.getDeviceAddr());
+            deviceFactorMapper.deleteByExample(delFactorExample);
+
+            for (DeviceFactor factor : factors) {
+                factor.setCreateTime(new Date());
+                deviceFactorMapper.insert(factor);
+            }
+        }
+        return 1;
     }
 }
