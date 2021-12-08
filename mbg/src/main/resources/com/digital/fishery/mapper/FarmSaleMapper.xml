@@ -328,6 +328,9 @@
     select DATE_FORMAT(sale_time, "%Y-%m-%d") as saleDate, sum(amount) as saleAmount
     from farm_sale
     where 1
+    <if test="blockId != null">
+      and block_id = #{blockId,jdbcType=BIGINT}
+    </if>
     <if test="blockIdList != null and blockIdList.size() > 0">
       and block_id IN
       <foreach item="item" index="index" collection="blockIdList" open="("  close=")" separator=",">
@@ -341,5 +344,26 @@
       and sale_time &lt;= #{endTime,jdbcType=VARCHAR}
     </if>
     GROUP BY saleDate
+  </select>
+  <select id="getHomeSaleDetailData" resultType="com.alibaba.fastjson.JSONObject">
+    select DATE_FORMAT(sale_time, "%Y-%m-%d") as saleDate, unit, sum(quantity) as quantityTotal
+    from farm_sale
+    where 1
+    <if test="blockId != null">
+      and block_id = #{blockId,jdbcType=BIGINT}
+    </if>
+    <if test="blockIdList != null and blockIdList.size() > 0">
+      and block_id IN
+      <foreach item="item" index="index" collection="blockIdList" open="("  close=")" separator=",">
+        #{item}
+      </foreach>
+    </if>
+    <if test="startTime != null">
+      and sale_time >= #{startTime,jdbcType=VARCHAR}
+    </if>
+    <if test="endTime != null">
+      and sale_time &lt;= #{endTime,jdbcType=VARCHAR}
+    </if>
+    GROUP BY saleDate, unit
   </select>
 </mapper>

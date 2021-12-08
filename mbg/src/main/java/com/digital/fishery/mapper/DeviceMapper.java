@@ -1,5 +1,6 @@
 package com.digital.fishery.mapper;
 
+import com.alibaba.fastjson.JSONObject;
 import com.digital.fishery.model.Device;
 import com.digital.fishery.model.DeviceExample;
 import java.util.List;
@@ -27,4 +28,5 @@ public interface DeviceMapper {
     int updateByPrimaryKeySelective(Device record);
 
     int updateByPrimaryKey(Device record);
+
 }

@@ -38,10 +38,12 @@ public class HomeController {
     @RequestMapping(value = "/chart", method = RequestMethod.GET)
     @ResponseBody
     public CommonResult<List<JSONObject>> chart(
+            @RequestParam(value = "blockId", required = false) Long blockId,
             @RequestParam(value = "blockIds", required = false) String blockIds,
+            @RequestParam(value = "detail", required = false) Integer detail,
             @RequestParam(value = "startTime", required = true) String startTime,
             @RequestParam(value = "endTime", required = true) String endTime) {
-        List<JSONObject> chartData = homeService.chart(blockIds, startTime, endTime);
+        List<JSONObject> chartData = homeService.chart(blockId, blockIds, detail, startTime, endTime);
         return CommonResult.success(chartData);
     }
 }

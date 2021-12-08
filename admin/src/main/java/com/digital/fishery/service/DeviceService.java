@@ -1,5 +1,6 @@
 package com.digital.fishery.service;
 
+import com.alibaba.fastjson.JSONObject;
 import com.digital.fishery.dto.DeviceNodeChartsVO;
 import com.digital.fishery.model.Device;
 import com.digital.fishery.dto.DeviceRealTimeVO;
@@ -47,4 +48,9 @@ public interface DeviceService {
      * 刷新设备数据
      */
     int refeash();
+
+    /**
+     * 查询每天历史数据
+     */
+    List<JSONObject> dayCharts(String registerNames, Long blockId, String blockIds, String startTime, String endTime);
 }

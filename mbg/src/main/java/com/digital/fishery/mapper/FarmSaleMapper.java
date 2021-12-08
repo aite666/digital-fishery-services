@@ -29,5 +29,7 @@ public interface FarmSaleMapper {
 
     int updateByPrimaryKey(FarmSale record);
 
-    List<JSONObject> getHomeSaleData(List<Long> blockIdList, String startTime, String endTime);
+    List<JSONObject> getHomeSaleData(Long blockId, List<Long> blockIdList, String startTime, String endTime);
+
+    List<JSONObject> getHomeSaleDetailData(Long blockId, List<Long> blockIdList, String startTime, String endTime);
 }

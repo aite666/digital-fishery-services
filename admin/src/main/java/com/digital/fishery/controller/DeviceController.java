@@ -1,5 +1,6 @@
 package com.digital.fishery.controller;
 
+import com.alibaba.fastjson.JSONObject;
 import com.digital.fishery.api.CommonPage;
 import com.digital.fishery.api.CommonResult;
 import com.digital.fishery.dto.DeviceNodeChartsVO;
@@ -119,5 +120,17 @@ public class DeviceController {
         } else {
             return CommonResult.failed();
         }
+    }
+
+    @ApiOperation("设备节点值")
+    @RequestMapping(value = "/dayCharts", method = RequestMethod.GET)
+    @ResponseBody
+    public CommonResult<List<JSONObject>> dayCharts(@RequestParam(value = "registerNames", required = false) String registerNames,
+                                                    @RequestParam(value = "blockId", required = false) Long blockId,
+                                                    @RequestParam(value = "blockIds", required = false) String blockIds,
+                                                    @RequestParam(value = "startTime") String startTime,
+                                                    @RequestParam(value = "endTime") String endTime) {
+        List<JSONObject> result = deviceService.dayCharts(registerNames, blockId, blockIds, startTime, endTime);
+        return CommonResult.success(result);
     }
 }

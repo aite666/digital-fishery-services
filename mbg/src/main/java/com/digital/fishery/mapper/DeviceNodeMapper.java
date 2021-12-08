@@ -1,5 +1,6 @@
 package com.digital.fishery.mapper;
 
+import com.alibaba.fastjson.JSONObject;
 import com.digital.fishery.model.DeviceNode;
 import com.digital.fishery.model.DeviceNodeExample;
 import java.util.List;
@@ -27,4 +28,6 @@ public interface DeviceNodeMapper {
     int updateByPrimaryKeySelective(DeviceNode record);
 
     int updateByPrimaryKey(DeviceNode record);
+
+    List<JSONObject> getDeviceNodeDailyData(List<String> registerNameList, Long blockId, List<Long> blockIdList, String startTime, String endTime);
 }

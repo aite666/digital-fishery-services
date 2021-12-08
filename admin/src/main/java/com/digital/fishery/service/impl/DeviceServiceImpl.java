@@ -1,6 +1,7 @@
 package com.digital.fishery.service.impl;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
 import com.digital.fishery.common.DeviceHttpClient;
 import com.digital.fishery.mapper.DeviceFactorMapper;
@@ -22,6 +23,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -245,5 +247,82 @@ public class DeviceServiceImpl implements DeviceService {
             }
         }
         return 1;
+    }
+
+    @Override
+    public List<JSONObject> dayCharts(String registerNames, Long blockId, String blockIds, String startTime, String endTime) {
+        List<JSONObject> result = new ArrayList<>();
+        List<String> registerNameList = new ArrayList<>();
+        if (registerNames != null) {
+            registerNameList = Arrays.stream(registerNames.split(",")).collect(Collectors.toList());
+        }
+        List<Long> blockIdList = new ArrayList<>();
+        if (StringUtil.isNotEmpty(blockIds)) {
+            blockIdList = Arrays.stream(blockIds.split(",")).map(Long::parseLong).collect(Collectors.toList());
+        }
+        List<JSONObject> deviceNodes = deviceNodeMapper.getDeviceNodeDailyData(registerNameList, blockId, blockIdList, startTime, endTime);
+        Map<String, JSONObject> deviceNodeMap = new HashMap<>();
+        List<String> registerNameStrList = new ArrayList<>();
+        for (JSONObject deviceNode: deviceNodes) {
+            String recordDate = deviceNode.getString("recordDate");
+            String registerName = deviceNode.getString("registerName");
+            if (!registerNameStrList.contains(registerName)) {
+                registerNameStrList.add(registerName);
+            }
+            Float dayValue = deviceNode.getFloatValue("dayValue");
+            if (deviceNodeMap.get(recordDate) == null) {
+                JSONObject data = new JSONObject();
+                data.put(registerName, dayValue);
+                deviceNodeMap.put(recordDate, data);
+            } else {
+                JSONObject data = deviceNodeMap.get(recordDate);
+                data.put(registerName, dayValue);
+                deviceNodeMap.put(recordDate, data);
+            }
+        }
+        List<String> allDateList = this.getAllDate(startTime, endTime);
+        for (String date: allDateList) {
+            JSONObject o = new JSONObject();
+            o.put("date", date);
+            if (deviceNodeMap.get(date) != null) {
+                JSONObject data = deviceNodeMap.get(date);
+                for (String registerName: registerNameStrList) {
+                    if (data.get(registerName) != null) {
+                        o.put(registerName, data.get(registerName));
+                    } else {
+                        o.put(registerName, 0);
+                    }
+                }
+            } else {
+                for (String registerName: registerNameStrList) {
+                    o.put(registerName, 0);
+                }
+            }
+            result.add(o);
+        }
+        return result;
+    }
+
+    private List<String> getAllDate(String startTime, String endTime) {
+        List<String> allDateList = new ArrayList<>();
+        try {
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat(DATETIME_FORMATTER);
+            Date start = simpleDateFormat.parse(startTime);
+            Date end = simpleDateFormat.parse(endTime);
+            Long startTimestamp = start.getTime();
+            Long endTimestamp = end.getTime();
+            Long oneDay = 1000 * 60 * 60 * 24L;
+
+            Long time = startTimestamp;
+            while (time <= endTimestamp) {
+                Date d = new Date(time);
+                DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+                allDateList.add(df.format(d));
+                time += oneDay;
+            }
+        } catch (ParseException e) {
+            logger.warn("ParseException, ", e);
+        }
+        return allDateList;
     }
 }

@@ -31,5 +31,7 @@ public interface FarmBatchMapper {
 
     List<JSONObject> listProductCategory(Long blockId, List<Long> blockIdList);
 
-    List<JSONObject> getHomeBatchData(List<Long> blockIdList, String startTime, String endTime);
+    List<JSONObject> getHomeBatchData(Long blockId, List<Long> blockIdList, String startTime, String endTime);
+
+    List<JSONObject> getHomeBatchDetailData(Long blockId, List<Long> blockIdList, String startTime, String endTime);
 }

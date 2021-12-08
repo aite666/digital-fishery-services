@@ -126,6 +126,9 @@
     select DATE_FORMAT(farm_time, "%Y-%m-%d") as farmDate, count(*) as batchNum
     from farm_batch
     where 1
+    <if test="blockId != null">
+      and block_id = #{blockId,jdbcType=BIGINT}
+    </if>
     <if test="blockIdList != null and blockIdList.size() > 0">
       and block_id IN
       <foreach item="item" index="index" collection="blockIdList" open="("  close=")" separator=",">
@@ -139,6 +142,27 @@
         and farm_time &lt;= #{endTime,jdbcType=VARCHAR}
     </if>
     GROUP BY farmDate
+  </select>
+  <select id="getHomeBatchDetailData" resultType="com.alibaba.fastjson.JSONObject">
+    select DATE_FORMAT(farm_time, "%Y-%m-%d") as farmDate, unit, sum(quantity) as quantityTotal
+    from farm_batch
+    where 1
+    <if test="blockId != null">
+      and block_id = #{blockId,jdbcType=BIGINT}
+    </if>
+    <if test="blockIdList != null and blockIdList.size() > 0">
+      and block_id IN
+      <foreach item="item" index="index" collection="blockIdList" open="("  close=")" separator=",">
+        #{item}
+      </foreach>
+    </if>
+    <if test="startTime != null">
+      and farm_time >= #{startTime,jdbcType=VARCHAR}
+    </if>
+    <if test="endTime != null">
+      and farm_time &lt;= #{endTime,jdbcType=VARCHAR}
+    </if>
+    GROUP BY farmDate, unit
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from farm_batch

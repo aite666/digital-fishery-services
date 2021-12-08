@@ -288,21 +288,45 @@ public class HomeServiceImpl implements HomeService {
     }
 
     @Override
-    public List<JSONObject> chart(String blockIds, String startTime, String endTime) {
+    public List<JSONObject> chart(Long blockId, String blockIds, Integer detail, String startTime, String endTime) {
         List<JSONObject> result = new ArrayList<>();
         List<Long> blockIdList = new ArrayList<>();
         if (StringUtil.isNotEmpty(blockIds)) {
             blockIdList = Arrays.stream(blockIds.split(",")).map(Long::parseLong).collect(Collectors.toList());
         }
-        List<JSONObject> batchData = farmBatchMapper.getHomeBatchData(blockIdList, startTime, endTime);
+        List<JSONObject> batchData = farmBatchMapper.getHomeBatchData(blockId, blockIdList, startTime, endTime);
         Map<String, Integer> batchMap = new HashMap<>();
         for(JSONObject item: batchData) {
             batchMap.put(item.getString("farmDate"), item.getInteger("batchNum"));
         }
-        List<JSONObject> saleData = farmSaleMapper.getHomeSaleData(blockIdList, startTime, endTime);
+        Map<String, Integer> batchDetailMap1 = new HashMap<>();
+        Map<String, Integer> batchDetailMap2 = new HashMap<>();
+        if (detail == 1) {
+            List<JSONObject> batchDetailData = farmBatchMapper.getHomeBatchDetailData(blockId, blockIdList, startTime, endTime);
+            for(JSONObject item: batchDetailData) {
+                if (item.getString("unit").equals("公斤")) {
+                    batchDetailMap1.put(item.getString("farmDate"), item.getInteger("quantityTotal"));
+                } else if (item.getString("unit").equals("尾")) {
+                    batchDetailMap2.put(item.getString("farmDate"), item.getInteger("quantityTotal"));
+                }
+            }
+        }
+        List<JSONObject> saleData = farmSaleMapper.getHomeSaleData(blockId, blockIdList, startTime, endTime);
         Map<String, Long> saleMap = new HashMap<>();
         for(JSONObject item: saleData) {
             saleMap.put(item.getString("saleDate"), item.getLong("saleAmount"));
+        }
+        Map<String, Integer> saleDetailMap1 = new HashMap<>();
+        Map<String, Integer> saleDetailMap2 = new HashMap<>();
+        if (detail == 1) {
+            List<JSONObject> saleDetailData = farmSaleMapper.getHomeSaleDetailData(blockId, blockIdList, startTime, endTime);
+            for(JSONObject item: saleDetailData) {
+                if (item.getString("unit").equals("公斤")) {
+                    saleDetailMap1.put(item.getString("saleDate"), item.getInteger("quantityTotal"));
+                } else if (item.getString("unit").equals("尾")) {
+                    saleDetailMap2.put(item.getString("saleDate"), item.getInteger("quantityTotal"));
+                }
+            }
         }
         List<String> allDateList = this.getAllDate(startTime, endTime);
         for (String date: allDateList) {
@@ -317,6 +341,28 @@ public class HomeServiceImpl implements HomeService {
                 o.put("saleAmount", saleMap.get(date));
             } else {
                 o.put("saleAmount", 0);
+            }
+            if (detail == 1) {
+                if (batchDetailMap1.get(date) != null){
+                    o.put("batchQuantity1", batchDetailMap1.get(date));
+                } else {
+                    o.put("batchQuantity1", 0);
+                }
+                if (batchDetailMap2.get(date) != null){
+                    o.put("batchQuantity2", batchDetailMap2.get(date));
+                } else {
+                    o.put("batchQuantity2", 0);
+                }
+                if (saleDetailMap1.get(date) != null){
+                    o.put("saleQuantity1", saleDetailMap1.get(date));
+                } else {
+                    o.put("saleQuantity1", 0);
+                }
+                if (saleDetailMap2.get(date) != null){
+                    o.put("saleQuantity2", saleDetailMap2.get(date));
+                } else {
+                    o.put("saleQuantity2", 0);
+                }
             }
             result.add(o);
         }

@@ -726,7 +726,7 @@ public class DeviceNodeExample {
         }
 
         public Criteria andRegisterNameIn(List<String> values) {
-            addCriterion("register_name in", values, "registerName");
+            addCriterion("a.register_name in", values, "registerName");
             return (Criteria) this;
         }
 

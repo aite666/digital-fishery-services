@@ -393,4 +393,36 @@
       status = #{status,jdbcType=INTEGER}
     where id = #{id,jdbcType=BIGINT}
   </update>
+  <select id="getDeviceNodeDailyData" resultType="com.alibaba.fastjson.JSONObject">
+    select
+        DATE_FORMAT(a.record_time, "%Y-%m-%d") as recordDate,
+        a.register_name as registerName,
+        ROUND(avg(a.`value`), 2) as dayValue
+    from device_node a
+    left join device d on d.device_addr = a.device_addr
+    where 1
+    <if test="registerNameList != null and registerNameList.size() > 0">
+      and a.register_name IN
+      <foreach item="item" index="index" collection="registerNameList" open="("  close=")" separator=",">
+        #{item}
+      </foreach>
+    </if>
+    <if test="blockId != null">
+      and d.block_id = #{blockId,jdbcType=BIGINT}
+    </if>
+    <if test="blockIdList != null and blockIdList.size() > 0">
+      and d.block_id IN
+      <foreach item="item" index="index" collection="blockIdList" open="("  close=")" separator=",">
+        #{item}
+      </foreach>
+    </if>
+    <if test="startTime != null">
+      and a.record_time >= #{startTime,jdbcType=VARCHAR}
+    </if>
+    <if test="endTime != null">
+      and a.record_time &lt;= #{endTime,jdbcType=VARCHAR}
+    </if>
+    GROUP BY recordDate, a.register_name
+    order by recordDate
+  </select>
 </mapper>

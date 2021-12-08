@@ -20,5 +20,5 @@ public interface HomeService {
     /**
      * 首页图表数据
      */
-    List<JSONObject> chart(String blockIds, String startTime, String endTime);
+    List<JSONObject> chart(Long blockId, String blockIds, Integer detail, String startTime, String endTime);
 }
