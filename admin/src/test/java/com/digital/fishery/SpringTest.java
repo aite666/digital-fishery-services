@@ -14,6 +14,7 @@ import com.digital.fishery.scheduled.DeviceScheduledService;
 import com.digital.fishery.scheduled.domain.BaseResponse;
 import com.digital.fishery.service.RedisService;
 import com.digital.fishery.dto.DeviceRealTimeVO;
+import lombok.val;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.BeanUtils;
@@ -21,10 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @SpringBootTest(classes = {DigitalFisheryApplication.class})
@@ -38,17 +36,17 @@ public class SpringTest {
     @Autowired
     private DeviceScheduledService deviceScheduledService;
 
-    @Test
+//    @Test
     public void test05() {
         deviceScheduledService.insertDeviceNode();
     }
 
-    @Test
+//    @Test
     public void test04() {
         deviceScheduledService.insertDeviceRelay();
     }
 
-    @Test
+//    @Test
     public void test03() {
         deviceScheduledService.insertDevice();
     }
@@ -56,7 +54,7 @@ public class SpringTest {
     @Autowired
     private DeviceNodeMapper deviceNodeMapper;
 
-    @Test
+//    @Test
     public void test07() {
         List<Integer> deviceAddrs = Arrays.asList(40161421,40146980,40146973);
         List<DeviceRealTimeVO> deviceRealTimeVOList = deviceService.realTimeList(deviceAddrs, null, null);
@@ -64,6 +62,31 @@ public class SpringTest {
     }
 
     @Test
+    public void test08() {
+        List<Integer> returnList = Arrays.asList(30);
+        Integer minValue = Collections.min(returnList);
+        if (minValue == 30) {
+            Calendar date = Calendar.getInstance();
+            Integer dayNum = date.get(Calendar.DAY_OF_MONTH);
+            System.out.println(dayNum);
+            if (dayNum > 24) {
+                Integer oneThreeReturn = 0;
+                if (oneThreeReturn == null) {
+                    System.out.println(minValue);
+                } else {
+                    System.out.println(oneThreeReturn);
+                }
+            } else {
+                System.out.println(minValue);
+            }
+        } else if (minValue == 7) {
+            System.out.println(minValue);
+        } else if (minValue == 1) {
+            System.out.println(minValue);
+        }
+    }
+
+//    @Test
     public void test06() {
         List<DeviceNode> deviceNodes = deviceNodeMapper.selectByExample(new DeviceNodeExample());
         Map<String, List<DeviceNode>> map = deviceNodes.stream()
@@ -92,7 +115,7 @@ public class SpringTest {
 
     }
 
-    @Test
+//    @Test
     public void test02() {
         String aa = "{\n" +
                 "    \"code\": 1000,\n" +
@@ -109,7 +132,7 @@ public class SpringTest {
     }
 
 
-    @Test
+//    @Test
     public void test01() {
         String aa = "{\n" +
                 "    \"code\":1000,\n" +

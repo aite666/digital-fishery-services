@@ -301,7 +301,7 @@ public class HomeServiceImpl implements HomeService {
         }
         Map<String, Integer> batchDetailMap1 = new HashMap<>();
         Map<String, Integer> batchDetailMap2 = new HashMap<>();
-        if (detail == 1) {
+        if (detail != null && detail == 1) {
             List<JSONObject> batchDetailData = farmBatchMapper.getHomeBatchDetailData(blockId, blockIdList, startTime, endTime);
             for(JSONObject item: batchDetailData) {
                 if (item.getString("unit").equals("公斤")) {
@@ -318,7 +318,7 @@ public class HomeServiceImpl implements HomeService {
         }
         Map<String, Integer> saleDetailMap1 = new HashMap<>();
         Map<String, Integer> saleDetailMap2 = new HashMap<>();
-        if (detail == 1) {
+        if (detail != null && detail == 1) {
             List<JSONObject> saleDetailData = farmSaleMapper.getHomeSaleDetailData(blockId, blockIdList, startTime, endTime);
             for(JSONObject item: saleDetailData) {
                 if (item.getString("unit").equals("公斤")) {
@@ -342,7 +342,7 @@ public class HomeServiceImpl implements HomeService {
             } else {
                 o.put("saleAmount", 0);
             }
-            if (detail == 1) {
+            if (detail != null && detail == 1) {
                 if (batchDetailMap1.get(date) != null){
                     o.put("batchQuantity1", batchDetailMap1.get(date));
                 } else {
