@@ -684,6 +684,146 @@ public class InfoEnterpriseExample {
             addCriterion("annual_yield not between", value1, value2, "annualYield");
             return (Criteria) this;
         }
+
+        public Criteria andFisheryPositionIsNull() {
+            addCriterion("fishery_position is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andFisheryPositionIsNotNull() {
+            addCriterion("fishery_position is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andFisheryPositionEqualTo(String value) {
+            addCriterion("fishery_position =", value, "fisheryPosition");
+            return (Criteria) this;
+        }
+
+        public Criteria andFisheryPositionNotEqualTo(String value) {
+            addCriterion("fishery_position <>", value, "fisheryPosition");
+            return (Criteria) this;
+        }
+
+        public Criteria andFisheryPositionGreaterThan(String value) {
+            addCriterion("fishery_position >", value, "fisheryPosition");
+            return (Criteria) this;
+        }
+
+        public Criteria andFisheryPositionGreaterThanOrEqualTo(String value) {
+            addCriterion("fishery_position >=", value, "fisheryPosition");
+            return (Criteria) this;
+        }
+
+        public Criteria andFisheryPositionLessThan(String value) {
+            addCriterion("fishery_position <", value, "fisheryPosition");
+            return (Criteria) this;
+        }
+
+        public Criteria andFisheryPositionLessThanOrEqualTo(String value) {
+            addCriterion("fishery_position <=", value, "fisheryPosition");
+            return (Criteria) this;
+        }
+
+        public Criteria andFisheryPositionLike(String value) {
+            addCriterion("fishery_position like", value, "fisheryPosition");
+            return (Criteria) this;
+        }
+
+        public Criteria andFisheryPositionNotLike(String value) {
+            addCriterion("fishery_position not like", value, "fisheryPosition");
+            return (Criteria) this;
+        }
+
+        public Criteria andFisheryPositionIn(List<String> values) {
+            addCriterion("fishery_position in", values, "fisheryPosition");
+            return (Criteria) this;
+        }
+
+        public Criteria andFisheryPositionNotIn(List<String> values) {
+            addCriterion("fishery_position not in", values, "fisheryPosition");
+            return (Criteria) this;
+        }
+
+        public Criteria andFisheryPositionBetween(String value1, String value2) {
+            addCriterion("fishery_position between", value1, value2, "fisheryPosition");
+            return (Criteria) this;
+        }
+
+        public Criteria andFisheryPositionNotBetween(String value1, String value2) {
+            addCriterion("fishery_position not between", value1, value2, "fisheryPosition");
+            return (Criteria) this;
+        }
+
+        public Criteria andFisheryNameIsNull() {
+            addCriterion("fishery_name is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andFisheryNameIsNotNull() {
+            addCriterion("fishery_name is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andFisheryNameEqualTo(String value) {
+            addCriterion("fishery_name =", value, "fisheryName");
+            return (Criteria) this;
+        }
+
+        public Criteria andFisheryNameNotEqualTo(String value) {
+            addCriterion("fishery_name <>", value, "fisheryName");
+            return (Criteria) this;
+        }
+
+        public Criteria andFisheryNameGreaterThan(String value) {
+            addCriterion("fishery_name >", value, "fisheryName");
+            return (Criteria) this;
+        }
+
+        public Criteria andFisheryNameGreaterThanOrEqualTo(String value) {
+            addCriterion("fishery_name >=", value, "fisheryName");
+            return (Criteria) this;
+        }
+
+        public Criteria andFisheryNameLessThan(String value) {
+            addCriterion("fishery_name <", value, "fisheryName");
+            return (Criteria) this;
+        }
+
+        public Criteria andFisheryNameLessThanOrEqualTo(String value) {
+            addCriterion("fishery_name <=", value, "fisheryName");
+            return (Criteria) this;
+        }
+
+        public Criteria andFisheryNameLike(String value) {
+            addCriterion("fishery_name like", value, "fisheryName");
+            return (Criteria) this;
+        }
+
+        public Criteria andFisheryNameNotLike(String value) {
+            addCriterion("fishery_name not like", value, "fisheryName");
+            return (Criteria) this;
+        }
+
+        public Criteria andFisheryNameIn(List<String> values) {
+            addCriterion("fishery_name in", values, "fisheryName");
+            return (Criteria) this;
+        }
+
+        public Criteria andFisheryNameNotIn(List<String> values) {
+            addCriterion("fishery_name not in", values, "fisheryName");
+            return (Criteria) this;
+        }
+
+        public Criteria andFisheryNameBetween(String value1, String value2) {
+            addCriterion("fishery_name between", value1, value2, "fisheryName");
+            return (Criteria) this;
+        }
+
+        public Criteria andFisheryNameNotBetween(String value1, String value2) {
+            addCriterion("fishery_name not between", value1, value2, "fisheryName");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

@@ -31,6 +31,12 @@ public class InfoEnterprise implements Serializable {
     @ApiModelProperty(value = "年产量")
     private Long annualYield;
 
+    @ApiModelProperty(value = "渔场坐标")
+    private String fisheryPosition;
+
+    @ApiModelProperty(value = "渔场名称")
+    private String fisheryName;
+
     private static final long serialVersionUID = 1L;
 
     public Long getId() {
@@ -105,6 +111,22 @@ public class InfoEnterprise implements Serializable {
         this.annualYield = annualYield;
     }
 
+    public String getFisheryPosition() {
+        return fisheryPosition;
+    }
+
+    public void setFisheryPosition(String fisheryPosition) {
+        this.fisheryPosition = fisheryPosition;
+    }
+
+    public String getFisheryName() {
+        return fisheryName;
+    }
+
+    public void setFisheryName(String fisheryName) {
+        this.fisheryName = fisheryName;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -120,6 +142,8 @@ public class InfoEnterprise implements Serializable {
         sb.append(", legalPerson=").append(legalPerson);
         sb.append(", annualOutputValue=").append(annualOutputValue);
         sb.append(", annualYield=").append(annualYield);
+        sb.append(", fisheryPosition=").append(fisheryPosition);
+        sb.append(", fisheryName=").append(fisheryName);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

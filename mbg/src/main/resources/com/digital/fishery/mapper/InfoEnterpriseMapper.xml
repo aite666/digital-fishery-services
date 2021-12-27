@@ -11,6 +11,8 @@
     <result column="legal_person" jdbcType="VARCHAR" property="legalPerson" />
     <result column="annual_output_value" jdbcType="BIGINT" property="annualOutputValue" />
     <result column="annual_yield" jdbcType="BIGINT" property="annualYield" />
+    <result column="fishery_position" jdbcType="VARCHAR" property="fisheryPosition" />
+    <result column="fishery_name" jdbcType="VARCHAR" property="fisheryName" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -72,7 +74,7 @@
   </sql>
   <sql id="Base_Column_List">
     id, create_time, name, description, creation_time, business_content, legal_person, 
-    annual_output_value, annual_yield
+    annual_output_value, annual_yield, fishery_position, fishery_name
   </sql>
   <select id="selectByExample" parameterType="com.digital.fishery.model.InfoEnterpriseExample" resultMap="BaseResultMap">
     select
@@ -110,10 +112,12 @@
     </selectKey>
     insert into info_enterprise (create_time, name, description, 
       creation_time, business_content, legal_person, 
-      annual_output_value, annual_yield)
+      annual_output_value, annual_yield, fishery_position, 
+      fishery_name)
     values (#{createTime,jdbcType=TIMESTAMP}, #{name,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, 
       #{creationTime,jdbcType=TIMESTAMP}, #{businessContent,jdbcType=VARCHAR}, #{legalPerson,jdbcType=VARCHAR}, 
-      #{annualOutputValue,jdbcType=BIGINT}, #{annualYield,jdbcType=BIGINT})
+      #{annualOutputValue,jdbcType=BIGINT}, #{annualYield,jdbcType=BIGINT}, #{fisheryPosition,jdbcType=VARCHAR}, 
+      #{fisheryName,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.digital.fishery.model.InfoEnterprise">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
@@ -145,6 +149,12 @@
       <if test="annualYield != null">
         annual_yield,
       </if>
+      <if test="fisheryPosition != null">
+        fishery_position,
+      </if>
+      <if test="fisheryName != null">
+        fishery_name,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="createTime != null">
@@ -170,6 +180,12 @@
       </if>
       <if test="annualYield != null">
         #{annualYield,jdbcType=BIGINT},
+      </if>
+      <if test="fisheryPosition != null">
+        #{fisheryPosition,jdbcType=VARCHAR},
+      </if>
+      <if test="fisheryName != null">
+        #{fisheryName,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -209,6 +225,12 @@
       <if test="record.annualYield != null">
         annual_yield = #{record.annualYield,jdbcType=BIGINT},
       </if>
+      <if test="record.fisheryPosition != null">
+        fishery_position = #{record.fisheryPosition,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fisheryName != null">
+        fishery_name = #{record.fisheryName,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -224,7 +246,9 @@
       business_content = #{record.businessContent,jdbcType=VARCHAR},
       legal_person = #{record.legalPerson,jdbcType=VARCHAR},
       annual_output_value = #{record.annualOutputValue,jdbcType=BIGINT},
-      annual_yield = #{record.annualYield,jdbcType=BIGINT}
+      annual_yield = #{record.annualYield,jdbcType=BIGINT},
+      fishery_position = #{record.fisheryPosition,jdbcType=VARCHAR},
+      fishery_name = #{record.fisheryName,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -256,6 +280,12 @@
       <if test="annualYield != null">
         annual_yield = #{annualYield,jdbcType=BIGINT},
       </if>
+      <if test="fisheryPosition != null">
+        fishery_position = #{fisheryPosition,jdbcType=VARCHAR},
+      </if>
+      <if test="fisheryName != null">
+        fishery_name = #{fisheryName,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
@@ -268,7 +298,9 @@
       business_content = #{businessContent,jdbcType=VARCHAR},
       legal_person = #{legalPerson,jdbcType=VARCHAR},
       annual_output_value = #{annualOutputValue,jdbcType=BIGINT},
-      annual_yield = #{annualYield,jdbcType=BIGINT}
+      annual_yield = #{annualYield,jdbcType=BIGINT},
+      fishery_position = #{fisheryPosition,jdbcType=VARCHAR},
+      fishery_name = #{fisheryName,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>
